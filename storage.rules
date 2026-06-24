@@ -1,0 +1,11 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      // No client (logged in or not) can read or write Storage directly.
+      // Audio is served exclusively through the getAudioUrl Cloud Function,
+      // which uses the Admin SDK and bypasses these rules entirely.
+      allow read, write: if false;
+    }
+  }
+}

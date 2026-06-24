@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Zenova</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0A1628;--dark:#0D1F3C;--mid:#1B3A6B;
+  --accent:#2756B1;--accent2:#1E4D99;
+  --lb:#EBF0FA;--gold:#2756B1;--gold-l:#DCE8F8;
+  --white:#ffffff;--bg:#ffffff;--muted:#5A6A85;--light:#8A99B5;
+  --border:#D8E2F0;--err:#DC2626;--ok:#16A34A;--sw:240px;
+  --deep:#071220;--blue-mid:#1D3461;
+}
+html,body{height:100%;}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--navy);display:flex;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sw);height:100vh;background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:50;transition:transform .3s;overflow-y:auto;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;}
+.sb-logo img{width:34px;height:34px;object-fit:contain;filter:brightness(0) invert(1);}
+.sb-logo span{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;}
+.nav-sec{padding:14px 10px 0;flex:1;}
+.nav-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.28);padding:0 8px;margin:16px 0 5px;}
+.nl{display:flex;align-items:center;gap:11px;padding:10px 11px;border-radius:9px;margin-bottom:2px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.5);border:none;background:none;width:100%;text-align:left;cursor:pointer;transition:all .2s;}
+.nl:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9);}
+.nl.active{background:rgba(201,168,76,.16);color:var(--gold);font-weight:600;}
+.nl svg{width:17px;height:17px;flex-shrink:0;opacity:.6;}
+.nl:hover svg,.nl.active svg{opacity:1;}
+.sb-plan{margin:12px 10px;padding:13px 15px;border-radius:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);}
+.sb-plan-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.3);margin-bottom:3px;}
+.sb-plan-name{font-size:14px;font-weight:700;color:#fff;}
+.sb-plan-sub{font-size:11px;color:rgba(255,255,255,.28);margin-top:2px;}
+.btn-up-side{display:block;margin-top:9px;padding:7px 11px;border-radius:7px;background:rgba(255,255,255,.15);color:#fff;font-size:11px;font-weight:600;text-align:center;text-decoration:none;border:1px solid rgba(255,255,255,.2);}
+.btn-up-side:hover{background:rgba(255,255,255,.22);}
+.sb-user{padding:13px 15px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
+.u-av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.u-info{flex:1;min-width:0;}
+.u-name{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.u-email{font-size:10px;color:rgba(255,255,255,.28);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.28);padding:3px;border-radius:5px;}
+.lb-btn:hover{color:var(--err);}
+.sb-ov{display:none;position:fixed;inset:0;background:rgba(10,22,40,.5);z-index:49;}
+.sb-ov.open{display:block;}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;height:100vh;display:flex;flex-direction:column;overflow:hidden;min-height:0;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.tb-left{display:flex;align-items:center;gap:10px;}
+.tb-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);}
+.tb-sub{font-size:11px;color:var(--muted);}
+.tb-av{width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:5px;color:var(--navy);margin-right:6px;}
+
+/* PAGES */
+.pages{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+.page{display:none;padding:22px 24px 100px;background:#fff;}
+.page.active{display:block;animation:fu .25s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* DETAIL VIEW (chapter/cast/quiz detail) */
+.detail-view{display:none;padding:22px 24px 100px;background:#fff;}
+.detail-view.active{display:block;animation:fu .25s ease;}
+.back-btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;margin-bottom:18px;padding:7px 12px;border-radius:8px;transition:all .2s;}
+.back-btn:hover{background:var(--lb);color:var(--navy);}
+
+/* HOME */
+.up-banner{background:linear-gradient(135deg,var(--navy),var(--mid));border-radius:13px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid rgba(39,86,177,.3);}
+.up-banner.hidden{display:none;}
+.up-banner h4{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
+.up-banner p{font-size:12px;color:rgba(255,255,255,.5);}
+.btn-up-ban{flex-shrink:0;padding:8px 16px;border-radius:8px;background:#fff;color:var(--navy);font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;}
+.wb{background:linear-gradient(135deg,var(--navy),var(--mid));border-radius:16px;padding:24px 26px;margin-bottom:20px;position:relative;overflow:hidden;}
+.wb::before{content:'';position:absolute;right:-20px;top:-20px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none;}
+.wb-tag{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:7px;}
+.wb-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:5px;}
+.wb-title em{font-style:italic;color:rgba(255,255,255,.7);}
+.wb-sub{font-size:13px;color:rgba(255,255,255,.45);max-width:380px;line-height:1.6;}
+.wb-acts{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+.btn-wb{padding:9px 16px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-wb-gold{background:#fff;color:var(--navy);}
+.btn-wb-gold:hover{background:rgba(255,255,255,.9);}
+.btn-wb-out{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);}
+.btn-wb-out:hover{background:rgba(255,255,255,.18);}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:#fff;border-radius:13px;padding:16px;border:1.5px solid var(--border);transition:transform .2s,box-shadow .2s;}
+.sc:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(10,22,40,.08);}
+.sc-ic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:9px;}
+.ic-b{background:var(--lb);}.ic-g{background:#DDE8F6;}.ic-gr{background:#DCFCE7;}.ic-p{background:#E8EEF8;}
+.sc-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--navy);line-height:1;margin-bottom:2px;}
+.sc-lbl{font-size:11px;color:var(--muted);}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sec-head h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);}
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
+.cc{background:#fff;border-radius:13px;padding:18px;border:1.5px solid var(--border);cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;}
+.cc:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(10,22,40,.1);}
+.cc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.cc-ch::before{background:var(--navy);}.cc-au::before{background:var(--accent);}.cc-qz::before{background:var(--mid);}.cc-ca::before{background:var(--ok);}
+.cc-em{font-size:26px;margin-bottom:10px;display:block;}
+.cc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.cc-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+.cc-meta{display:flex;align-items:center;justify-content:space-between;}
+.tag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;}
+.tn{background:var(--lb);color:var(--dark);}.tg{background:#DDE8F6;color:var(--dark);}.tp{background:#E8EEF8;color:var(--dark);}.tgr{background:#DCFCE7;color:#166534;}
+.streak-card{background:#fff;border-radius:13px;padding:18px;border:1.5px solid var(--border);}
+.streak-days{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap;}
+.sd{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:var(--lb);color:var(--muted);}
+.sd.done{background:var(--navy);color:#fff;}
+.sd.today{background:var(--accent);color:#fff;border:2px solid var(--navy);}
+
+/* ===== REDESIGNED HOME PAGE STYLES ===== */
+/* Hero welcome card */
+.hero-card{background:linear-gradient(135deg,var(--navy) 0%,var(--mid) 60%,var(--accent) 100%);border-radius:20px;padding:22px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 8px 32px rgba(10,22,40,.25);}
+.hero-left{display:flex;align-items:center;gap:14px;}
+.hero-avatar{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;}
+.hero-text{}
+.hero-greeting{font-size:12px;color:rgba(255,255,255,.65);font-weight:500;margin-bottom:1px;}
+.hero-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:#fff;line-height:1.2;}
+.hero-tagline{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;}
+.hero-plan-box{text-align:right;flex-shrink:0;}
+.hero-plan-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.5);margin-bottom:4px;}
+.hero-plan-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);color:#fff;font-size:12px;font-weight:700;padding:6px 13px;border-radius:100px;}
+.hero-plan-badge.free{background:rgba(255,255,255,.1);}
+.hero-plan-badge.scholar{background:rgba(255,255,255,.18);}
+.hero-plan-badge.master{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.4);}
+.hero-expiry{font-size:10px;color:rgba(255,255,255,.55);margin-top:5px;display:flex;align-items:center;gap:4px;justify-content:flex-end;}
+.hero-days-left{font-size:10px;font-weight:700;color:rgba(255,255,255,.85);}
+
+/* Progress section */
+.progress-card{background:#fff;border-radius:18px;padding:18px 20px;margin-bottom:16px;border:1.5px solid var(--border);box-shadow:0 2px 10px rgba(10,22,40,.05);}
+.progress-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.progress-title{font-size:14px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:7px;}
+.progress-link{font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:3px;cursor:pointer;}
+.progress-pct{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--navy);line-height:1;margin-bottom:8px;}
+.progress-bar-track{height:8px;background:var(--lb);border-radius:100px;overflow:hidden;margin-bottom:8px;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--accent));border-radius:100px;transition:width .8s ease;}
+.progress-caption{font-size:12px;color:var(--muted);}
+
+/* Stats strip */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.stat-chip{background:#fff;border-radius:14px;padding:14px 8px;border:1.5px solid var(--border);text-align:center;box-shadow:0 2px 8px rgba(10,22,40,.04);}
+.stat-chip-icon{font-size:18px;margin-bottom:5px;display:block;}
+.stat-chip-val{font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--navy);line-height:1;}
+.stat-chip-lbl{font-size:9px;font-weight:600;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.3px;}
+
+/* Quick access */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.section-title{font-size:15px;font-weight:700;color:var(--navy);}
+.section-link{font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:2px;cursor:pointer;}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.quick-card{background:#fff;border-radius:16px;padding:16px 12px;border:1.5px solid var(--border);text-align:center;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;box-shadow:0 2px 8px rgba(10,22,40,.04);}
+.quick-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(10,22,40,.12);border-color:var(--accent);}
+.quick-icon-wrap{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.qi-blue{background:var(--lb);}.qi-gold{background:#DDE8F6;}.qi-purple{background:#E8EEF8;}
+.quick-name{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.quick-desc{font-size:10px;color:var(--muted);line-height:1.4;}
+
+/* Recent activity */
+.activity-list{background:#fff;border-radius:18px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 2px 10px rgba(10,22,40,.05);}
+.activity-item{display:flex;align-items:center;gap:13px;padding:13px 17px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.activity-item:last-child{border-bottom:none;}
+.activity-item:hover{background:var(--lb);}
+.act-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.act-ic-green{background:#E6F4EC;}.act-ic-blue{background:var(--lb);}.act-ic-purple{background:#E8EEF8;}
+.act-body{flex:1;min-width:0;}
+.act-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:1px;}
+.act-sub{font-size:11px;color:var(--muted);}
+.act-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.act-time{font-size:10px;color:var(--light);}
+.act-arrow{color:var(--light);}
+/* ===== END REDESIGN STYLES ===== */
+
+/* CHAPTER LIST */
+.ch-list{display:flex;flex-direction:column;gap:9px;}
+.ch-item{background:var(--white);border-radius:11px;padding:15px 17px;border:1px solid var(--border);display:flex;align-items:center;gap:13px;cursor:pointer;transition:transform .2s,box-shadow .2s;}
+.ch-item:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(13,27,62,.07);}
+.ch-item.locked{opacity:.5;pointer-events:none;}
+.ch-num{width:36px;height:36px;border-radius:8px;background:var(--lb);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--navy);flex-shrink:0;}
+.ch-info{flex:1;}
+.ch-t{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.ch-s{font-size:11px;color:var(--muted);}
+.ch-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;white-space:nowrap;}
+.b-ok{background:#DCFCE7;color:#166534;}
+.b-lock{background:var(--lb);color:var(--muted);}
+.b-play{background:var(--lb);color:var(--dark);}
+
+/* CHAPTER DETAIL */
+.ch-detail-header{background:var(--navy);border-radius:16px;padding:24px;margin-bottom:20px;}
+.ch-detail-num{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.ch-detail-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;}
+.ch-detail-sub{font-size:13px;color:rgba(255,255,255,.45);}
+.summary-card{background:var(--white);border-radius:13px;padding:22px;border:1px solid var(--border);margin-bottom:16px;}
+.summary-card h4{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.summary-card p{font-size:14px;color:#374151;line-height:1.8;margin-bottom:10px;}
+.summary-card p:last-child{margin-bottom:0;}
+.kp-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.kp-list li{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:#374151;line-height:1.5;}
+.kp-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px;}
+.theme-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
+.theme-pill{font-size:12px;font-weight:600;padding:4px 11px;border-radius:100px;background:var(--lb);color:var(--dark);}
+
+/* AUDIO */
+.audio-item{background:var(--white);border-radius:11px;padding:15px 17px;border:1px solid var(--border);display:flex;align-items:center;gap:13px;margin-bottom:9px;transition:transform .2s,box-shadow .2s;}
+.audio-item:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(13,27,62,.07);}
+.audio-item.locked{opacity:.5;pointer-events:none;}
+.audio-play-btn{width:40px;height:40px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.audio-play-btn:hover{background:var(--mid);}
+.audio-play-btn svg{width:16px;height:16px;fill:#fff;}
+.audio-info{flex:1;}
+.audio-title{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.audio-sub{font-size:11px;color:var(--muted);}
+.audio-player-wrap{margin-top:10px;width:100%;}
+.audio-player-wrap audio{width:100%;border-radius:8px;outline:none;}
+
+/* CAST */
+.cast-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.cast-card{background:var(--white);border-radius:12px;padding:17px;border:1px solid var(--border);cursor:pointer;transition:transform .2s,box-shadow .2s;}
+.cast-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(13,27,62,.08);}
+.cast-card.locked{opacity:.5;pointer-events:none;}
+.cast-av{width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;}
+.cast-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.cast-role{font-size:12px;color:var(--muted);line-height:1.4;margin-bottom:8px;}
+.cast-ch{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--lb);color:var(--dark);display:inline-block;}
+
+/* CAST DETAIL */
+.cast-detail-header{display:flex;align-items:center;gap:18px;background:var(--navy);border-radius:16px;padding:22px;margin-bottom:18px;}
+.cast-detail-av{width:64px;height:64px;border-radius:50%;background:rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.cast-detail-info h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:4px;}
+.cast-detail-info p{font-size:13px;color:rgba(255,255,255,.5);}
+.cast-detail-badge{display:inline-block;margin-top:7px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:rgba(201,168,76,.2);color:var(--gold);}
+
+/* QUIZ */
+.quiz-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.qcard{background:var(--white);border-radius:13px;padding:18px;border:1px solid var(--border);transition:transform .2s,box-shadow .2s;}
+.qcard:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(13,27,62,.08);}
+.qcard.locked{opacity:.5;}
+.qc-em{font-size:24px;margin-bottom:9px;}
+.qc-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.qc-sub{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.qc-foot{display:flex;align-items:center;justify-content:space-between;}
+.diff{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;}
+.d-e{background:var(--lb);color:var(--dark);}.d-m{background:#DDE8F6;color:var(--dark);}.d-h{background:#E0E8F5;color:var(--navy);}
+.btn-quiz{padding:6px 12px;border-radius:7px;background:var(--navy);color:#fff;font-size:12px;font-weight:600;border:none;cursor:pointer;}
+.btn-quiz:hover{background:var(--mid);}
+
+/* QUIZ DETAIL (taking quiz) */
+.quiz-header{background:var(--navy);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+.quiz-header-left h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;}
+.quiz-header-left p{font-size:12px;color:rgba(255,255,255,.45);}
+.quiz-progress{font-size:13px;font-weight:600;color:var(--gold);}
+.q-block{background:var(--white);border-radius:13px;padding:22px;border:1px solid var(--border);margin-bottom:14px;}
+.q-num{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:8px;}
+.q-text{font-size:15px;font-weight:600;color:var(--navy);line-height:1.5;margin-bottom:16px;}
+.q-options{display:flex;flex-direction:column;gap:9px;}
+.q-opt{padding:12px 15px;border-radius:9px;border:1.5px solid var(--border);font-size:14px;color:var(--navy);cursor:pointer;transition:all .2s;background:var(--white);text-align:left;font-family:'DM Sans',sans-serif;}
+.q-opt:hover{border-color:var(--navy);background:var(--lb);}
+.q-opt.correct{border-color:var(--ok);background:#DCFCE7;color:#166534;font-weight:600;}
+.q-opt.wrong{border-color:var(--err);background:#FEF2F2;color:var(--err);}
+.q-opt.reveal{border-color:var(--ok);background:#DCFCE7;color:#166534;}
+.q-opt:disabled{cursor:default;}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px;}
+.btn-qnav{padding:10px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;}
+.btn-qnav-prev{background:var(--lb);color:var(--navy);}
+.btn-qnav-next{background:var(--navy);color:#fff;}
+.btn-qnav-next:hover{background:var(--dark);}
+.quiz-score-card{background:var(--navy);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px;}
+.quiz-score-card .score-emoji{font-size:48px;margin-bottom:12px;}
+.quiz-score-card h3{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:6px;}
+.quiz-score-card p{font-size:14px;color:rgba(255,255,255,.5);}
+.score-val{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:#fff;line-height:1;margin:12px 0;}
+.btn-retake{padding:11px 24px;border-radius:10px;background:#fff;color:var(--navy);font-size:15px;font-weight:600;border:none;cursor:pointer;margin-top:16px;}
+
+/* PROFILE */
+.prof-hdr{background:var(--white);border-radius:16px;padding:22px;border:1px solid var(--border);margin-bottom:16px;display:flex;align-items:center;gap:16px;}
+.prof-av{width:64px;height:64px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--gold);flex-shrink:0;}
+.prof-info h3{font-family:'Playfair Display',serif;font-size:19px;font-weight:800;color:var(--navy);}
+.prof-info p{font-size:13px;color:var(--muted);margin-top:2px;}
+.prof-badge{display:inline-flex;align-items:center;gap:5px;margin-top:7px;background:var(--lb);color:var(--dark);font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;}
+.prof-sec{background:var(--white);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:12px;}
+.prof-sec-t{padding:12px 17px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);}
+.prof-row{padding:13px 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.prof-row:last-child{border-bottom:none;}
+.prof-row-l{font-size:13px;font-weight:500;color:var(--navy);display:flex;align-items:center;gap:9px;}
+.prof-ic{width:28px;height:28px;border-radius:7px;background:var(--lb);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.prof-row-v{font-size:12px;color:var(--muted);}
+.btn-logout{width:100%;padding:12px;border-radius:11px;background:#FEF2F2;color:var(--err);border:1px solid #FCA5A5;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:4px;}
+.btn-logout:hover{background:#FEE2E2;}
+
+/* BOTTOM NAV */
+.bnav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--white);border-top:1px solid var(--border);padding:8px 0 env(safe-area-inset-bottom,8px);justify-content:space-around;}
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 10px;background:none;border:none;cursor:pointer;color:var(--light);font-size:9px;font-weight:600;position:relative;transition:color .2s;}
+.bn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;}
+.bn.active{color:var(--navy);}
+.bn.active::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--navy);margin:-1px auto 0;}
+
+@media(max-width:900px){
+  .sidebar{display:none !important;}
+  .sb-ov{display:none !important;}
+  .main{margin-left:0;height:100dvh;}
+  .menu-btn{display:none;}
+  .bnav{display:flex;}
+  .page,.detail-view{padding:16px 14px 110px;}
+  .topbar{padding:0 14px;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .cards-grid{grid-template-columns:1fr;}
+  .quiz-grid{grid-template-columns:1fr;}
+  .cast-grid{grid-template-columns:1fr;}
+  .pages{height:calc(100dvh - 60px);overflow-y:scroll;-webkit-overflow-scrolling:touch;}
+}
+</style>
+</head>
+<body>
+
+<div class="sb-ov" id="sbOv" onclick="closeSb()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <a href="index.html" class="sb-logo">
+    <img src="1.png" alt="Zenova">
+    <span>Zenova</span>
+  </a>
+  <div class="nav-sec">
+    <div class="nav-lbl">Main</div>
+    <button class="nl active" data-page="home" onclick="showPage('home')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
+    </button>
+    <button class="nl" data-page="chapters" onclick="showPage('chapters')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Chapters
+    </button>
+    <button class="nl" data-page="audio" onclick="showPage('audio')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>Audio Summary
+    </button>
+    <button class="nl" data-page="quiz" onclick="showPage('quiz')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Quiz (CBT)
+    </button>
+    <button class="nl" data-page="cast" onclick="showPage('cast')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Cast &amp; Characters
+    </button>
+    <div class="nav-lbl">Account</div>
+    <button class="nl" data-page="profile" onclick="showPage('profile')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile
+    </button>
+    <button class="nl" onclick="doLogout()">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out
+    </button>
+  </div>
+  <div class="sb-plan">
+    <div class="sb-plan-lbl">Current Plan</div>
+    <div class="sb-plan-name" id="sbPlanName">Free</div>
+    <div class="sb-plan-sub" id="sbPlanSub">1 chapter unlocked</div>
+    <a href="plans.html?from=dashboard" class="btn-up-side" id="sbUpBtn">⚡ Upgrade Now</a>
+  </div>
+  <div class="sb-user">
+    <div class="u-av" id="sbAv">?</div>
+    <div class="u-info">
+      <div class="u-name" id="sbName">Loading...</div>
+      <div class="u-email" id="sbEmail">...</div>
+    </div>
+    <button class="lb-btn" onclick="doLogout()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="menu-btn" onclick="toggleSb()">
+        <svg width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div>
+        <div class="tb-title" id="tbTitle" style="font-size:20px;letter-spacing:-.3px;">ZENOVA</div>
+        <div class="tb-sub" id="tbSub">Master Lekki Headmaster</div>
+      </div>
+    </div>
+    <div style="cursor:pointer" onclick="showPage('profile')">
+      <svg width="26" height="26" fill="none" stroke="var(--navy)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+  </div>
+
+  <div class="pages" id="pagesWrap">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+
+      <!-- Hero Welcome Card -->
+      <div class="hero-card">
+        <div class="hero-left">
+          <div class="hero-avatar" id="heroAv">E</div>
+          <div class="hero-text">
+            <div class="hero-greeting">Welcome back,</div>
+            <div class="hero-name" id="heroName">Student!</div>
+            <div class="hero-tagline">Keep learning, keep winning.</div>
+          </div>
+        </div>
+        <div class="hero-plan-box">
+          <div class="hero-plan-label">Your Plan</div>
+          <div class="hero-plan-badge free" id="heroPlanBadge">Free</div>
+          <div class="hero-expiry" id="heroExpiry" style="display:none">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="heroExpiryDate">—</span>
+          </div>
+          <div class="hero-days-left" id="heroDaysLeft" style="display:none"></div>
+        </div>
+      </div>
+
+      <!-- Progress Card -->
+      <div class="progress-card">
+        <div class="progress-header">
+          <div class="progress-title">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Your Progress
+          </div>
+        </div>
+        <div class="progress-pct" id="progressPct">0%</div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+        <div class="progress-caption" id="progressCaption">Start reading to track your progress!</div>
+      </div>
+
+      <!-- Stats Strip -->
+      <div class="stats-strip">
+        <div class="stat-chip">
+          <span class="stat-chip-icon">📋</span>
+          <div class="stat-chip-val" id="stCh">0</div>
+          <div class="stat-chip-lbl">Tests Taken</div>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-icon">✅</span>
+          <div class="stat-chip-val" id="stQz">0</div>
+          <div class="stat-chip-lbl">Tests Passed</div>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-icon">📈</span>
+          <div class="stat-chip-val" id="stSc">—</div>
+          <div class="stat-chip-lbl">Avg Score</div>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-icon">🔥</span>
+          <div class="stat-chip-val" id="stSt">0</div>
+          <div class="stat-chip-lbl">Day Streak</div>
+        </div>
+      </div>
+
+      <!-- Quick Access -->
+      <div class="section-header">
+        <div class="section-title">Quick Access</div>
+      </div>
+      <div class="quick-grid">
+        <div class="quick-card" onclick="showPage('chapters')">
+          <div class="quick-icon-wrap qi-gold">
+            <svg width="20" height="20" fill="none" stroke="#0D1F3C" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </div>
+          <div class="quick-name">Chapter Summaries</div>
+          <div class="quick-desc">Read and understand chapter breakdowns.</div>
+        </div>
+        <div class="quick-card" onclick="showPage('audio')">
+          <div class="quick-icon-wrap qi-purple">
+            <svg width="20" height="20" fill="none" stroke="#1B3A6B" stroke-width="2" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+          </div>
+          <div class="quick-name">Audio Summary</div>
+          <div class="quick-desc">Listen to audio summaries anytime, anywhere.</div>
+        </div>
+        <div class="quick-card" onclick="showPage('quiz')">
+          <div class="quick-icon-wrap qi-blue">
+            <svg width="20" height="20" fill="none" stroke="#0A1628" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </div>
+          <div class="quick-name">CBT Practice</div>
+          <div class="quick-desc">Practice unlimited CBT questions and tests.</div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="section-header">
+        <div class="section-title">Recent Activity</div>
+      </div>
+      <div class="activity-list" id="activityList">
+        <div class="activity-item" style="justify-content:center;color:var(--muted);font-size:13px;padding:20px;">No activity yet — start reading or take a quiz!</div>
+      </div>
+
+    </div>
+
+    <!-- CHAPTERS LIST -->
+    <div class="page" id="page-chapters">
+      <div class="sec-head"><h3>📖 All Chapters</h3></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">The Lekki Headmaster — 12 Chapters. Tap a chapter to read the full summary.</p>
+      <div class="ch-list" id="chList"></div>
+    </div>
+
+    <!-- CHAPTER DETAIL -->
+    <div class="detail-view" id="view-chapter">
+      <button class="back-btn" onclick="showPage('chapters')">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back to Chapters
+      </button>
+      <div id="chapterDetailContent"></div>
+    </div>
+
+    <!-- AUDIO LIST -->
+    <div class="page" id="page-audio">
+      <div class="sec-head"><h3>🎧 Audio Summary</h3></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Listen to narrated summaries of each chapter. Press play to start.</p>
+      <div id="audioList"></div>
+    </div>
+
+    <!-- QUIZ LIST -->
+    <div class="page" id="page-quiz">
+      <div class="sec-head"><h3>📝 Quiz (CBT)</h3></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">JAMB-style questions from The Lekki Headmaster. Select a quiz to begin.</p>
+      <div class="quiz-grid" id="quizList"></div>
+    </div>
+
+    <!-- QUIZ DETAIL -->
+    <div class="detail-view" id="view-quiz">
+      <button class="back-btn" onclick="showPage('quiz')">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back to Quizzes
+      </button>
+      <div id="quizDetailContent"></div>
+    </div>
+
+    <!-- CAST LIST -->
+    <div class="page" id="page-cast">
+      <div class="sec-head"><h3>🎭 Cast &amp; Characters</h3></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Every character in The Lekki Headmaster. Tap a character to learn more.</p>
+      <div class="cast-grid" id="castGrid"></div>
+    </div>
+
+    <!-- CAST DETAIL -->
+    <div class="detail-view" id="view-cast">
+      <button class="back-btn" onclick="showPage('cast')">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back to Characters
+      </button>
+      <div id="castDetailContent"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="page" id="page-profile">
+      <div class="prof-hdr">
+        <div class="prof-av" id="profAv">?</div>
+        <div class="prof-info">
+          <h3 id="profName">Loading...</h3>
+          <p id="profEmail">...</p>
+          <div class="prof-badge" id="profBadge">🎁 Free Plan</div>
+        </div>
+      </div>
+      <div class="prof-sec">
+        <div class="prof-sec-t">Account Info</div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">👤</div>Full Name</div><div class="prof-row-v" id="prName">—</div></div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">📧</div>Email</div><div class="prof-row-v" id="prEmail">—</div></div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">🗓️</div>Member Since</div><div class="prof-row-v" id="prJoined">—</div></div>
+      </div>
+      <div class="prof-sec">
+        <div class="prof-sec-t">Subscription</div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">⭐</div>Current Plan</div><div class="prof-row-v" id="prPlan">Free</div></div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">📅</div>Status</div><div class="prof-row-v" id="prStatus">Free tier</div></div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">⏳</div>Plan Expires</div><div class="prof-row-v" id="prExpiry">No expiry</div></div>
+        <div class="prof-row" style="cursor:pointer" onclick="location.href='plans.html?from=dashboard'">
+          <div class="prof-row-l"><div class="prof-ic">⚡</div>Upgrade Plan</div>
+          <svg width="13" height="13" fill="none" stroke="var(--light)" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out
+      </button>
+    </div>
+
+  </div><!-- end pages -->
+</div><!-- end main -->
+
+<nav class="bnav">
+  <button class="bn active" data-page="home" onclick="showPage('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
+  </button>
+  <button class="bn" data-page="chapters" onclick="showPage('chapters')">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Summaries
+  </button>
+  <button class="bn" data-page="audio" onclick="showPage('audio')">
+    <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>Audio
+  </button>
+  <button class="bn" data-page="quiz" onclick="showPage('quiz')">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Quiz
+  </button>
+  <button class="bn" data-page="profile" onclick="showPage('profile')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account
+  </button>
+</nav>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyBWYdeKlijVJUHUjzcCoPgZDumsgJFMDaw",
+  authDomain:"zenova-4342f.firebaseapp.com",
+  databaseURL:"https://zenova-4342f-default-rtdb.firebaseio.com",
+  projectId:"zenova-4342f",
+  storageBucket:"zenova-4342f.firebasestorage.app",
+  messagingSenderId:"132378238032",
+  appId:"1:132378238032:web:6fe0055d9d5b50b3050555"
+});
+var auth=firebase.auth(), db=firebase.database();
+var _functions=firebase.app().functions('us-central1');
+var getDashboardContentFn=_functions.httpsCallable('getDashboardContent');
+var getAudioUrlFn=_functions.httpsCallable('getAudioUrl');
+var currentPlan='free';
+var LIMITS={free:1,scholar:5,master:12};
+
+// ---- DATA ----
+// Chapters, cast, and quiz content are no longer hardcoded here. They are
+// fetched fresh from the getDashboardContent Cloud Function on every load,
+// which only returns the content the user's verified plan entitles them to.
+// Locked items come back as title/sub-only stubs — the actual paid content
+// (summaries, key points, themes, quiz questions, audio) never reaches the
+// browser for chapters the user hasn't unlocked.
+var CHAPTERS=[];
+var CAST=[];
+var QUIZZES=[];
+
+async function loadGatedContent(){
+  try{
+    var res=await getDashboardContentFn();
+    CHAPTERS=res.data.chapters||[];
+    CAST=res.data.cast||[];
+    QUIZZES=res.data.quizzes||[];
+  }catch(err){
+    console.error('Failed to load dashboard content', err);
+    CHAPTERS=[];CAST=[];QUIZZES=[];
+  }
+}
+
+
+// ---- NAVIGATION ----
+var currentPage='home';
+function showPage(name){
+  document.querySelectorAll('.page,.detail-view').forEach(function(p){p.classList.remove('active');});
+  var t=document.getElementById('page-'+name);
+  if(t){t.classList.add('active');}
+  document.querySelectorAll('.nl[data-page]').forEach(function(l){l.classList.remove('active');});
+  var al=document.querySelector('.nl[data-page="'+name+'"]');
+  if(al)al.classList.add('active');
+  document.querySelectorAll('.bn[data-page]').forEach(function(b){b.classList.remove('active');});
+  var ab=document.querySelector('.bn[data-page="'+name+'"]');
+  if(ab)ab.classList.add('active');
+  var titles={home:'ZENOVA',chapters:'Chapters',audio:'Audio Summary',quiz:'Quiz (CBT)',cast:'Cast & Characters',profile:'Profile'};
+  document.getElementById('tbTitle').textContent=titles[name]||'ZENOVA';
+  document.getElementById('tbSub').textContent=name==='home'?'Master Lekki Headmaster':'Welcome back 👋';
+  currentPage=name;
+  document.getElementById('pagesWrap').scrollTop=0;
+  if(window.innerWidth<=900)closeSb();
+}
+
+function showDetail(viewId,titleText){
+  document.querySelectorAll('.page,.detail-view').forEach(function(p){p.classList.remove('active');});
+  document.getElementById(viewId).classList.add('active');
+  document.getElementById('tbTitle').textContent=titleText||'Detail';
+  document.getElementById('pagesWrap').scrollTop=0;
+  if(window.innerWidth<=900)closeSb();
+}
+
+function toggleSb(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOv').classList.toggle('open');}
+function closeSb(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOv').classList.remove('open');}
+
+// ---- AUTH ----
+auth.onAuthStateChanged(function(user){
+  if(!user){window.location.href='login.html';return;}
+  var name=user.displayName||user.email.split('@')[0];
+  var ini=name.split(' ').map(function(n){return n[0];}).join('').toUpperCase().slice(0,2);
+  // Old elements (sidebar, profile)
+  ['sbAv','profAv'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ini;});
+  document.getElementById('sbName').textContent=name;
+  document.getElementById('sbEmail').textContent=user.email;
+  document.getElementById('profName').textContent=name;
+  document.getElementById('profEmail').textContent=user.email;
+  document.getElementById('prName').textContent=name;
+  document.getElementById('prEmail').textContent=user.email;
+  // Hero card
+  document.getElementById('heroAv').textContent=ini;
+  document.getElementById('heroName').textContent=name.split(' ')[0]+'!';
+  var joined=user.metadata&&user.metadata.creationTime?new Date(user.metadata.creationTime).toLocaleDateString('en-NG',{year:'numeric',month:'long',day:'numeric'}):'—';
+  document.getElementById('prJoined').textContent=joined;
+  db.ref('users/'+user.uid).once('value').then(async function(snap){
+    var d=snap.val()||{};
+    var plan=d.plan||'free';
+    var expiry=d.planExpiry?new Date(d.planExpiry):null;
+    var now=new Date();
+    // Reset plan if expired
+    if(plan!=='free' && expiry && expiry<now){
+      plan='free';
+      db.ref('users/'+user.uid).update({plan:'free',planExpiry:null});
+      showExpiredToast();
+    }
+    currentPlan=plan;
+    var testsTaken=d.testsTaken||0;
+    var testsPassed=d.testsPassed||0;
+    var streak=d.streak||0;
+    var avgScore=d.avgScore||0;
+    document.getElementById('stCh').textContent=testsTaken;
+    document.getElementById('stQz').textContent=testsPassed;
+    document.getElementById('stSt').textContent=streak;
+    document.getElementById('stSc').textContent=testsTaken>0?(avgScore+'%'):'—';
+    // Progress bar = average score across all tests
+    var progPct=avgScore;
+    document.getElementById('progressPct').textContent=testsTaken>0?(progPct+'%'):'0%';
+    document.getElementById('progressBar').style.width=(testsTaken>0?progPct:0)+'%';
+    var captions=['Take a quiz to start tracking progress!','Getting started — keep going!','Good progress, keep practising!','Strong performance!','Outstanding — keep it up!'];
+    document.getElementById('progressCaption').textContent=captions[Math.min(4,Math.floor(progPct/20))];
+    // Hero plan badge
+    applyPlan(plan,expiry,now);
+    loadActivity();
+    await loadGatedContent();
+    buildChapters();
+    buildAudio();
+    buildQuizList();
+    buildCast();
+    listenForPlanChanges(user.uid);
+  }).catch(async function(){
+    currentPlan='free';
+    applyPlan('free',null,new Date());
+    buildStreak();
+    await loadGatedContent();
+    buildChapters();
+    buildAudio();
+    buildQuizList();
+    buildCast();
+    listenForPlanChanges(user.uid);
+  });
+});
+
+// ---- PLAN ----
+function applyPlan(plan,expiry,now){
+  currentPlan=plan;
+  now=now||new Date();
+  var names={free:'Free',scholar:'Scholar ★',master:'PRO ★'};
+  var subs={free:'1 chapter unlocked',scholar:'5 chapters unlocked',master:'All chapters unlocked'};
+  var emojis={free:'🎁',scholar:'👑',master:'🏆'};
+  document.getElementById('sbPlanName').textContent=(plan==='master'?'Master':(plan==='scholar'?'Scholar':'Free'));
+  document.getElementById('sbPlanSub').textContent=subs[plan]||'1 chapter unlocked';
+  document.getElementById('prPlan').textContent=(plan==='master'?'Master':(plan==='scholar'?'Scholar':'Free'));
+  document.getElementById('prStatus').textContent=plan==='free'?'Free tier':'Active';
+  document.getElementById('profBadge').textContent=(emojis[plan]||'🎁')+' '+(plan==='master'?'Master':plan==='scholar'?'Scholar':'Free')+' Plan';
+  // Hero badge
+  var badge=document.getElementById('heroPlanBadge');
+  badge.className='hero-plan-badge '+plan;
+  badge.textContent=names[plan]||'Free';
+  // Expiry display
+  var expiryEl=document.getElementById('heroExpiry');
+  var daysEl=document.getElementById('heroDaysLeft');
+  if(expiry && plan!=='free'){
+    expiryEl.style.display='flex';
+    document.getElementById('heroExpiryDate').textContent=expiry.toLocaleDateString('en-NG',{day:'numeric',month:'long',year:'numeric'});
+    var daysLeft=Math.ceil((expiry-now)/(1000*60*60*24));
+    daysEl.style.display='block';
+    daysEl.textContent=daysLeft+' days left';
+  } else {
+    expiryEl.style.display='none';
+    daysEl.style.display='none';
+  }
+  if(plan!=='free'){
+    document.getElementById('sbUpBtn').style.display='none';
+  } else {
+    document.getElementById('sbUpBtn').style.display='block';
+  }
+}
+
+// Also listen for real-time plan changes (e.g. after payment redirect)
+function listenForPlanChanges(uid){
+  db.ref('users/'+uid).on('value', async function(snap){
+    var d=snap.val()||{};
+    var newPlan=d.plan||'free';
+    var expiry=d.planExpiry?new Date(d.planExpiry):null;
+    var now=new Date();
+    // Show expiry info in profile
+    var expiryEl=document.getElementById('prExpiry');
+    if(expiryEl){
+      if(expiry && newPlan!=='free'){
+        expiryEl.textContent=expiry.toLocaleDateString('en-NG',{year:'numeric',month:'long',day:'numeric'});
+      } else {
+        expiryEl.textContent='No expiry';
+      }
+    }
+    if(newPlan !== currentPlan){
+      currentPlan = newPlan;
+      applyPlan(newPlan);
+      await loadGatedContent();
+      buildChapters();
+      buildAudio();
+      buildQuizList();
+      buildCast();
+    }
+  });
+}
+
+// ---- RECENT ACTIVITY ----
+function logActivity(type, title, sub){
+  var user=firebase.auth().currentUser;
+  if(!user) return;
+  var entry={type:type,title:title,sub:sub,ts:Date.now()};
+  // Push to activity log, keep latest 20
+  db.ref('users/'+user.uid+'/activity').push(entry).then(function(){
+    loadActivity();
+  });
+}
+
+function loadActivity(){
+  var user=firebase.auth().currentUser;
+  if(!user) return;
+  db.ref('users/'+user.uid+'/activity').orderByChild('ts').limitToLast(5).once('value').then(function(snap){
+    var items=[];
+    snap.forEach(function(child){items.unshift(child.val());});
+    renderActivity(items);
+  });
+}
+
+function renderActivity(items){
+  var el=document.getElementById('activityList');
+  if(!el) return;
+  if(!items||items.length===0){
+    el.innerHTML='<div class="activity-item" style="justify-content:center;color:var(--muted);font-size:13px;padding:20px;">No activity yet — start reading or take a quiz!</div>';
+    return;
+  }
+  var cfg={
+    quiz:{icon:'✅',cls:'act-ic-green',page:'quiz'},
+    chapter:{icon:'📖',cls:'act-ic-blue',page:'chapters'},
+    audio:{icon:'🎧',cls:'act-ic-purple',page:'audio'}
+  };
+  el.innerHTML=items.map(function(a){
+    var c=cfg[a.type]||cfg.quiz;
+    return '<div class="activity-item" onclick="showPage(\''+c.page+'\')">'+
+      '<div class="act-icon '+c.cls+'">'+c.icon+'</div>'+
+      '<div class="act-body">'+
+        '<div class="act-title">'+a.title+'</div>'+
+        '<div class="act-sub">'+a.sub+'</div>'+
+      '</div>'+
+      '<div class="act-meta">'+
+        '<span class="act-time">'+timeAgo(a.ts)+'</span>'+
+        '<svg class="act-arrow" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function timeAgo(ts){
+  var diff=Math.floor((Date.now()-ts)/1000);
+  if(diff<60) return 'Just now';
+  if(diff<3600) return Math.floor(diff/60)+'m ago';
+  if(diff<86400) return Math.floor(diff/3600)+'h ago';
+  return Math.floor(diff/86400)+'d ago';
+}
+function buildChapters(){
+  var limit=LIMITS[currentPlan]||1;
+  var html='';
+  CHAPTERS.forEach(function(ch,i){
+    var unlocked=i<limit;
+    html+='<div class="ch-item'+(unlocked?'':' locked')+'" '+(unlocked?'onclick="openChapter('+i+')"':'')+'>'+
+      '<div class="ch-num">'+ch.num+'</div>'+
+      '<div class="ch-info"><div class="ch-t">Chapter '+ch.num+': '+ch.title+'</div><div class="ch-s">'+ch.sub+'</div></div>'+
+      '<span class="ch-badge '+(unlocked?'b-ok':'b-lock')+'">'+(unlocked?'✓ Read':'🔒 Locked')+'</span>'+
+      '</div>';
+  });
+  document.getElementById('chList').innerHTML=html;
+}
+
+function openChapter(idx){
+  var ch=CHAPTERS[idx];
+  var html='<div class="ch-detail-header">'+
+    '<div class="ch-detail-num">Chapter '+ch.num+' of 12</div>'+
+    '<div class="ch-detail-title">'+ch.title+'</div>'+
+    '<div class="ch-detail-sub">'+ch.sub+'</div>'+
+    '</div>'+
+    '<div class="summary-card"><h4>📝 Detailed Summary</h4>'+
+    ch.summary.map(function(p){return '<p>'+p+'</p>';}).join('')+
+    '</div>'+
+    '<div class="summary-card"><h4>⭐ Key Points</h4>'+
+    '<ul class="kp-list">'+ch.keypoints.map(function(k){return '<li><span class="kp-dot"></span>'+k+'</li>';}).join('')+'</ul>'+
+    '</div>'+
+    '<div class="summary-card"><h4>📌 Themes</h4><div class="theme-pills">'+
+    ch.themes.map(function(t){return '<span class="theme-pill">'+t+'</span>';}).join('')+
+    '</div></div>';
+  document.getElementById('chapterDetailContent').innerHTML=html;
+  showDetail('view-chapter','Chapter '+ch.num+': '+ch.title);
+  // Log activity
+  logActivity('chapter','Read Summary','Chapter '+ch.num+' — '+ch.title);
+  // Track progress in Firebase
+  var user=firebase.auth().currentUser;
+  if(user){
+    db.ref('users/'+user.uid).once('value').then(function(snap){
+      var d=snap.val()||{};
+      var readSet=d.chaptersReadSet||{};
+      if(!readSet['ch'+idx]){
+        readSet['ch'+idx]=true;
+        var newCount=Object.keys(readSet).length;
+        db.ref('users/'+user.uid).update({chaptersRead:newCount,chaptersReadSet:readSet});
+        // Update progress bar immediately
+        var pct=Math.min(100,Math.round((newCount/12)*100));
+        document.getElementById('progressPct').textContent=pct+'%';
+        document.getElementById('progressBar').style.width=pct+'%';
+        var captions=['Start reading to track your progress!','Great start! Keep going!','You\'re making progress!','Halfway there, keep it up!','You\'re doing great! Finish strong.'];
+        document.getElementById('progressCaption').textContent=captions[Math.min(4,Math.floor(pct/25))];
+        document.getElementById('stCh').textContent=newCount;
+      }
+    });
+  }
+}
+
+function buildAudio(){
+  var limit=LIMITS[currentPlan]||1;
+  var html='';
+  CHAPTERS.forEach(function(ch,i){
+    var unlocked=i<limit;
+    html+='<div class="audio-item'+(unlocked?'':' locked')+'">'+
+      '<button class="audio-play-btn" '+(unlocked?'onclick="toggleAudio('+i+')"':'disabled')+'>'+
+      '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>'+
+      '</button>'+
+      '<div class="audio-info" style="flex:1;">'+
+      '<div class="audio-title">Chapter '+ch.num+': '+ch.title+'</div>'+
+      '<div class="audio-sub">'+ch.sub+'</div>'+
+      (unlocked?'<div class="audio-player-wrap" id="player'+i+'"></div>':'<div style="font-size:11px;color:var(--muted);margin-top:4px;">🔒 Upgrade to unlock</div>')+
+      '</div>'+
+      '<span class="ch-badge '+(unlocked?'b-play':'b-lock')+'">'+(unlocked?'▶ Play':'🔒')+'</span>'+
+      '</div>';
+  });
+  document.getElementById('audioList').innerHTML=html;
+}
+
+function toggleAudio(idx){
+  var id='aud'+idx;
+  var existing=document.querySelector('audio.active-audio');
+  if(existing&&existing.id!==id){existing.pause();existing.classList.remove('active-audio');}
+  var playerWrap=document.getElementById('player'+idx);
+  if(!playerWrap)return;
+  var audio=document.getElementById(id);
+  if(!audio){
+    playerWrap.innerHTML='<div style="font-size:12px;color:var(--muted);">Loading audio…</div>';
+    // Audio is never linked directly — a fresh, short-lived URL is requested
+    // each time, and the Cloud Function re-checks entitlement before issuing it.
+    getAudioUrlFn({chapterIndex:idx}).then(function(res){
+      audio=document.createElement('audio');
+      audio.id=id;
+      audio.controls=true;
+      audio.className='active-audio';
+      audio.src=res.data.url;
+      playerWrap.innerHTML='';
+      playerWrap.appendChild(audio);
+      audio.play();
+      var ch=CHAPTERS[idx];
+      if(ch) logActivity('audio','Listened to Audio','Chapter '+ch.num+' — '+ch.title);
+    }).catch(function(err){
+      playerWrap.innerHTML='<div style="font-size:12px;color:var(--error);">Could not load audio. '+(err.message||'Try again.')+'</div>';
+    });
+  } else {
+    if(audio.paused){audio.play();}else{audio.pause();}
+  }
+}
+
+function buildQuizList(){
+  var html='';
+  QUIZZES.forEach(function(q,i){
+    var unlocked=(currentPlan==='master'?true:currentPlan==='scholar'?i<4:i<2);
+    html+='<div class="qcard'+(unlocked?'':' locked')+'">'+
+      '<div class="qc-em">'+(unlocked?q.emoji:'🔒')+'</div>'+
+      '<div class="qc-title">'+(unlocked?q.title:'Locked Quiz')+'</div>'+
+      '<div class="qc-sub">'+(unlocked?q.sub:(currentPlan==='scholar'?'Upgrade to Master to unlock.':'Upgrade your plan to unlock this quiz.'))+'</div>'+
+      '<div class="qc-foot">'+
+      '<span class="diff '+q.cls+'">'+q.diff+'</span>'+
+      (unlocked?'<button class="btn-quiz" onclick="openQuiz('+i+')">Start →</button>':'<a href="plans.html?from=dashboard" style="font-size:12px;font-weight:600;color:var(--accent);">Upgrade →</a>')+
+      '</div></div>';
+  });
+  document.getElementById('quizList').innerHTML=html;
+}
+
+var quizState={quiz:null,current:0,answers:[],answered:false};
+
+function openQuiz(idx){
+  var q=QUIZZES[idx];
+  quizState={quiz:q,current:0,answers:new Array(q.questions.length).fill(-1),answered:false};
+  renderQuiz();
+  showDetail('view-quiz',q.title);
+}
+
+function renderQuiz(){
+  var qs=quizState.quiz.questions;
+  var ci=quizState.current;
+  var q=qs[ci];
+  var ua=quizState.answers[ci];
+  var html='<div class="quiz-header">'+
+    '<div class="quiz-header-left"><h3>'+quizState.quiz.title+'</h3><p>'+quizState.quiz.sub+'</p></div>'+
+    '<div class="quiz-progress">'+(ci+1)+' / '+qs.length+'</div>'+
+    '</div>'+
+    '<div class="q-block">'+
+    '<div class="q-num">Question '+(ci+1)+' of '+qs.length+'</div>'+
+    '<div class="q-text">'+q.q+'</div>'+
+    '<div class="q-options">';
+  q.opts.forEach(function(opt,i){
+    var cls='';
+    if(ua!==-1){
+      if(i===q.ans)cls=' reveal';
+      else if(i===ua&&ua!==q.ans)cls=' wrong';
+    }
+    html+='<button class="q-opt'+cls+'" onclick="selectAnswer('+i+')" '+(ua!==-1?'disabled':'')+'>'+
+      String.fromCharCode(65+i)+'. '+opt+'</button>';
+  });
+  html+='</div></div>'+
+    '<div class="q-nav">'+
+    (ci>0?'<button class="btn-qnav btn-qnav-prev" onclick="quizNav(-1)">← Previous</button>':'<span></span>')+
+    (ci<qs.length-1?'<button class="btn-qnav btn-qnav-next" onclick="quizNav(1)">Next →</button>':
+     '<button class="btn-qnav btn-qnav-next" onclick="showQuizScore()">See Score →</button>')+
+    '</div>';
+  document.getElementById('quizDetailContent').innerHTML=html;
+}
+
+function selectAnswer(optIdx){
+  if(quizState.answers[quizState.current]!==-1)return;
+  quizState.answers[quizState.current]=optIdx;
+  renderQuiz();
+}
+
+function quizNav(dir){
+  quizState.current+=dir;
+  renderQuiz();
+}
+
+function showQuizScore(){
+  var qs=quizState.quiz.questions;
+  var correct=0;
+  qs.forEach(function(q,i){if(quizState.answers[i]===q.ans)correct++;});
+  var pct=Math.round((correct/qs.length)*100);
+  var emoji=pct>=80?'🎉':pct>=60?'👍':'📚';
+  var msg=pct>=80?'Excellent work!':pct>=60?'Good effort, keep studying!':'Keep reading and try again!';
+  var html='<div class="quiz-score-card">'+
+    '<div class="score-emoji">'+emoji+'</div>'+
+    '<h3>Quiz Complete!</h3>'+
+    '<div class="score-val">'+pct+'%</div>'+
+    '<p>You got <strong>'+correct+' out of '+qs.length+'</strong> correct</p>'+
+    '<p style="margin-top:6px;font-size:13px;">'+msg+'</p>'+
+    '<button class="btn-retake" onclick="openQuiz(QUIZZES.indexOf(quizState.quiz))">Retake Quiz</button>'+
+    '</div>'+
+    '<div style="text-align:center;margin-top:10px;"><button class="back-btn" onclick="showPage(\'quiz\')">← Back to Quizzes</button></div>';
+  document.getElementById('quizDetailContent').innerHTML=html;
+
+  // ---- Save stats to Firebase ----
+  var user=firebase.auth().currentUser;
+  if(!user) return;
+  db.ref('users/'+user.uid).once('value').then(function(snap){
+    var d=snap.val()||{};
+    var testsTaken=(d.testsTaken||0)+1;
+    var testsPassed=(d.testsPassed||0)+(pct>=50?1:0);
+    // Rolling average score
+    var prevAvg=d.avgScore||0;
+    var prevCount=d.testsTaken||0;
+    var newAvg=prevCount>0?Math.round(((prevAvg*prevCount)+pct)/(prevCount+1)):pct;
+    // Day streak
+    var today=new Date().toDateString();
+    var lastDay=d.lastStudyDay||'';
+    var yesterday=new Date(Date.now()-86400000).toDateString();
+    var streak=d.streak||0;
+    if(lastDay===today){
+      streak=streak; // same day, no change
+    } else if(lastDay===yesterday){
+      streak=streak+1; // consecutive day
+    } else {
+      streak=1; // reset
+    }
+    var updates={
+      testsTaken:testsTaken,
+      testsPassed:testsPassed,
+      avgScore:newAvg,
+      streak:streak,
+      lastStudyDay:today
+    };
+    db.ref('users/'+user.uid).update(updates);
+    // Log activity
+    logActivity('quiz','Completed Test — '+pct+'%', quizState.quiz.title);
+    // Update stat chips immediately
+    document.getElementById('stCh').textContent=testsTaken;
+    document.getElementById('stQz').textContent=testsPassed;
+    document.getElementById('stSc').textContent=newAvg+'%';
+    document.getElementById('stSt').textContent=streak;
+    // Update progress bar based on avg score
+    var progPct=newAvg;
+    document.getElementById('progressPct').textContent=progPct+'%';
+    document.getElementById('progressBar').style.width=progPct+'%';
+    var captions=['Keep taking tests to track progress!','Getting started — keep going!','Good progress, keep practising!','Strong performance!','Outstanding — keep it up!'];
+    document.getElementById('progressCaption').textContent=captions[Math.min(4,Math.floor(progPct/20))];
+  });
+}
+
+function buildCast(){
+  var limit=LIMITS[currentPlan]||1;
+  var html='';
+  CAST.forEach(function(c){
+    var unlocked=c.ch<=limit;
+    html+='<div class="cast-card'+(unlocked?'':' locked')+'" '+(unlocked?'onclick="openCast(\''+c.name.replace(/'/g,"\\'")+'\')"':'')+'>'+
+      '<div class="cast-av">'+c.emoji+'</div>'+
+      '<div class="cast-name">'+(unlocked?c.name:'🔒 Locked')+'</div>'+
+      '<div class="cast-role">'+(unlocked?c.role:'Upgrade to unlock')+'</div>'+
+      '<span class="cast-ch">Ch. '+c.ch+'</span>'+
+      '</div>';
+  });
+  document.getElementById('castGrid').innerHTML=html;
+}
+
+function openCast(name){
+  var c=null;
+  for(var i=0;i<CAST.length;i++){if(CAST[i].name===name){c=CAST[i];break;}}
+  if(!c)return;
+  var html='<div class="cast-detail-header">'+
+    '<div class="cast-detail-av">'+c.emoji+'</div>'+
+    '<div class="cast-detail-info">'+
+    '<h3>'+c.name+'</h3>'+
+    '<p>'+c.role+'</p>'+
+    '<span class="cast-detail-badge">'+c.type+' · Chapter '+c.ch+'</span>'+
+    '</div></div>'+
+    '<div class="summary-card"><h4>👤 Character Profile</h4><p>'+c.detail+'</p></div>'+
+    '<div class="summary-card"><h4>📖 First Appears</h4><p>This character first appears in <strong>Chapter '+c.ch+'</strong> of The Lekki Headmaster.</p></div>';
+  document.getElementById('castDetailContent').innerHTML=html;
+  showDetail('view-cast',c.name);
+}
+
+function buildStreak(){
+  var days=['M','T','W','T','F','S','S'];
+  var today=new Date().getDay();
+  var html='';
+  days.forEach(function(d,i){
+    var jsDay=(i===6)?0:i+1;
+    html+='<div class="sd'+(jsDay===today?' today':'')+'">' +d+'</div>';
+  });
+  document.getElementById('streakDays').innerHTML=html;
+}
+
+function doLogout(){auth.signOut().then(function(){window.location.href='login.html';});}
+
+function showExpiredToast(){
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#DC2626;color:#fff;padding:13px 22px;border-radius:11px;font-size:14px;font-weight:600;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.2);';
+  t.textContent='⚠️ Your plan has expired. You have been moved to the Free plan.';
+  document.body.appendChild(t);
+  setTimeout(function(){t.remove();},5000);
+}
+</script>
+</body>
+</html>

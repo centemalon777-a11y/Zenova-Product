@@ -1,0 +1,258 @@
+[
+  {
+    "name": "Adewale Adebepo",
+    "role": "Principal of Stardom Schools; the protagonist",
+    "emoji": "👨‍💼",
+    "ch": 1,
+    "type": "Main",
+    "detail": "The principal of Stardom Schools and the novel's protagonist. Known as 'The Lekki Headmaster' for his humorous imitation of Village Headmaster characters. He struggles with the decision to relocate to the UK but ultimately chooses to remain in Nigeria and complete his mission of educating young people."
+  },
+  {
+    "name": "Mrs. Seri Bepo",
+    "role": "Mr. Bepo's wife; nurse in the UK",
+    "emoji": "👩‍⚕️",
+    "ch": 1,
+    "type": "Main",
+    "detail": "Mr. Bepo's wife who lives and works in the United Kingdom as a nurse, earning approximately £10,000 monthly. She strongly encourages her husband to relocate and join the family abroad."
+  },
+  {
+    "name": "Nike Bepo",
+    "role": "Mr. Bepo's child",
+    "emoji": "👧",
+    "ch": 1,
+    "type": "Main",
+    "detail": "One of Mr. Bepo's children living in the UK who supports the family's relocation plans. She benefits from free primary and secondary education in the United Kingdom."
+  },
+  {
+    "name": "Kike Bepo",
+    "role": "Mr. Bepo's second child",
+    "emoji": "👦",
+    "ch": 1,
+    "type": "Main",
+    "detail": "Mr. Bepo's second child who also wants him to relocate to the UK to join the rest of the family."
+  },
+  {
+    "name": "Mrs. Ibidun Gloss",
+    "role": "Managing Director of Stardom Schools",
+    "emoji": "👩‍💼",
+    "ch": 1,
+    "type": "Staff",
+    "detail": "The Managing Director (MD) of Stardom Schools. She values Mr. Bepo greatly and later presents him with a $10,000 farewell cheque — the largest in Stardom's history. She sometimes makes hasty decisions, as seen in the Mr. Farore incident."
+  },
+  {
+    "name": "Mrs. Grace Apeh",
+    "role": "Vice Principal of Stardom Schools",
+    "emoji": "👩‍🏫",
+    "ch": 1,
+    "type": "Staff",
+    "detail": "The Vice Principal of Stardom Schools who takes charge when Mr. Bepo breaks down during assembly. She accompanies Mr. Bepo to the airport as a final gesture of support."
+  },
+  {
+    "name": "Mr. Audu",
+    "role": "Fine Arts teacher; known for humor",
+    "emoji": "🎨",
+    "ch": 1,
+    "type": "Staff",
+    "detail": "Fine Arts teacher at Stardom Schools, known for his humor and jokes. He originally coined the nickname 'The Lekki Headmaster' by comparing Bepo's conflict-resolution skills to King Oloja in Village Headmaster. He often relieves tension with timely humor."
+  },
+  {
+    "name": "Mr. Justus Anabel",
+    "role": "Chemistry teacher",
+    "emoji": "⚗️",
+    "ch": 1,
+    "type": "Staff",
+    "detail": "Chemistry teacher at Stardom Schools who helps dismiss students after Mr. Bepo's emotional breakdown during assembly."
+  },
+  {
+    "name": "Mr. Ope Wande",
+    "role": "Physics teacher and pastor",
+    "emoji": "⛪",
+    "ch": 1,
+    "type": "Staff",
+    "detail": "Physics teacher and pastor at Stardom Schools who attempts to counsel Mr. Bepo following his emotional breakdown, though without success."
+  },
+  {
+    "name": "Mr. Oyelana",
+    "role": "School accountant",
+    "emoji": "💼",
+    "ch": 1,
+    "type": "Staff",
+    "detail": "The accountant at Stardom Schools who later buys Mr. Bepo's car for ₦1.5 million. He also accompanies Mr. Bepo to the airport during his farewell."
+  },
+  {
+    "name": "Mr. Ibe",
+    "role": "Sports/Games Master",
+    "emoji": "⚽",
+    "ch": 11,
+    "type": "Staff",
+    "detail": "The Games Master at Stardom Schools who helps the staff team defeat students 3-2 during the farewell football match through questionable but humorous means."
+  },
+  {
+    "name": "Mr. Farore",
+    "role": "English teacher wrongly dismissed",
+    "emoji": "📚",
+    "ch": 6,
+    "type": "Staff",
+    "detail": "English teacher at Stardom Schools who was wrongly dismissed over a misunderstood grammar rule ('Ade as well as Jide comes early'). He was later reinstated after verification proved he was correct."
+  },
+  {
+    "name": "Mr. Ayesoro",
+    "role": "Government teacher transferred",
+    "emoji": "🏛️",
+    "ch": 4,
+    "type": "Staff",
+    "detail": "Government teacher nicknamed 'Mr. Owala' by students because of his distinctive tribal marks. He was transferred to Stardom Hub after a parent (Mrs. Ladele) complained that her daughter Bibi was frightened by recurring dreams about him."
+  },
+  {
+    "name": "Mr. Nku",
+    "role": "Former staff who fled abroad with cooperative loan",
+    "emoji": "✈️",
+    "ch": 3,
+    "type": "Staff",
+    "detail": "Former staff member at Stardom Schools who collected a ₦2 million cooperative loan and relocated abroad shortly afterward without repaying it — an example of unethical migration practices."
+  },
+  {
+    "name": "Ikenna Egbu",
+    "role": "SSS1 student who gave the Jos speech",
+    "emoji": "🎤",
+    "ch": 1,
+    "type": "Student",
+    "detail": "An SSS1 student at Stardom Schools who delivered an inspiring speech at assembly about an excursion to Jos, describing its beautiful scenery and cool weather. His speech impressed everyone and received loud applause."
+  },
+  {
+    "name": "Banky",
+    "role": "Student who insulted Tosh during election",
+    "emoji": "📢",
+    "ch": 8,
+    "type": "Student",
+    "detail": "SSS2 student who contested for Social Prefect. During Speech Day, he attacked his opponent Tosh by saying 'Instead of voting for the son of an ex-convict, cast your vote for me,' triggering a long legal dispute between both families."
+  },
+  {
+    "name": "Tosh",
+    "role": "Banky's rival in the prefect election",
+    "emoji": "😔",
+    "ch": 8,
+    "type": "Student",
+    "detail": "Banky's rival in the Social Prefect election. He was deeply hurt by Banky's public insult and walked out of the hall. His father, Chief Ogba, subsequently pursued legal action against Banky's family."
+  },
+  {
+    "name": "Favour Ignatius",
+    "role": "Student whose paternity was revealed",
+    "emoji": "🧬",
+    "ch": 4,
+    "type": "Student",
+    "detail": "An SSS2 student at Stardom Schools. During the Ignatius family's visa application process, a DNA test revealed that Mr. Ibe Ignatius was not her biological father, destroying the family's relocation plans."
+  },
+  {
+    "name": "Bibi",
+    "role": "Student frightened by dreams of a teacher",
+    "emoji": "😨",
+    "ch": 4,
+    "type": "Student",
+    "detail": "A student at Stardom Schools who repeatedly dreamed about Mr. Ayesoro and became increasingly frightened of him in real life. Her mother's complaint led to Mr. Ayesoro being transferred from teaching duties."
+  },
+  {
+    "name": "Mrs. Ignatius",
+    "role": "Parent whose family crisis began with a DNA test",
+    "emoji": "💔",
+    "ch": 4,
+    "type": "Parent",
+    "detail": "Mother of Favour and wife of Mr. Ibe Ignatius. Her family's relocation plans collapsed when a DNA test during visa processing revealed Favour was not her husband's biological child. She contacted Mr. Bepo for guidance."
+  },
+  {
+    "name": "Mr. Ibe Ignatius",
+    "role": "Father who discovered DNA secret",
+    "emoji": "😡",
+    "ch": 4,
+    "type": "Parent",
+    "detail": "Husband of Mrs. Ignatius who discovered during visa processing that he was not the biological father of Favour. Furious and hurt, he ordered both Mrs. Ignatius and Favour out of the house."
+  },
+  {
+    "name": "Chief Ogba",
+    "role": "Tosh's father; pursued legal action",
+    "emoji": "⚖️",
+    "ch": 8,
+    "type": "Parent",
+    "detail": "Tosh's father who spent 36 months in detention while on trial for alleged misappropriation of ₦2.5 billion in government contract funds. He was released and ordered to refund the money — technically not an ex-convict. He demanded written apologies from Banky's family after the public insult."
+  },
+  {
+    "name": "Mrs. Ladele",
+    "role": "Bibi's mother who complained",
+    "emoji": "👩",
+    "ch": 4,
+    "type": "Parent",
+    "detail": "Mother of Bibi who reported her daughter's recurring frightening dreams about Mr. Ayesoro to school management, leading to the teacher's transfer to Stardom Hub."
+  },
+  {
+    "name": "Mr. Guta",
+    "role": "Parent who caused Mr. Farore's dismissal",
+    "emoji": "😤",
+    "ch": 6,
+    "type": "Parent",
+    "detail": "Parent who went directly to the MD's office to demand Mr. Farore's dismissal after finding what he believed was a grammar error in his son's notebook. He was proven wrong after verification."
+  },
+  {
+    "name": "Sola",
+    "role": "Former colleague who migrated to UK",
+    "emoji": "🌍",
+    "ch": 3,
+    "type": "Migration",
+    "detail": "A former Stardom colleague who relocated to the United Kingdom six months before Mr. Bepo. She and her husband sold their belongings and borrowed ₦4 million to finance the move. She reassured Bepo that his transition would be easier because his wife was already established there."
+  },
+  {
+    "name": "Jare",
+    "role": "Former banker who regretted migrating",
+    "emoji": "😞",
+    "ch": 3,
+    "type": "Migration",
+    "detail": "A former banker who resigned and relocated to London, expecting a professional career. He became emotionally distressed upon discovering that his job involved caring for an elderly couple."
+  },
+  {
+    "name": "Hope",
+    "role": "Accountant who relocated for postgraduate studies",
+    "emoji": "🎓",
+    "ch": 3,
+    "type": "Migration",
+    "detail": "An accountant who moved to the UK for a Master's degree. Initially supported by his wife financially, he later faced serious difficulties when she stopped funding his education."
+  },
+  {
+    "name": "Mr. Egi Meko",
+    "role": "Director of Beesway School",
+    "emoji": "🏫",
+    "ch": 7,
+    "type": "Other",
+    "detail": "Director of Beesway Group of School where Mr. Bepo worked before Stardom. He refused to correct the grammatically incorrect school name, claiming it was divinely inspired. He was present during the mysterious nighttime incident involving a cow being buried in a pit."
+  },
+  {
+    "name": "Mr. Ogo",
+    "role": "Parent who suggested rituals; later a murderer",
+    "emoji": "⚠️",
+    "ch": 7,
+    "type": "Other",
+    "detail": "A parent at Fruitful Future School who suggested using supernatural rites to attract more pupils. Mr. Bepo refused. Years later, Mr. Ogo murdered a woman who had paid him millions for spiritual assistance with infertility after she demanded a refund."
+  },
+  {
+    "name": "Mr. Ogunwale",
+    "role": "Mr. Bepo's landlord",
+    "emoji": "🏠",
+    "ch": 12,
+    "type": "Other",
+    "detail": "Mr. Bepo's landlord who generously offered to drive him to Murtala Muhammed International Airport on the day of his departure. He said a prayer for Mr. Bepo's safe journey before driving off."
+  },
+  {
+    "name": "Akran of Badagry",
+    "role": "Traditional ruler who taught students history",
+    "emoji": "👑",
+    "ch": 9,
+    "type": "Other",
+    "detail": "The traditional ruler of Badagry who explained the history of Badagry and its role in the transatlantic slave trade to Stardom students. He confirmed that the name 'Badagry' originated from 'Agbadarigi.'"
+  },
+  {
+    "name": "Tai",
+    "role": "Passport agent in Ibadan",
+    "emoji": "📋",
+    "ch": 10,
+    "type": "Other",
+    "detail": "A business center operator in Ibadan who works with some immigration personnel to assist passport applicants through unofficial channels. He helped Mr. Bepo process his passport renewal for ₦100,000 instead of the official fee of ₦70,000."
+  }
+]

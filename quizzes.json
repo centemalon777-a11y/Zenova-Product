@@ -1,0 +1,1362 @@
+[
+  {
+    "title": "Chapter 1 Quiz",
+    "sub": "Questions on Mr. Bepo's breakdown and Stardom Schools",
+    "emoji": "📘",
+    "diff": "Easy",
+    "cls": "d-e",
+    "ch": 1,
+    "questions": [
+      {
+        "q": "Why was Mr. Bepo called 'The Lekki Headmaster'?",
+        "opts": [
+          "He was the oldest teacher in Lekki",
+          "Because of his humorous imitation of Village Headmaster characters",
+          "He once appeared on Village Headmaster TV show",
+          "He was a headmaster in a Lekki primary school"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "Who ended the assembly after Mr. Bepo broke down?",
+        "opts": [
+          "Mrs. Grace Apeh",
+          "Mrs. Ibidun Gloss",
+          "Mr. Ope Wande",
+          "Mr. Justus Anabel"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "Who was the Vice Principal of Stardom Schools?",
+        "opts": [
+          "Mrs. Ibidun Gloss",
+          "Mrs. Seri Bepo",
+          "Mrs. Grace Apeh",
+          "Miss Taye Kareem"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What percentage success rate did the school record in WASSCE?",
+        "opts": [
+          "85%",
+          "95%",
+          "90%",
+          "100%"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Which student delivered a speech about the excursion to Jos?",
+        "opts": [
+          "Banky",
+          "Tosh",
+          "Ikenna Egbu",
+          "Favour Ignatius"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was reduced from ₦250,000 to ₦165,000?",
+        "opts": [
+          "School fees",
+          "Excursion fees",
+          "Boarding fees",
+          "Cooperative loan limit"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "How many years had Mr. Bepo served at Stardom Schools?",
+        "opts": [
+          "20 years",
+          "28 years",
+          "24 years",
+          "16 years"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who attempted to counsel Mr. Bepo after his breakdown?",
+        "opts": [
+          "Mr. Audu",
+          "Mr. Justus Anabel",
+          "Mr. Ope Wande",
+          "Mrs. Grace Apeh"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What does the title 'The Lekki Headmaster' refer to?",
+        "opts": [
+          "A real headmaster in Lekki",
+          "A nickname from Mr. Bepo's acting style",
+          "A character in a Nollywood film",
+          "A government official in Lekki"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What is the name of the school where Mr. Bepo works?",
+        "opts": [
+          "Fruitful Future School",
+          "Beesway Group of School",
+          "Stardom Schools",
+          "Golden Gate School"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who is the Managing Director of Stardom Schools?",
+        "opts": [
+          "Mrs. Grace Apeh",
+          "Mrs. Seri Bepo",
+          "Mr. Justus Anabel",
+          "Mrs. Ibidun Gloss"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "What did Mr. Bepo's breakdown at assembly reveal?",
+        "opts": [
+          "He was sick",
+          "He was resigning and relocating abroad",
+          "He had been promoted",
+          "He was retiring due to old age"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What is the full name of the school Mr. Bepo works at?",
+        "opts": [
+          "Stardom International Schools",
+          "Stardom Group of Schools",
+          "Stardom Schools",
+          "Stardom Academy"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Which Nigerian TV show is referenced in Mr. Bepo's nickname?",
+        "opts": [
+          "Super Story",
+          "Village Headmaster",
+          "Checkmate",
+          "Behind the Clouds"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What event triggered Mr. Bepo's emotional breakdown?",
+        "opts": [
+          "He received a dismissal letter",
+          "He was saying farewell during assembly",
+          "He lost a student",
+          "He failed an inspection"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What role did Mrs. Grace Apeh play at Stardom Schools?",
+        "opts": [
+          "Proprietress",
+          "Accountant",
+          "Vice Principal",
+          "Class teacher"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did Ikenna Egbu's speech at assembly focus on?",
+        "opts": [
+          "JAMB preparation tips",
+          "The Lagos traffic situation",
+          "An excursion to Jos",
+          "Nigeria's education system"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did Mr. Bepo's colleagues think of his announcement?",
+        "opts": [
+          "They were angry",
+          "They were shocked and emotional",
+          "They ignored him",
+          "They celebrated immediately"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What subject did Mr. Bepo teach at Stardom Schools?",
+        "opts": [
+          "Mathematics",
+          "English Language",
+          "Physics",
+          "Chemistry"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What does Mr. Bepo's character represent in the novel?",
+        "opts": [
+          "A corrupt administrator",
+          "A dedicated Nigerian educator facing migration pressures",
+          "A rebellious student",
+          "A government inspector"
+        ],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "title": "Chapters 2 & 3 Quiz",
+    "sub": "The Enticement and Migration Tales",
+    "emoji": "📗",
+    "diff": "Medium",
+    "cls": "d-m",
+    "ch": 2,
+    "questions": [
+      {
+        "q": "Which country was Mr. Bepo relocating to?",
+        "opts": [
+          "United States",
+          "Canada",
+          "United Kingdom",
+          "Australia"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who first called Mr. Bepo 'The Lekki Headmaster'?",
+        "opts": [
+          "Mrs. Grace Apeh",
+          "Mr. Ope Wande",
+          "Mrs. Ibidun Gloss",
+          "Mr. Audu"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "What was the name of the school Mr. Bepo once established with a friend?",
+        "opts": [
+          "Fruitful Future",
+          "Stardom Schools",
+          "Beesway Group",
+          "Golden Future"
+        ],
+        "ans": 0
+      },
+      {
+        "q": "What was Mr. Bepo's monthly salary in Nigeria?",
+        "opts": [
+          "₦200,000",
+          "₦600,000",
+          "₦400,000",
+          "₦150,000"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Which business did Mr. Bepo believe could generate income quickly?",
+        "opts": [
+          "Farming",
+          "Pure water",
+          "Commercial transportation",
+          "Food production"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who took a ₦2 million cooperative loan before relocating abroad?",
+        "opts": [
+          "Sola",
+          "Mr. Nku",
+          "Hope",
+          "Jare"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How much did Sola and her husband borrow to finance their migration?",
+        "opts": [
+          "₦2 million",
+          "₦6 million",
+          "₦4 million",
+          "₦1 million"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What payment system did Mr. Bepo admire abroad?",
+        "opts": [
+          "Daily payment",
+          "Weekly payment",
+          "Monthly payment",
+          "Hourly payment"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "Why did Fruitful Future School ultimately fail?",
+        "opts": [
+          "It was destroyed by fire",
+          "Wealthy families moved away due to poor road conditions",
+          "The government closed it",
+          "The building collapsed"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What major benefit did Nike and Kike enjoy in the UK?",
+        "opts": [
+          "Free healthcare only",
+          "Free transport",
+          "Free primary and secondary education",
+          "Free university education"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who are Nike and Kike in relation to Mr. Bepo?",
+        "opts": [
+          "His students",
+          "His daughters",
+          "His nieces",
+          "His sisters"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What is 'Japa' as used in the novel?",
+        "opts": [
+          "A Yoruba festival",
+          "Slang for migrating abroad for better opportunities",
+          "A type of food",
+          "A government program"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What major attractions drew Nigerians to relocate abroad according to Chapter 3?",
+        "opts": [
+          "Better entertainment",
+          "Free education and healthcare",
+          "Better weather",
+          "Free housing"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What was Jare's profession before relocating abroad?",
+        "opts": [
+          "A teacher",
+          "A doctor",
+          "A banker",
+          "An engineer"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Why did Jare become distressed after relocating?",
+        "opts": [
+          "He could not find a job",
+          "His job involved caring for elderly people",
+          "He was deported",
+          "His family refused to join him"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What was Hope studying for when his wife stopped funding him?",
+        "opts": [
+          "A Bachelor's degree",
+          "A Master's degree",
+          "A PhD",
+          "A professional certificate"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What Idoma proverb is mentioned in Chapter 3?",
+        "opts": [
+          "The early bird catches the worm",
+          "The same rain nourishes sugarcane and bitter leaf differently",
+          "A child who knows his father's path will walk it",
+          "A tree does not make a forest"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did Riike do to assist relatives in migrating?",
+        "opts": [
+          "Sent money to Nigeria",
+          "Sponsored two sisters to the US",
+          "Bought tickets for his parents",
+          "Got his brother a job"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What school did Mr. Bepo work at before Fruitful Future School?",
+        "opts": [
+          "Beesway Group of School",
+          "Stardom Schools",
+          "Golden Gate Academy",
+          "Faith Foundation School"
+        ],
+        "ans": 0
+      },
+      {
+        "q": "Which of the following best describes Mr. Nku's action before relocating?",
+        "opts": [
+          "He repaid all his debts",
+          "He sold his property",
+          "He took a ₦2m loan and left without repaying it",
+          "He donated his savings to the school"
+        ],
+        "ans": 2
+      }
+    ]
+  },
+  {
+    "title": "Chapters 4–6 Quiz",
+    "sub": "Visa, Cooperative Society & Grammar Controversy",
+    "emoji": "📙",
+    "diff": "Medium",
+    "cls": "d-m",
+    "ch": 4,
+    "questions": [
+      {
+        "q": "What shocking discovery was made during the Ignatius visa process?",
+        "opts": [
+          "Their passports were fake",
+          "Mrs. Ignatius had a criminal record",
+          "A DNA test revealed Favour was not Mr. Ignatius's biological child",
+          "Their visa was rejected on security grounds"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who was Favour Ignatius?",
+        "opts": [
+          "Mrs. Ignatius's sister",
+          "An SSS2 student at Stardom Schools",
+          "A teacher at Stardom",
+          "The school nurse"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What was Mr. Ayesoro's nickname among students?",
+        "opts": [
+          "Mr. Lekki",
+          "Mr. Owala",
+          "Mr. Tribal",
+          "Mr. Marks"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How much was in the Stardom Cooperative Society account?",
+        "opts": [
+          "₦50 million",
+          "₦200 million",
+          "₦95 million",
+          "₦75 million"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What does 'Snake in the Roof' symbolize in the novel?",
+        "opts": [
+          "A real snake problem in the school",
+          "A hidden danger that may cause future problems",
+          "A staff member stealing",
+          "An illegal activity on school premises"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What loan limit was introduced after the MD's discovery?",
+        "opts": [
+          "₦100,000",
+          "₦500,000",
+          "₦250,000",
+          "₦150,000"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Which sentence was at the center of Mr. Farore's dismissal?",
+        "opts": [
+          "Ade and Jide comes early",
+          "Ade as well as Jide come early",
+          "Ade as well as Jide comes early",
+          "Ade together with Jide come early"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who defended Mr. Farore's grammar?",
+        "opts": [
+          "Mr. Audu",
+          "Mrs. Ibidun Gloss",
+          "Mr. Guta",
+          "Mr. Bepo"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "What happened to Mr. Farore after verification?",
+        "opts": [
+          "He was fined",
+          "He was transferred",
+          "He was re-employed",
+          "He resigned"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who must approve future cooperative loan requests?",
+        "opts": [
+          "The Vice Principal",
+          "The Board of Directors",
+          "The Managing Director",
+          "The Accountant"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Why was Mr. Ayesoro transferred to Stardom Hub?",
+        "opts": [
+          "He was promoted",
+          "He requested a transfer",
+          "A parent complained her child had frightening dreams about him",
+          "He committed a disciplinary offence"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who was Bibi's mother?",
+        "opts": [
+          "Mrs. Ignatius",
+          "Mrs. Gloss",
+          "Mrs. Ladele",
+          "Mrs. Apeh"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Why did Mrs. Ignatius contact Mr. Bepo?",
+        "opts": [
+          "To report a student's misconduct",
+          "To seek guidance after her husband threw her out",
+          "To complain about school fees",
+          "To request a transfer"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What profession did Mrs. Ignatius learn before the family planned to relocate?",
+        "opts": [
+          "Nursing and baking",
+          "Teaching and driving",
+          "Tailoring and hairdressing",
+          "Cooking and trading"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did the MD fear after seeing the ₦95 million cooperative?",
+        "opts": [
+          "Staff would demand higher salaries",
+          "Staff would establish competing schools",
+          "The funds would be stolen",
+          "The cooperative would go bankrupt"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How much of the cooperative funds had already been loaned out?",
+        "opts": [
+          "₦20 million",
+          "₦95 million",
+          "Over ₦50 million",
+          "₦10 million"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who was Mr. Farore?",
+        "opts": [
+          "A mathematics teacher",
+          "An English teacher at Stardom Schools",
+          "The Vice Principal",
+          "A parent"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "Who was Mr. Guta?",
+        "opts": [
+          "A colleague of Mr. Bepo",
+          "A Board member",
+          "A parent who caused Mr. Farore's dismissal",
+          "The school accountant"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Why was the correct verb in 'Ade as well as Jide ___ early' the word 'comes'?",
+        "opts": [
+          "Because both subjects are male",
+          "Because the verb agrees with the first subject when 'as well as' is used",
+          "Because Ade is more important",
+          "Because it is irregular"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did Mr. Audu do after the grammar crisis was resolved?",
+        "opts": [
+          "He reported the incident to the Board",
+          "He apologized on behalf of Mr. Guta",
+          "He eased tension with a joke",
+          "He asked Mr. Farore to resign voluntarily"
+        ],
+        "ans": 2
+      }
+    ]
+  },
+  {
+    "title": "Chapters 7–9 Quiz",
+    "sub": "Ritualists, Unfinished Business & Laughing Waterfalls",
+    "emoji": "📒",
+    "diff": "Medium",
+    "cls": "d-m",
+    "ch": 7,
+    "questions": [
+      {
+        "q": "What was the name of the school Mr. Bepo worked at before Stardom?",
+        "opts": [
+          "Golden Gate School",
+          "Fruitful Future School",
+          "Beesway Group of School",
+          "Faith Academy"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was wrong with the name 'Beesway Group of School'?",
+        "opts": [
+          "It was a foreign name",
+          "The word 'School' should be 'Schools'",
+          "It was too long",
+          "It was not registered"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did Mr. Bepo observe the five men doing at night?",
+        "opts": [
+          "Burning documents",
+          "Digging to lay a foundation",
+          "Apparently burying a cow in a pit",
+          "Conducting a prayer session outdoors"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did Mr. Egi Meko claim the night ritual was?",
+        "opts": [
+          "A burial ceremony",
+          "A security exercise",
+          "A prayer ceremony for his late father",
+          "A traditional cleansing ritual"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did parent Mr. Ogo suggest to attract more pupils to Fruitful Future School?",
+        "opts": [
+          "Radio advertisements",
+          "Better teachers",
+          "Supernatural/spiritual rites",
+          "Reducing school fees"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did Mr. Bepo do when Mr. Ogo suggested rituals?",
+        "opts": [
+          "He agreed reluctantly",
+          "He reported Mr. Ogo to the government",
+          "He refused",
+          "He asked for time to think"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What crime did Mr. Ogo commit later in life?",
+        "opts": [
+          "He stole from the school",
+          "He forged documents",
+          "He murdered a woman who demanded a refund for spiritual services",
+          "He kidnapped a child"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "How much had the woman paid Mr. Ogo for spiritual services?",
+        "opts": [
+          "₦500,000",
+          "₦2 million",
+          "Millions of naira",
+          "₦5 million"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was the Breath Project?",
+        "opts": [
+          "A fitness program for students",
+          "Students developing mobile phones from recycled panels",
+          "An environmental project",
+          "A student drama production"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "Who were Banky and Tosh?",
+        "opts": [
+          "Two teachers in a dispute",
+          "Students who competed for Social Prefect",
+          "Two parents in a legal battle",
+          "A student and a teacher"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did Banky say about Tosh during Speech Day?",
+        "opts": [
+          "He called him unintelligent",
+          "He said Tosh copied his work",
+          "He called him 'the son of an ex-convict'",
+          "He accused him of cheating in exams"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Why was Chief Ogba technically NOT an ex-convict?",
+        "opts": [
+          "He was acquitted by the court",
+          "He escaped from prison",
+          "He was detained but never convicted — he was released and ordered to refund the money",
+          "He bribed the judge"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "How much was Chief Ogba alleged to have misappropriated?",
+        "opts": [
+          "₦500 million",
+          "₦1 billion",
+          "₦2.5 billion",
+          "₦750 million"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "How long was Chief Ogba detained?",
+        "opts": [
+          "12 months",
+          "24 months",
+          "36 months",
+          "48 months"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did Chief Ogba demand from Banky's family?",
+        "opts": [
+          "A financial settlement",
+          "Written apologies and publication in the school magazine",
+          "Banky's expulsion from school",
+          "A public press conference apology"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "Which waterfall is described as one of the highest in West Africa?",
+        "opts": [
+          "Gurara Falls",
+          "Erin Ijesha",
+          "Ikogosi Warm Springs",
+          "Owu Waterfalls"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "In which state is the Argungu Fishing Festival held?",
+        "opts": [
+          "Kano State",
+          "Lagos State",
+          "Kebbi State",
+          "Ogun State"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What comparison did Mr. Bepo make about modern Nigerians leaving their country?",
+        "opts": [
+          "He compared it to tourism",
+          "He compared it to a new form of slavery",
+          "He said it was progress",
+          "He called it a government failure"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did Mr. Bepo teach students when they looked down on communities like Mushin?",
+        "opts": [
+          "That poor communities should be avoided",
+          "That success depends on determination and education, not birthplace",
+          "That the government should relocate those communities",
+          "That education solves all poverty"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did the Akran of Badagry tell the students?",
+        "opts": [
+          "How Badagry became the capital of Lagos",
+          "The history of Badagry and that its name originated from 'Agbadarigi'",
+          "That the slave trade never happened in Badagry",
+          "How his palace was built"
+        ],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "title": "Chapters 10–12 Quiz",
+    "sub": "Passport Pains, Farewell & Departure",
+    "emoji": "📕",
+    "diff": "Hard",
+    "cls": "d-h",
+    "ch": 10,
+    "questions": [
+      {
+        "q": "What major challenge did Mr. Bepo face in Chapter 10?",
+        "opts": [
+          "His visa was rejected",
+          "He lost his job",
+          "Passport renewal bureaucracy and delays",
+          "His wife refused to travel"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was the official fee for passport renewal?",
+        "opts": [
+          "₦50,000",
+          "₦70,000",
+          "₦100,000",
+          "₦120,000"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How much did Mr. Bepo pay through the agent Tai?",
+        "opts": [
+          "₦70,000",
+          "₦80,000",
+          "₦100,000",
+          "₦150,000"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who was Tai?",
+        "opts": [
+          "A government official",
+          "A business center operator in Ibadan who helped with passport processing",
+          "A police officer",
+          "Mr. Bepo's friend"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "Which poem did Ibadan remind Mr. Bepo of?",
+        "opts": [
+          "The Lion and the Jewel",
+          "Death and the King's Horseman",
+          "Ibadan by J.P. Clark",
+          "Song of Lawino"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What does the passport experience symbolize in the novel?",
+        "opts": [
+          "The joy of international travel",
+          "The failure of Nigerian citizens abroad",
+          "Nigeria's bureaucratic inefficiency and corruption",
+          "The importance of traveling early"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What happened at Mr. Bepo's farewell party?",
+        "opts": [
+          "It was cancelled due to rain",
+          "The MD refused to attend",
+          "Staff organized a party and gave him a farewell gift",
+          "He was given a warning letter"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "How much was the farewell cheque given to Mr. Bepo?",
+        "opts": [
+          "$5,000",
+          "$15,000",
+          "$10,000",
+          "$20,000"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was the score of the farewell football match between staff and students?",
+        "opts": [
+          "2-1",
+          "4-3",
+          "3-2",
+          "1-0"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who was the Games Master at Stardom Schools?",
+        "opts": [
+          "Mr. Audu",
+          "Mr. Farore",
+          "Mr. Ibe",
+          "Mr. Bepo"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What car did Mr. Bepo sell before departing?",
+        "opts": [
+          "A Toyota Camry",
+          "His personal car sold to the school accountant",
+          "A Honda Accord",
+          "A Hyundai Sonata"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How much did Mr. Bepo sell his car for?",
+        "opts": [
+          "₦800,000",
+          "₦2 million",
+          "₦1.5 million",
+          "₦1 million"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who bought Mr. Bepo's car?",
+        "opts": [
+          "The MD",
+          "Mr. Ope Wande",
+          "Mr. Oyelana the accountant",
+          "Mr. Audu"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What time was Mr. Bepo's flight scheduled?",
+        "opts": [
+          "8:00 p.m.",
+          "10:00 p.m.",
+          "6:00 p.m.",
+          "Midnight"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "Which market did Mr. Bepo visit to buy Nigerian food items before departing?",
+        "opts": [
+          "Balogun Market",
+          "Tejuosho Market",
+          "Oyingbo Market",
+          "Mile 12 Market"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who drove Mr. Bepo to the airport?",
+        "opts": [
+          "Mr. Oyelana",
+          "The MD",
+          "His landlord Mr. Ogunwale",
+          "Mr. Audu"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did Mr. Bepo's landlord Mr. Ogunwale do before driving off at the airport?",
+        "opts": [
+          "He gave Mr. Bepo money",
+          "He said a prayer for Mr. Bepo's safe journey",
+          "He cried and refused to leave",
+          "He took a photo with Mr. Bepo"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did Mr. Bepo shout during the Badagry cultural dance performance?",
+        "opts": [
+          "Wonderful!",
+          "Stop it!",
+          "Noooo!",
+          "Amazing!"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was Mr. Bepo's feelings as he finally boarded his flight?",
+        "opts": [
+          "Pure joy with no regrets",
+          "A mix of excitement and deep sadness at leaving Nigeria",
+          "Anger at the government",
+          "Relief that school was behind him"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What does Mr. Bepo's departure at the end of the novel represent?",
+        "opts": [
+          "Failure of the Nigerian education system",
+          "The Japa phenomenon — the struggle of skilled Nigerians choosing to leave",
+          "A betrayal of his students",
+          "A reward for hard work"
+        ],
+        "ans": 1
+      }
+    ]
+  },
+  {
+    "title": "Full Novel Quiz",
+    "sub": "Comprehensive 30-question test covering all 12 chapters",
+    "emoji": "🏆",
+    "diff": "Hard",
+    "cls": "d-h",
+    "ch": 1,
+    "questions": [
+      {
+        "q": "What is Mr. Bepo's full name?",
+        "opts": [
+          "Adewale Adetolu",
+          "Adebayo Adebepo",
+          "Adewale Adebepo",
+          "Adekunle Bepo"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Why was Mr. Bepo called 'The Lekki Headmaster'?",
+        "opts": [
+          "He was a real headmaster",
+          "He imitated Village Headmaster TV show characters humorously",
+          "He lived in Lekki all his life",
+          "He appeared on a TV show"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "Who is the Managing Director of Stardom Schools?",
+        "opts": [
+          "Mrs. Grace Apeh",
+          "Mrs. Seri Bepo",
+          "Mr. Justus Anabel",
+          "Mrs. Ibidun Gloss"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "What percentage WASSCE success rate did Stardom Schools achieve?",
+        "opts": [
+          "85%",
+          "95%",
+          "90%",
+          "100%"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Which country was Mr. Bepo relocating to?",
+        "opts": [
+          "USA",
+          "Canada",
+          "UK",
+          "Australia"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What shocking discovery happened during the Ignatius visa process?",
+        "opts": [
+          "Their passports were forged",
+          "A DNA test revealed Favour was not Mr. Ignatius's biological child",
+          "Mrs. Ignatius had a criminal record",
+          "Their visa was denied without reason"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did the title 'Snake in the Roof' symbolize?",
+        "opts": [
+          "A real snake found in school",
+          "Staff empowerment becoming a future threat to the MD",
+          "A theft case in school",
+          "An illegal cooperative activity"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How much was in the Stardom Cooperative Society?",
+        "opts": [
+          "₦50 million",
+          "₦75 million",
+          "₦95 million",
+          "₦200 million"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was the disputed grammatical sentence in Chapter 6?",
+        "opts": [
+          "Ade and Jide comes early",
+          "Ade as well as Jide comes early",
+          "Ade as well as Jide come early",
+          "Ade together with Jide comes early"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "Who defended Mr. Farore's grammar?",
+        "opts": [
+          "Mr. Audu",
+          "Mrs. Ibidun Gloss",
+          "Mr. Guta",
+          "Mr. Bepo"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "What crime did Mr. Ogo eventually commit?",
+        "opts": [
+          "Armed robbery",
+          "Kidnapping",
+          "Murder of a woman who demanded a refund",
+          "Fraud"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What did Banky say about Tosh during Speech Day?",
+        "opts": [
+          "He was a bad student",
+          "He was 'the son of an ex-convict'",
+          "He stole from the school",
+          "He cheated in exams"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How long was Chief Ogba detained?",
+        "opts": [
+          "12 months",
+          "24 months",
+          "36 months",
+          "48 months"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was the Breath Project?",
+        "opts": [
+          "A breathing exercise",
+          "Students building phones from recycled materials",
+          "An environmental project",
+          "A drama production"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What was Mr. Bepo's monthly salary in Nigeria?",
+        "opts": [
+          "₦200,000",
+          "₦600,000",
+          "₦400,000",
+          "₦150,000"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who took a ₦2 million cooperative loan and relocated without repaying?",
+        "opts": [
+          "Sola",
+          "Hope",
+          "Mr. Nku",
+          "Jare"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Which waterfall is one of the highest in West Africa?",
+        "opts": [
+          "Gurara Falls",
+          "Erin Ijesha",
+          "Ikogosi Warm Springs",
+          "Owu Waterfalls"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "What did the Akran of Badagry tell the students the name 'Badagry' originated from?",
+        "opts": [
+          "Badagiri",
+          "Badagrigi",
+          "Agbadarigi",
+          "Badagrini"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What is the official fee for passport renewal mentioned in the novel?",
+        "opts": [
+          "₦50,000",
+          "₦70,000",
+          "₦100,000",
+          "₦40,000"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How much did Mr. Bepo pay through agent Tai for his passport?",
+        "opts": [
+          "₦70,000",
+          "₦80,000",
+          "₦100,000",
+          "₦150,000"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What was the score of the farewell football match?",
+        "opts": [
+          "2-1",
+          "4-3",
+          "3-2",
+          "1-0"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "How much was the farewell cheque given to Mr. Bepo?",
+        "opts": [
+          "$5,000",
+          "$15,000",
+          "$10,000",
+          "$20,000"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "Who drove Mr. Bepo to the airport?",
+        "opts": [
+          "Mr. Oyelana",
+          "The MD",
+          "His landlord Mr. Ogunwale",
+          "Mr. Audu"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What time was Mr. Bepo's flight scheduled?",
+        "opts": [
+          "8:00 p.m.",
+          "10:00 p.m.",
+          "6:00 p.m.",
+          "Midnight"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "How much did Mr. Bepo sell his car for?",
+        "opts": [
+          "₦800,000",
+          "₦2 million",
+          "₦1.5 million",
+          "₦1 million"
+        ],
+        "ans": 2
+      },
+      {
+        "q": "What major waterfall did Stardom students visit that is in West Africa?",
+        "opts": [
+          "Gurara Falls",
+          "Owu Waterfalls",
+          "Erin Ijesha",
+          "Ikogosi Warm Springs"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What did Mr. Egi Meko refuse to correct about Beesway school?",
+        "opts": [
+          "The school fees",
+          "The wrong school name 'Group of School'",
+          "The timetable",
+          "The staff handbook"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What payment system abroad impressed Mr. Bepo most?",
+        "opts": [
+          "Daily payment",
+          "Weekly payment",
+          "Monthly payment",
+          "Hourly payment"
+        ],
+        "ans": 3
+      },
+      {
+        "q": "What did Mr. Bepo compare modern Nigerians migrating abroad to?",
+        "opts": [
+          "Progress and development",
+          "A new form of slavery",
+          "A government-approved program",
+          "Cowardice"
+        ],
+        "ans": 1
+      },
+      {
+        "q": "What ultimately does Mr. Bepo's story represent in Nigerian society?",
+        "opts": [
+          "Failure of education",
+          "The Japa phenomenon — brain drain of skilled Nigerians seeking better opportunities abroad",
+          "Political corruption",
+          "Religious extremism"
+        ],
+        "ans": 1
+      }
+    ]
+  }
+]
