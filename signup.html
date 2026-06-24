@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — Zenova</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #0D1B3E; --dark-blue: #112D6B; --mid-blue: #1A3A8A;
+    --light-blue: #E8EDF7; --accent-gold: #C9A84C; --accent-gold-light: #F5E9C8;
+    --white: #FFFFFF; --off-white: #F8F9FC; --text-muted: #6B7280;
+    --text-light: #9CA3AF; --border: #E5E8F0; --error: #DC2626; --success: #16A34A;
+  }
+  body {
+    font-family: 'DM Sans', sans-serif; background: var(--off-white); color: var(--navy);
+    min-height: 100vh; display: flex; align-items: flex-start; justify-content: center;
+    padding: 24px 24px 60px; overflow-x: hidden; overflow-y: auto; position: relative;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 80% 60% at 80% 10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 20% 90%, rgba(13,27,62,0.06) 0%, transparent 60%);
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border); padding: 0 5%;
+    display: flex; align-items: center; height: 68px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-img { width: 40px; height: 40px; object-fit: contain; }
+  .logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); }
+  .auth-wrapper { width: 100%; max-width: 480px; margin-top: 88px; animation: slideUp 0.5s ease both; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .auth-card {
+    background: var(--white); border-radius: 24px; padding: 44px 40px;
+    box-shadow: 0 4px 6px rgba(13,27,62,0.04), 0 20px 48px rgba(13,27,62,0.10);
+    border: 1px solid var(--border);
+  }
+  .auth-header { margin-bottom: 28px; }
+  .auth-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--accent-gold-light); color: #7A5C1E;
+    font-size: 12px; font-weight: 600; padding: 5px 12px;
+    border-radius: 100px; margin-bottom: 16px;
+  }
+  .auth-badge-dot { width: 5px; height: 5px; background: var(--accent-gold); border-radius: 50%; }
+  .auth-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 800; color: var(--navy); letter-spacing: -0.8px; line-height: 1.2; margin-bottom: 8px; }
+  .auth-title em { font-style: italic; color: var(--accent-gold); }
+  .auth-sub { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+  .btn-google {
+    width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 12px 20px; border-radius: 10px; border: 1.5px solid var(--border);
+    background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px;
+    font-weight: 500; color: var(--navy); cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s; margin-bottom: 24px;
+  }
+  .btn-google:hover:not(:disabled) { border-color: var(--navy); background: var(--light-blue); transform: translateY(-1px); }
+  .btn-google:disabled { opacity: 0.6; cursor: not-allowed; }
+  .google-icon { width: 20px; height: 20px; flex-shrink: 0; }
+  .divider { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-text { font-size: 13px; color: var(--text-light); font-weight: 500; white-space: nowrap; }
+  .msg-box {
+    padding: 12px 16px; border-radius: 10px; font-size: 14px; font-weight: 500;
+    margin-bottom: 18px; display: none; align-items: center; gap: 8px;
+  }
+  .msg-box.error { background: #FEF2F2; color: var(--error); border: 1px solid #FCA5A5; display: flex; }
+  .msg-box.success { background: #F0FDF4; color: var(--success); border: 1px solid #86EFAC; display: flex; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { margin-bottom: 16px; }
+  label { display: block; font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 7px; }
+  .input-wrap { position: relative; }
+  input[type="email"], input[type="password"], input[type="text"] {
+    width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--navy);
+    background: var(--white); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(13,27,62,0.08); }
+  .input-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--text-light); cursor: pointer; }
+  .pw-strength { margin-top: 8px; }
+  .pw-bars { display: flex; gap: 4px; margin-bottom: 5px; }
+  .pw-bar { flex: 1; height: 3px; background: var(--border); border-radius: 99px; transition: background 0.3s; }
+  .pw-bar.weak { background: #EF4444; }
+  .pw-bar.medium { background: var(--accent-gold); }
+  .pw-bar.strong { background: var(--success); }
+  .pw-text { font-size: 12px; color: var(--text-light); }
+  .trust-strip { display: flex; align-items: center; justify-content: center; gap: 18px; padding-top: 16px; border-top: 1px solid var(--border); margin-bottom: 20px; }
+  .trust-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+  .trust-item svg { color: var(--accent-gold); }
+  .terms-wrap { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 18px; }
+  .terms-wrap input[type="checkbox"] { accent-color: var(--navy); width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
+  .terms-wrap label { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+  .terms-wrap a { color: var(--navy); font-weight: 600; text-decoration: none; }
+  .btn-submit {
+    width: 100%; padding: 13px 20px; border-radius: 10px;
+    background: var(--navy); color: var(--white); border: none;
+    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: background 0.2s, transform 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px;
+  }
+  .btn-submit:hover:not(:disabled) { background: var(--dark-blue); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading .spinner { display: block; }
+  .loading .btn-text { display: none; }
+  .auth-footer { text-align: center; font-size: 14px; color: var(--text-muted); }
+  .auth-footer a { color: var(--navy); font-weight: 600; text-decoration: none; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-muted); text-decoration: none; margin-bottom: 24px; transition: color 0.2s; }
+  .back-link:hover { color: var(--navy); }
+  @media (max-width: 500px) { .auth-card { padding: 32px 20px; } .auth-title { font-size: 26px; } .form-row-2 { grid-template-columns: 1fr; } .trust-strip { flex-direction: column; gap: 8px; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="1.png" class="logo-img" alt="Zenova">
+    <span class="logo-text">Zenova</span>
+  </a>
+</nav>
+
+<div class="auth-wrapper">
+  <a href="index.html" class="back-link">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to home
+  </a>
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-badge"><span class="auth-badge-dot"></span>Free to start</div>
+      <h1 class="auth-title">Join <em>Zenova</em> today</h1>
+      <p class="auth-sub">Create your free account and start mastering Lekki Headmaster for JAMB.</p>
+    </div>
+
+    <button class="btn-google" id="googleBtn">
+      <svg class="google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Sign up with Google
+    </button>
+
+    <div class="divider"><div class="divider-line"></div><span class="divider-text">or sign up with email</span><div class="divider-line"></div></div>
+
+    <div class="msg-box" id="msgBox"></div>
+
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="firstName">First name</label>
+        <input type="text" id="firstName" placeholder="Chidi" autocomplete="given-name">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input type="text" id="lastName" placeholder="Okafor" autocomplete="family-name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="input-wrap">
+        <input type="password" id="password" placeholder="Create a strong password" autocomplete="new-password">
+        <span class="input-icon" id="eyeToggle1">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </span>
+      </div>
+      <div class="pw-strength">
+        <div class="pw-bars">
+          <div class="pw-bar" id="bar1"></div><div class="pw-bar" id="bar2"></div>
+          <div class="pw-bar" id="bar3"></div><div class="pw-bar" id="bar4"></div>
+        </div>
+        <span class="pw-text" id="pwText">Use 8+ characters for a strong password</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm password</label>
+      <div class="input-wrap">
+        <input type="password" id="confirmPassword" placeholder="Repeat your password" autocomplete="new-password">
+        <span class="input-icon" id="eyeToggle2">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="trust-strip">
+      <div class="trust-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Secure & private</div>
+      <div class="trust-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Free to join</div>
+      <div class="trust-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>10k+ students</div>
+    </div>
+
+    <div class="terms-wrap">
+      <input type="checkbox" id="terms">
+      <label for="terms">I agree to Zenova's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a></label>
+    </div>
+
+    <button class="btn-submit" id="signupBtn">
+      <span class="btn-text">Create Free Account</span>
+      <div class="spinner"></div>
+    </button>
+
+    <p class="auth-footer">Already have an account? <a href="login.html">Sign in</a></p>
+  </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+  firebase.initializeApp({
+    apiKey: "AIzaSyBWYdeKlijVJUHUjzcCoPgZDumsgJFMDaw",
+    authDomain: "zenova-4342f.firebaseapp.com",
+    databaseURL: "https://zenova-4342f-default-rtdb.firebaseio.com",
+    projectId: "zenova-4342f",
+    storageBucket: "zenova-4342f.firebasestorage.app",
+    messagingSenderId: "132378238032",
+    appId: "1:132378238032:web:6fe0055d9d5b50b3050555"
+  });
+
+  const auth = firebase.auth();
+  const db = firebase.database();
+
+  // If already logged in, always go to dashboard (they have an account)
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      window.location.href = 'dashboard.html';
+    }
+  });
+
+  function showMsg(text, type) {
+    const box = document.getElementById('msgBox');
+    box.textContent = text;
+    box.className = 'msg-box ' + type;
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function setLoading(id, loading) {
+    const btn = document.getElementById(id);
+    btn.disabled = loading;
+    loading ? btn.classList.add('loading') : btn.classList.remove('loading');
+  }
+
+  // Password strength
+  document.getElementById('password').addEventListener('input', function() {
+    const val = this.value;
+    const bars = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
+    const text = document.getElementById('pwText');
+    bars.forEach(b => b.className = 'pw-bar');
+    if (!val) { text.textContent = 'Use 8+ characters for a strong password'; return; }
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const cls = score <= 1 ? 'weak' : score <= 2 ? 'medium' : 'strong';
+    const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    for (let i = 0; i < score; i++) bars[i].classList.add(cls);
+    text.textContent = labels[score] || '';
+  });
+
+  // Toggle password visibility
+  function setupEye(iconId, inputId) {
+    document.getElementById(iconId).addEventListener('click', function() {
+      const input = document.getElementById(inputId);
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      this.innerHTML = show
+        ? `<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+        : `<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    });
+  }
+  setupEye('eyeToggle1', 'password');
+  setupEye('eyeToggle2', 'confirmPassword');
+
+  function saveUser(user, name) {
+    return db.ref('users/' + user.uid).update({
+      name: name, email: user.email,
+      createdAt: new Date().toISOString()
+      // plan is NOT set here — it defaults to 'free' in the app logic.
+      // The database rules block all client writes to the plan field.
+      // Plan is only ever set server-side by the Vercel verify-payment function.
+    });
+  }
+
+  // Email/password signup
+  document.getElementById('signupBtn').addEventListener('click', async function() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName  = document.getElementById('lastName').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const password  = document.getElementById('password').value;
+    const confirm   = document.getElementById('confirmPassword').value;
+    const terms     = document.getElementById('terms').checked;
+
+    if (!firstName || !lastName) return showMsg('Please enter your full name.', 'error');
+    if (!email) return showMsg('Please enter your email address.', 'error');
+    if (password.length < 8) return showMsg('Password must be at least 8 characters.', 'error');
+    if (password !== confirm) return showMsg('Passwords do not match.', 'error');
+    if (!terms) return showMsg('Please accept the terms to continue.', 'error');
+
+    setLoading('signupBtn', true);
+    try {
+      const cred = await auth.createUserWithEmailAndPassword(email, password);
+      const fullName = firstName + ' ' + lastName;
+      await cred.user.updateProfile({ displayName: fullName });
+      await saveUser(cred.user, fullName);
+      try { await cred.user.sendEmailVerification(); } catch(e) {}
+      showMsg('Account created! Redirecting... 🎉', 'success');
+      setTimeout(function() { window.location.href = 'plans.html'; }, 1500);
+    } catch (err) {
+      const msgs = {
+        'auth/email-already-in-use': 'An account with this email already exists.',
+        'auth/invalid-email': 'Please enter a valid email address.',
+        'auth/weak-password': 'Password is too weak. Use at least 8 characters.',
+        'auth/network-request-failed': 'Network error. Check your connection.',
+      };
+      showMsg(msgs[err.code] || ('Error: ' + err.message), 'error');
+      setLoading('signupBtn', false);
+    }
+  });
+
+  // Google signup
+  document.getElementById('googleBtn').addEventListener('click', async function() {
+    setLoading('googleBtn', true);
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await auth.signInWithPopup(provider);
+      await saveUser(result.user, result.user.displayName || 'Zenova Student');
+      showMsg('Signed in! Redirecting...', 'success');
+      // If existing user, go to dashboard. If new, go to plans
+      var isNew = result.additionalUserInfo ? result.additionalUserInfo.isNewUser : true;
+      setTimeout(function() {
+        window.location.href = isNew ? 'plans.html' : 'dashboard.html';
+      }, 1200);
+    } catch (err) {
+      if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
+        showMsg('Google error: ' + err.message, 'error');
+      }
+      setLoading('googleBtn', false);
+    }
+  });
+</script>
+</body>
+</html>
