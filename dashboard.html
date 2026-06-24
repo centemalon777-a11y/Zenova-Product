@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Zenova</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0A1628;--dark:#0D1F3C;--mid:#1B3A6B;
+  --accent:#2756B1;--accent2:#1E4D99;
+  --lb:#EBF0FA;--gold:#2756B1;--gold-l:#DCE8F8;
+  --white:#ffffff;--bg:#ffffff;--muted:#5A6A85;--light:#8A99B5;
+  --border:#D8E2F0;--err:#DC2626;--ok:#16A34A;--sw:240px;
+  --deep:#071220;--blue-mid:#1D3461;
+}
+html,body{height:100%;}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--navy);display:flex;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sw);height:100vh;background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:50;transition:transform .3s;overflow-y:auto;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none;}
+.sb-logo img{width:34px;height:34px;object-fit:contain;filter:brightness(0) invert(1);}
+.sb-logo span{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;}
+.nav-sec{padding:14px 10px 0;flex:1;}
+.nav-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.28);padding:0 8px;margin:16px 0 5px;}
+.nl{display:flex;align-items:center;gap:11px;padding:10px 11px;border-radius:9px;margin-bottom:2px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.5);border:none;background:none;width:100%;text-align:left;cursor:pointer;transition:all .2s;}
+.nl:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9);}
+.nl.active{background:rgba(201,168,76,.16);color:var(--gold);font-weight:600;}
+.nl svg{width:17px;height:17px;flex-shrink:0;opacity:.6;}
+.nl:hover svg,.nl.active svg{opacity:1;}
+.sb-plan{margin:12px 10px;padding:13px 15px;border-radius:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);}
+.sb-plan-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.3);margin-bottom:3px;}
+.sb-plan-name{font-size:14px;font-weight:700;color:#fff;}
+.sb-plan-sub{font-size:11px;color:rgba(255,255,255,.28);margin-top:2px;}
+.btn-up-side{display:block;margin-top:9px;padding:7px 11px;border-radius:7px;background:rgba(255,255,255,.15);color:#fff;font-size:11px;font-weight:600;text-align:center;text-decoration:none;border:1px solid rgba(255,255,255,.2);}
+.btn-up-side:hover{background:rgba(255,255,255,.22);}
+.sb-user{padding:13px 15px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
+.u-av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.u-info{flex:1;min-width:0;}
+.u-name{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.u-email{font-size:10px;color:rgba(255,255,255,.28);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.28);padding:3px;border-radius:5px;}
+.lb-btn:hover{color:var(--err);}
+.sb-ov{display:none;position:fixed;inset:0;background:rgba(10,22,40,.5);z-index:49;}
+.sb-ov.open{display:block;}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;height:100vh;display:flex;flex-direction:column;overflow:hidden;min-height:0;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.tb-left{display:flex;align-items:center;gap:10px;}
+.tb-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);}
+.tb-sub{font-size:11px;color:var(--muted);}
+.tb-av{width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;padding:5px;color:var(--navy);margin-right:6px;}
+
+/* PAGES */
+.pages{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+.page{display:none;padding:22px 24px 100px;background:#fff;}
+.page.active{display:block;animation:fu .25s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* DETAIL VIEW (chapter/cast/quiz detail) */
+.detail-view{display:none;padding:22px 24px 100px;background:#fff;}
+.detail-view.active{display:block;animation:fu .25s ease;}
+.back-btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;margin-bottom:18px;padding:7px 12px;border-radius:8px;transition:all .2s;}
+.back-btn:hover{background:var(--lb);color:var(--navy);}
+
+/* HOME */
+.up-banner{background:linear-gradient(135deg,var(--navy),var(--mid));border-radius:13px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid rgba(39,86,177,.3);}
+.up-banner.hidden{display:none;}
+.up-banner h4{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
+.up-banner p{font-size:12px;color:rgba(255,255,255,.5);}
+.btn-up-ban{flex-shrink:0;padding:8px 16px;border-radius:8px;background:#fff;color:var(--navy);font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;}
+.wb{background:linear-gradient(135deg,var(--navy),var(--mid));border-radius:16px;padding:24px 26px;margin-bottom:20px;position:relative;overflow:hidden;}
+.wb::before{content:'';position:absolute;right:-20px;top:-20px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none;}
+.wb-tag{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:7px;}
+.wb-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:5px;}
+.wb-title em{font-style:italic;color:rgba(255,255,255,.7);}
+.wb-sub{font-size:13px;color:rgba(255,255,255,.45);max-width:380px;line-height:1.6;}
+.wb-acts{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+.btn-wb{padding:9px 16px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-wb-gold{background:#fff;color:var(--navy);}
+.btn-wb-gold:hover{background:rgba(255,255,255,.9);}
+.btn-wb-out{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);}
+.btn-wb-out:hover{background:rgba(255,255,255,.18);}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:#fff;border-radius:13px;padding:16px;border:1.5px solid var(--border);transition:transform .2s,box-shadow .2s;}
+.sc:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(10,22,40,.08);}
+.sc-ic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:9px;}
+.ic-b{background:var(--lb);}.ic-g{background:#DDE8F6;}.ic-gr{background:#DCFCE7;}.ic-p{background:#E8EEF8;}
+.sc-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--navy);line-height:1;margin-bottom:2px;}
+.sc-lbl{font-size:11px;color:var(--muted);}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sec-head h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);}
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
+.cc{background:#fff;border-radius:13px;padding:18px;border:1.5px solid var(--border);cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;}
+.cc:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(10,22,40,.1);}
+.cc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.cc-ch::before{background:var(--navy);}.cc-au::before{background:var(--accent);}.cc-qz::before{background:var(--mid);}.cc-ca::before{background:var(--ok);}
+.cc-em{font-size:26px;margin-bottom:10px;display:block;}
+.cc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.cc-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+.cc-meta{display:flex;align-items:center;justify-content:space-between;}
+.tag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;}
+.tn{background:var(--lb);color:var(--dark);}.tg{background:#DDE8F6;color:var(--dark);}.tp{background:#E8EEF8;color:var(--dark);}.tgr{background:#DCFCE7;color:#166534;}
+.streak-card{background:#fff;border-radius:13px;padding:18px;border:1.5px solid var(--border);}
+.streak-days{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap;}
+.sd{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:var(--lb);color:var(--muted);}
+.sd.done{background:var(--navy);color:#fff;}
+.sd.today{background:var(--accent);color:#fff;border:2px solid var(--navy);}
+
+/* ===== REDESIGNED HOME PAGE STYLES ===== */
+/* Hero welcome card */
+.hero-card{background:linear-gradient(135deg,var(--navy) 0%,var(--mid) 60%,var(--accent) 100%);border-radius:20px;padding:22px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 8px 32px rgba(10,22,40,.25);}
+.hero-left{display:flex;align-items:center;gap:14px;}
+.hero-avatar{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;}
+.hero-text{}
+.hero-greeting{font-size:12px;color:rgba(255,255,255,.65);font-weight:500;margin-bottom:1px;}
+.hero-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:#fff;line-height:1.2;}
+.hero-tagline{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;}
+.hero-plan-box{text-align:right;flex-shrink:0;}
+.hero-plan-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.5);margin-bottom:4px;}
+.hero-plan-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);color:#fff;font-size:12px;font-weight:700;padding:6px 13px;border-radius:100px;}
+.hero-plan-badge.free{background:rgba(255,255,255,.1);}
+.hero-plan-badge.scholar{background:rgba(255,255,255,.18);}
+.hero-plan-badge.master{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.4);}
+.hero-expiry{font-size:10px;color:rgba(255,255,255,.55);margin-top:5px;display:flex;align-items:center;gap:4px;justify-content:flex-end;}
+.hero-days-left{font-size:10px;font-weight:700;color:rgba(255,255,255,.85);}
+
+/* Progress section */
+.progress-card{background:#fff;border-radius:18px;padding:18px 20px;margin-bottom:16px;border:1.5px solid var(--border);box-shadow:0 2px 10px rgba(10,22,40,.05);}
+.progress-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.progress-title{font-size:14px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:7px;}
+.progress-link{font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:3px;cursor:pointer;}
+.progress-pct{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--navy);line-height:1;margin-bottom:8px;}
+.progress-bar-track{height:8px;background:var(--lb);border-radius:100px;overflow:hidden;margin-bottom:8px;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--accent));border-radius:100px;transition:width .8s ease;}
+.progress-caption{font-size:12px;color:var(--muted);}
+
+/* Stats strip */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.stat-chip{background:#fff;border-radius:14px;padding:14px 8px;border:1.5px solid var(--border);text-align:center;box-shadow:0 2px 8px rgba(10,22,40,.04);}
+.stat-chip-icon{font-size:18px;margin-bottom:5px;display:block;}
+.stat-chip-val{font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--navy);line-height:1;}
+.stat-chip-lbl{font-size:9px;font-weight:600;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.3px;}
+
+/* Quick access */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.section-title{font-size:15px;font-weight:700;color:var(--navy);}
+.section-link{font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:2px;cursor:pointer;}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.quick-card{background:#fff;border-radius:16px;padding:16px 12px;border:1.5px solid var(--border);text-align:center;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;box-shadow:0 2px 8px rgba(10,22,40,.04);}
+.quick-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(10,22,40,.12);border-color:var(--accent);}
+.quick-icon-wrap{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.qi-blue{background:var(--lb);}.qi-gold{background:#DDE8F6;}.qi-purple{background:#E8EEF8;}
+.quick-name{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.quick-desc{font-size:10px;color:var(--muted);line-height:1.4;}
+
+/* Recent activity */
+.activity-list{background:#fff;border-radius:18px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 2px 10px rgba(10,22,40,.05);}
+.activity-item{display:flex;align-items:center;gap:13px;padding:13px 17px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.activity-item:last-child{border-bottom:none;}
+.activity-item:hover{background:var(--lb);}
+.act-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.act-ic-green{background:#E6F4EC;}.act-ic-blue{background:var(--lb);}.act-ic-purple{background:#E8EEF8;}
+.act-body{flex:1;min-width:0;}
+.act-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:1px;}
+.act-sub{font-size:11px;color:var(--muted);}
+.act-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.act-time{font-size:10px;color:var(--light);}
+.act-arrow{color:var(--light);}
+/* ===== END REDESIGN STYLES ===== */
+
+/* CHAPTER LIST */
+.ch-list{display:flex;flex-direction:column;gap:9px;}
+.ch-item{background:var(--white);border-radius:11px;padding:15px 17px;border:1px solid var(--border);display:flex;align-items:center;gap:13px;cursor:pointer;transition:transform .2s,box-shadow .2s;}
+.ch-item:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(13,27,62,.07);}
+.ch-item.locked{opacity:.5;pointer-events:none;}
+.ch-num{width:36px;height:36px;border-radius:8px;background:var(--lb);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--navy);flex-shrink:0;}
+.ch-info{flex:1;}
+.ch-t{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.ch-s{font-size:11px;color:var(--muted);}
+.ch-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;white-space:nowrap;}
+.b-ok{background:#DCFCE7;color:#166534;}
+.b-lock{background:var(--lb);color:var(--muted);}
+.b-play{background:var(--lb);color:var(--dark);}
+
+/* CHAPTER DETAIL */
+.ch-detail-header{background:var(--navy);border-radius:16px;padding:24px;margin-bottom:20px;}
+.ch-detail-num{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.ch-detail-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;}
+.ch-detail-sub{font-size:13px;color:rgba(255,255,255,.45);}
+.summary-card{background:var(--white);border-radius:13px;padding:22px;border:1px solid var(--border);margin-bottom:16px;}
+.summary-card h4{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.summary-card p{font-size:14px;color:#374151;line-height:1.8;margin-bottom:10px;}
+.summary-card p:last-child{margin-bottom:0;}
+.kp-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.kp-list li{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:#374151;line-height:1.5;}
+.kp-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px;}
+.theme-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
+.theme-pill{font-size:12px;font-weight:600;padding:4px 11px;border-radius:100px;background:var(--lb);color:var(--dark);}
+
+/* AUDIO */
+.audio-item{background:var(--white);border-radius:11px;padding:15px 17px;border:1px solid var(--border);display:flex;align-items:center;gap:13px;margin-bottom:9px;transition:transform .2s,box-shadow .2s;}
+.audio-item:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(13,27,62,.07);}
+.audio-item.locked{opacity:.5;pointer-events:none;}
+.audio-play-btn{width:40px;height:40px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.audio-play-btn:hover{background:var(--mid);}
+.audio-play-btn svg{width:16px;height:16px;fill:#fff;}
+.audio-info{flex:1;}
+.audio-title{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.audio-sub{font-size:11px;color:var(--muted);}
+.audio-player-wrap{margin-top:10px;width:100%;}
+.audio-player-wrap audio{width:100%;border-radius:8px;outline:none;}
+
+/* CAST */
+.cast-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.cast-card{background:var(--white);border-radius:12px;padding:17px;border:1px solid var(--border);cursor:pointer;transition:transform .2s,box-shadow .2s;}
+.cast-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(13,27,62,.08);}
+.cast-card.locked{opacity:.5;pointer-events:none;}
+.cast-av{width:44px;height:44px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;}
+.cast-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.cast-role{font-size:12px;color:var(--muted);line-height:1.4;margin-bottom:8px;}
+.cast-ch{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--lb);color:var(--dark);display:inline-block;}
+
+/* CAST DETAIL */
+.cast-detail-header{display:flex;align-items:center;gap:18px;background:var(--navy);border-radius:16px;padding:22px;margin-bottom:18px;}
+.cast-detail-av{width:64px;height:64px;border-radius:50%;background:rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.cast-detail-info h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:4px;}
+.cast-detail-info p{font-size:13px;color:rgba(255,255,255,.5);}
+.cast-detail-badge{display:inline-block;margin-top:7px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:rgba(201,168,76,.2);color:var(--gold);}
+
+/* QUIZ */
+.quiz-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.qcard{background:var(--white);border-radius:13px;padding:18px;border:1px solid var(--border);transition:transform .2s,box-shadow .2s;}
+.qcard:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(13,27,62,.08);}
+.qcard.locked{opacity:.5;}
+.qc-em{font-size:24px;margin-bottom:9px;}
+.qc-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.qc-sub{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.qc-foot{display:flex;align-items:center;justify-content:space-between;}
+.diff{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;}
+.d-e{background:var(--lb);color:var(--dark);}.d-m{background:#DDE8F6;color:var(--dark);}.d-h{background:#E0E8F5;color:var(--navy);}
+.btn-quiz{padding:6px 12px;border-radius:7px;background:var(--navy);color:#fff;font-size:12px;font-weight:600;border:none;cursor:pointer;}
+.btn-quiz:hover{background:var(--mid);}
+
+/* QUIZ DETAIL (taking quiz) */
+.quiz-header{background:var(--navy);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+.quiz-header-left h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;}
+.quiz-header-left p{font-size:12px;color:rgba(255,255,255,.45);}
+.quiz-progress{font-size:13px;font-weight:600;color:var(--gold);}
+.q-block{background:var(--white);border-radius:13px;padding:22px;border:1px solid var(--border);margin-bottom:14px;}
+.q-num{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:8px;}
+.q-text{font-size:15px;font-weight:600;color:var(--navy);line-height:1.5;margin-bottom:16px;}
+.q-options{display:flex;flex-direction:column;gap:9px;}
+.q-opt{padding:12px 15px;border-radius:9px;border:1.5px solid var(--border);font-size:14px;color:var(--navy);cursor:pointer;transition:all .2s;background:var(--white);text-align:left;font-family:'DM Sans',sans-serif;}
+.q-opt:hover{border-color:var(--navy);background:var(--lb);}
+.q-opt.correct{border-color:var(--ok);background:#DCFCE7;color:#166534;font-weight:600;}
+.q-opt.wrong{border-color:var(--err);background:#FEF2F2;color:var(--err);}
+.q-opt.reveal{border-color:var(--ok);background:#DCFCE7;color:#166534;}
+.q-opt:disabled{cursor:default;}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px;}
+.btn-qnav{padding:10px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;}
+.btn-qnav-prev{background:var(--lb);color:var(--navy);}
+.btn-qnav-next{background:var(--navy);color:#fff;}
+.btn-qnav-next:hover{background:var(--dark);}
+.quiz-score-card{background:var(--navy);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px;}
+.quiz-score-card .score-emoji{font-size:48px;margin-bottom:12px;}
+.quiz-score-card h3{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:6px;}
+.quiz-score-card p{font-size:14px;color:rgba(255,255,255,.5);}
+.score-val{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:#fff;line-height:1;margin:12px 0;}
+.btn-retake{padding:11px 24px;border-radius:10px;background:#fff;color:var(--navy);font-size:15px;font-weight:600;border:none;cursor:pointer;margin-top:16px;}
+
+/* PROFILE */
+.prof-hdr{background:var(--white);border-radius:16px;padding:22px;border:1px solid var(--border);margin-bottom:16px;display:flex;align-items:center;gap:16px;}
+.prof-av{width:64px;height:64px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--gold);flex-shrink:0;}
+.prof-info h3{font-family:'Playfair Display',serif;font-size:19px;font-weight:800;color:var(--navy);}
+.prof-info p{font-size:13px;color:var(--muted);margin-top:2px;}
+.prof-badge{display:inline-flex;align-items:center;gap:5px;margin-top:7px;background:var(--lb);color:var(--dark);font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;}
+.prof-sec{background:var(--white);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:12px;}
+.prof-sec-t{padding:12px 17px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);}
+.prof-row{padding:13px 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.prof-row:last-child{border-bottom:none;}
+.prof-row-l{font-size:13px;font-weight:500;color:var(--navy);display:flex;align-items:center;gap:9px;}
+.prof-ic{width:28px;height:28px;border-radius:7px;background:var(--lb);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.prof-row-v{font-size:12px;color:var(--muted);}
+.btn-logout{width:100%;padding:12px;border-radius:11px;background:#FEF2F2;color:var(--err);border:1px solid #FCA5A5;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:4px;}
+.btn-logout:hover{background:#FEE2E2;}
+
+/* BOTTOM NAV */
+.bnav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--white);border-top:1px solid var(--border);padding:8px 0 env(safe-area-inset-bottom,8px);justify-content:space-around;}
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 10px;background:none;border:none;cursor:pointer;color:var(--light);font-size:9px;font-weight:600;position:relative;transition:color .2s;}
+.bn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;}
+.bn.active{color:var(--navy);}
+.bn.active::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--navy);margin:-1px auto 0;}
+
+@media(max-width:900px){
+  .sidebar{display:none !important;}
+  .sb-ov{display:none !important;}
+  .main{margin-left:0;height:100dvh;}
+  .menu-btn{display:none;}
+  .bnav{display:flex;}
+  .page,.detail-view{padding:16px 14px 110px;}
+  .topbar{padding:0 14px;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .cards-grid{grid-template-columns:1fr;}
+  .quiz-grid{grid-template-columns:1fr;}
+  .cast-grid{grid-template-columns:1fr;}
+  .pages{height:calc(100dvh - 60px);overflow-y:scroll;-webkit-overflow-scrolling:touch;}
+}
+</style>
+</head>
+<body>
+
+<div class="sb-ov" id="sbOv" onclick="closeSb()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <a href="index.html" class="sb-logo">
+    <img src="1.png" alt="Zenova">
+    <span>Zenova</span>
+  </a>
+  <div class="nav-sec">
+    <div class="nav-lbl">Main</div>
+    <button class="nl active" data-page="home" onclick="showPage('home')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
+    </button>
+    <button class="nl" data-page="chapters" onclick="showPage('chapters')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Chapters
+    </button>
+    <button class="nl" data-page="audio" onclick="showPage('audio')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>Audio Summary
+    </button>
+    <button class="nl" data-page="quiz" onclick="showPage('quiz')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Quiz (CBT)
+    </button>
+    <button class="nl" data-page="cast" onclick="showPage('cast')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Cast &amp; Characters
+    </button>
+    <div class="nav-lbl">Account</div>
+    <button class="nl" data-page="profile" onclick="showPage('profile')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile
+    </button>
+    <button class="nl" onclick="doLogout()">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out
+    </button>
+  </div>
+  <div class="sb-plan">
+    <div class="sb-plan-lbl">Current Plan</div>
+    <div class="sb-plan-name" id="sbPlanName">Free</div>
+    <div class="sb-plan-sub" id="sbPlanSub">1 chapter unlocked</div>
+    <a href="plans.html?from=dashboard" class="btn-up-side" id="sbUpBtn">⚡ Upgrade Now</a>
+  </div>
+  <div class="sb-user">
+    <div class="u-av" id="sbAv">?</div>
+    <div class="u-info">
+      <div class="u-name" id="sbName">Loading...</div>
+      <div class="u-email" id="sbEmail">...</div>
+    </div>
+    <button class="lb-btn" onclick="doLogout()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="menu-btn" onclick="toggleSb()">
+        <svg width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div>
+        <div class="tb-title" id="tbTitle" style="font-size:20px;letter-spacing:-.3px;">ZENOVA</div>
+        <div class="tb-sub" id="tbSub">Master Lekki Headmaster</div>
+      </div>
+    </div>
+    <div style="cursor:pointer" onclick="showPage('profile')">
+      <svg width="26" height="26" fill="none" stroke="var(--navy)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+  </div>
+
+  <div class="pages" id="pagesWrap">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+
+      <!-- Hero Welcome Card -->
+      <div class="hero-card">
+        <div class="hero-left">
+          <div class="hero-avatar" id="heroAv">E</div>
+          <div class="hero-text">
+            <div class="hero-greeting">Welcome back,</div>
+            <div class="hero-name" id="heroName">Student!</div>
+            <div class="hero-tagline">Keep learning, keep winning.</div>
+          </div>
+        </div>
+        <div class="hero-plan-box">
+          <div class="hero-plan-label">Your Plan</div>
+          <div class="hero-plan-badge free" id="heroPlanBadge">Free</div>
+          <div class="hero-expiry" id="heroExpiry" style="display:none">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="heroExpiryDate">—</span>
+          </div>
+          <div class="hero-days-left" id="heroDaysLeft" style="display:none"></div>
+        </div>
+      </div>
+
+      <!-- Progress Card -->
+      <div class="progress-card">
+        <div class="progress-header">
+          <div class="progress-title">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Your Progress
+          </div>
+        </div>
+        <div class="progress-pct" id="progressPct">0%</div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+        <div class="progress-caption" id="progressCaption">Start reading to track your progress!</div>
+      </div>
+
+      <!-- Stats Strip -->
+      <div class="stats-strip">
+        <div class="stat-chip">
+          <span class="stat-chip-icon">📋</span>
+          <div class="stat-chip-val" id="stCh">0</div>
+          <div class="stat-chip-lbl">Tests Taken</div>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-icon">✅</span>
+          <div class="stat-chip-val" id="stQz">0</div>
+          <div class="stat-chip-lbl">Tests Passed</div>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-icon">📈</span>
+          <div class="stat-chip-val" id="stSc">—</div>
+          <div class="stat-chip-lbl">Avg Score</div>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-icon">🔥</span>
+          <div class="stat-chip-val" id="stSt">0</div>
+          <div class="stat-chip-lbl">Day Streak</div>
+        </div>
+      </div>
+
+      <!-- Quick Access -->
+      <div class="section-header">
+        <div class="section-title">Quick Access</div>
+      </div>
+      <div class="quick-grid">
+        <div class="quick-card" onclick="showPage('chapters')">
+          <div class="quick-icon-wrap qi-gold">
+            <svg width="20" height="20" fill="none" stroke="#0D1F3C" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </div>
+          <div class="quick-name">Chapter Summaries</div>
+          <div class="quick-desc">Read and understand chapter breakdowns.</div>
+        </div>
+        <div class="quick-card" onclick="showPage('audio')">
+          <div class="quick-icon-wrap qi-purple">
+            <svg width="20" height="20" fill="none" stroke="#1B3A6B" stroke-width="2" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+          </div>
+          <div class="quick-name">Audio Summary</div>
+          <div class="quick-desc">Listen to audio summaries anytime, anywhere.</div>
+        </div>
+        <div class="quick-card" onclick="showPage('quiz')">
+          <div class="quick-icon-wrap qi-blue">
+            <svg width="20" height="20" fill="none" stroke="#0A1628" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </div>
+          <div class="quick-name">CBT Practice</div>
+          <div class="quick-desc">Practice unlimited CBT questions and tests.</div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="section-header">
+        <div class="section-title">Recent Activity</div>
+      </div>
+      <div class="activity-list" id="activityList">
+        <div class="activity-item" style="justify-content:center;color:var(--muted);font-size:13px;padding:20px;">No activity yet — start reading or take a quiz!</div>
+      </div>
+
+    </div>
+
+    <!-- CHAPTERS LIST -->
+    <div class="page" id="page-chapters">
+      <div class="sec-head"><h3>📖 All Chapters</h3></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">The Lekki Headmaster — 12 Chapters. Tap a chapter to read the full summary.</p>
+      <div class="ch-list" id="chList"></div>
+    </div>
+
+    <!-- CHAPTER DETAIL -->
+    <div class="detail-view" id="view-chapter">
+      <button class="back-btn" onclick="showPage('chapters')">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back to Chapters
+      </button>
+      <div id="chapterDetailContent"></div>
+    </div>
+
+    <!-- AUDIO LIST -->
+    <div class="page" id="page-audio">
+      <div class="sec-head"><h3>🎧 Audio Summary</h3></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Listen to narrated summaries of each chapter. Press play to start.</p>
+      <div id="audioList"></div>
+    </div>
+
+    <!-- QUIZ LIST -->
+    <div class="page" id="page-quiz">
+      <div class="sec-head"><h3>📝 Quiz (CBT)</h3></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">JAMB-style questions from The Lekki Headmaster. Select a quiz to begin.</p>
+      <div class="quiz-grid" id="quizList"></div>
+    </div>
+
+    <!-- QUIZ DETAIL -->
+    <div class="detail-view" id="view-quiz">
+      <button class="back-btn" onclick="showPage('quiz')">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back to Quizzes
+      </button>
+      <div id="quizDetailContent"></div>
+    </div>
+
+    <!-- CAST LIST -->
+    <div class="page" id="page-cast">
+      <div class="sec-head"><h3>🎭 Cast &amp; Characters</h3></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Every character in The Lekki Headmaster. Tap a character to learn more.</p>
+      <div class="cast-grid" id="castGrid"></div>
+    </div>
+
+    <!-- CAST DETAIL -->
+    <div class="detail-view" id="view-cast">
+      <button class="back-btn" onclick="showPage('cast')">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back to Characters
+      </button>
+      <div id="castDetailContent"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="page" id="page-profile">
+      <div class="prof-hdr">
+        <div class="prof-av" id="profAv">?</div>
+        <div class="prof-info">
+          <h3 id="profName">Loading...</h3>
+          <p id="profEmail">...</p>
+          <div class="prof-badge" id="profBadge">🎁 Free Plan</div>
+        </div>
+      </div>
+      <div class="prof-sec">
+        <div class="prof-sec-t">Account Info</div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">👤</div>Full Name</div><div class="prof-row-v" id="prName">—</div></div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">📧</div>Email</div><div class="prof-row-v" id="prEmail">—</div></div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">🗓️</div>Member Since</div><div class="prof-row-v" id="prJoined">—</div></div>
+      </div>
+      <div class="prof-sec">
+        <div class="prof-sec-t">Subscription</div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">⭐</div>Current Plan</div><div class="prof-row-v" id="prPlan">Free</div></div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">📅</div>Status</div><div class="prof-row-v" id="prStatus">Free tier</div></div>
+        <div class="prof-row"><div class="prof-row-l"><div class="prof-ic">⏳</div>Plan Expires</div><div class="prof-row-v" id="prExpiry">No expiry</div></div>
+        <div class="prof-row" style="cursor:pointer" onclick="location.href='plans.html?from=dashboard'">
+          <div class="prof-row-l"><div class="prof-ic">⚡</div>Upgrade Plan</div>
+          <svg width="13" height="13" fill="none" stroke="var(--light)" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out
+      </button>
+    </div>
+
+  </div><!-- end pages -->
+</div><!-- end main -->
+
+<nav class="bnav">
+  <button class="bn active" data-page="home" onclick="showPage('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
+  </button>
+  <button class="bn" data-page="chapters" onclick="showPage('chapters')">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Summaries
+  </button>
+  <button class="bn" data-page="audio" onclick="showPage('audio')">
+    <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>Audio
+  </button>
+  <button class="bn" data-page="quiz" onclick="showPage('quiz')">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Quiz
+  </button>
+  <button class="bn" data-page="profile" onclick="showPage('profile')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account
+  </button>
+</nav>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyBWYdeKlijVJUHUjzcCoPgZDumsgJFMDaw",
+  authDomain:"zenova-4342f.firebaseapp.com",
+  databaseURL:"https://zenova-4342f-default-rtdb.firebaseio.com",
+  projectId:"zenova-4342f",
+  storageBucket:"zenova-4342f.firebasestorage.app",
+  messagingSenderId:"132378238032",
+  appId:"1:132378238032:web:6fe0055d9d5b50b3050555"
+});
+var auth=firebase.auth(), db=firebase.database();
+var currentPlan='free';
+var LIMITS={free:1,scholar:5,master:12};
+
+// ---- DATA ----
+var CHAPTERS=[
+  {num:1,title:"Dusk",sub:"Mr. Bepo's mysterious breakdown",audio:"11.mp3",
+   summary:["The chapter opens at the morning assembly of Stardom Schools. The principal, Mr. Bepo, walks unusually slowly toward the podium. When he takes the microphone, he cannot speak and bursts into tears before the entire school.",
+    "Everyone is shocked because Mr. Bepo is known as a strong, respected, and cheerful leader. The Vice Principal, Mrs. Grace Apeh, asks Mr. Justus Anabel to end the assembly and send students back to class.",
+    "Staff escort Mr. Bepo to his office. Despite attempts to comfort him, he continues crying for over thirty minutes without explaining the cause. The Vice Principal contacts the MD, Mrs. Ibidun Gloss, who quickly returns to school.",
+    "The day had actually started positively — boarding fees were reduced from ₦250,000 to ₦165,000, improving punctuality. An SSS1 student, Ikenna Egbu, delivered an inspiring speech about an excursion to Jos that received loud applause.",
+    "Mr. Bepo is respected for his 24 years of service and his humorous imitation of Village Headmaster characters, earning him the nickname 'The Lekki Headmaster.' The MD personally questions him but he still refuses to explain. The school's guidance counsellor accompanies him home."],
+   keypoints:["Mr. Bepo unexpectedly cries during assembly","He refuses to explain the reason — creating mystery","Stardom Schools recorded 90% WASSCE success rate","Boarding fees were reduced from ₦250,000 to ₦165,000","Ikenna Egbu gave an impressive speech about Jos","Mr. Bepo earned his nickname from Village Headmaster imitations"],
+   themes:["Mystery & Suspense","Leadership & Responsibility","School Administration","Emotional Struggles","Academic Excellence"]},
+  {num:2,title:"The Enticement",sub:"Why Mr. Bepo decided to leave Nigeria",audio:"12.mp3",
+   summary:["Five days after his breakdown, Mr. Bepo reveals he has decided to relocate to the United Kingdom. His reluctance to relocate has created serious tension within his family and pushed his marriage close to collapse.",
+    "His wife Seri and children Nike and Kike strongly support the move. The nickname 'The Lekki Headmaster' originated from Mr. Audu, who compared Bepo's conflict-resolution skills to King Oloja in Village Headmaster.",
+    "Financially, the move is very attractive. Seri earns about £10,000 monthly as a nurse, while Mr. Bepo secured a teaching job worth approximately £3,600 monthly — compared to his Nigerian salary of ₦400,000.",
+    "Despite these advantages, Mr. Bepo has personal dreams for Nigeria. He plans to retire at age 55 and establish businesses, including his own school. He once tried establishing Fruitful Future school with a friend after NYSC, but it failed because parents could not afford the fees.",
+    "He also considers farming, food production, pure water business, and commercial transportation. In the end, family pressure and financial opportunities abroad compel him to embrace relocation."],
+   keypoints:["Mr. Bepo was troubled by his decision to relocate to the UK","His wife Seri is a nurse in the UK earning £10,000 monthly","His UK teaching salary would be £3,600 monthly vs ₦400,000 in Nigeria","Mr. Audu coined the nickname 'The Lekki Headmaster'","His school project Fruitful Future failed because parents could not afford fees","He sacrifices personal ambitions for family welfare"],
+   themes:["Japa (Migration)","Family Responsibility","Economic Opportunity","Patriotism","Entrepreneurship","Sacrifice"]},
+  {num:3,title:"Migration Tales",sub:"Stories of Nigerians who relocated abroad",audio:"13.mp3",
+   summary:["Having decided to relocate, Mr. Bepo listens to migration stories. He admires the hourly payment system abroad, which encourages productivity unlike Nigeria's monthly salary system.",
+    "He learns skilled professionals — nurses, doctors — are migrating in large numbers. Some use unethical means: Mr. Nku took a ₦2 million cooperative loan and relocated without repaying it. A school driver tried to sell a school bus illegally.",
+    "Former colleague Sola, who relocated six months earlier, reassures him his transition will be easier because his wife is established there. Sola and her husband sold everything and borrowed ₦4 million to finance their move.",
+    "Major attractions abroad include free education for Nike and Kike, and healthcare at little or no cost. However, migration doesn't guarantee success. Jare, a former banker, became distressed when his job involved caring for elderly people. Hope, an accountant studying for a Master's degree, faced financial difficulties when his wife stopped funding him.",
+    "An Idoma proverb captures this: the same rain nourishes sugarcane and bitter leaf differently. Riike invited two sisters to the US, showing that sponsoring relatives is another aspect of migration."],
+   keypoints:["Mr. Bepo admires the hourly payment system abroad","Doctors and nurses are migrating from Nigeria in large numbers","Mr. Nku took a ₦2 million loan and relocated without repaying","Sola borrowed ₦4 million to finance her family's relocation","Nike and Kike enjoy free education in the UK","Not everyone succeeds abroad despite similar opportunities"],
+   themes:["Migration (Japa)","Economic Opportunity","Honesty & Integrity","Education","Healthcare","Family Responsibility"]},
+  {num:4,title:"A Case of Visa Denied",sub:"A family's relocation dream collapses",audio:"14.mp3",
+   summary:["Mr. Bepo receives a late-night call from Mrs. Ignatius, a Stardom parent. Mr. Ignatius planned to relocate abroad because he believed Nigerian opportunities are dominated by those who studied abroad.",
+    "In preparation, Mrs. Ignatius learned tailoring and hairdressing and resigned from her clerical job, while her husband closed his clearing business. However, during the visa process, a DNA test reveals a shocking secret: Mr. Ignatius is not the biological father of their child Favour, an SSS2 student.",
+    "Furious and hurt, Mr. Ignatius orders Mrs. Ignatius and Favour out of the house. Mrs. Ignatius contacts Mr. Bepo for guidance.",
+    "The chapter also recalls the story of Mr. Ayesoro, a Government teacher, whose student Bibi repeatedly dreamed about him and became frightened by his distinctive tribal marks, nicknaming him 'Mr. Owala.' To satisfy Bibi's mother Mrs. Ladele and avoid losing students, management transferred Mr. Ayesoro to Stardom Hub.",
+    "The chapter highlights how schools sometimes prioritize parental satisfaction over fairness to staff."],
+   keypoints:["Mrs. Ignatius contacted Mr. Bepo about a family crisis","A DNA test revealed Favour was not Mr. Ignatius's biological child","Mr. Ignatius ordered his wife and Favour out of the house","Mr. Ayesoro was nicknamed 'Mr. Owala' by students","Bibi repeatedly dreamed about Mr. Ayesoro and became afraid","Mr. Ayesoro was transferred to Stardom Hub to satisfy a parent"],
+   themes:["Migration & Disruption","Family Crisis","Justice & Fairness","School Administration","Appearance vs Reality","Trust & Betrayal"]},
+  {num:5,title:"Snake in the Roof",sub:"The MD fears staff empowerment",audio:"15.mp3",
+   summary:["The MD, Mrs. Ibidun Gloss, takes an unexpected walk to land purchased by Stardom Schools two years earlier, only to find staff using it as a parking lot filled with expensive vehicles.",
+    "She immediately suspects theft, but Mr. Bepo explains the staff obtained their vehicles through the Stardom Cooperative Society. Although relieved, the MD remains concerned.",
+    "She convenes a Board of Directors meeting and learns the cooperative has ₦95 million, with over ₦50 million already loaned out. Rather than celebrating, she fears staff could use these loans to establish competing schools.",
+    "Her concern is captured in the chapter title: 'It's like hanging a snake in the roof and going to bed' — allowing unrestricted employee financial growth could create future danger.",
+    "The Board introduces strict regulations: no staff member may borrow more than ₦250,000, all loans require MD approval, and management must be informed about cooperative activities."],
+   keypoints:["The MD discovered expensive staff vehicles on school-owned land","Staff obtained vehicles through the Stardom Cooperative Society","The cooperative had ₦95 million with ₦50 million loaned out","The MD feared staff would start competing schools","Loan limit set at ₦250,000 per staff member","MD approval now required for all loan requests"],
+   themes:["Wealth & Financial Management","Leadership & Control","Employee Welfare","Fear of Competition","Trust & Suspicion","Economic Empowerment"]},
+  {num:6,title:"Ade as Well as Jide COMES vs COME",sub:"A grammar dispute leads to wrongful dismissal",audio:"16.mp3",
+   summary:["During Open Day at Stardom Schools, Mr. Farore, an English teacher, is dismissed because parent Mr. Guta complained to the MD about an alleged grammar error in his son's notebook.",
+    "The sentence in question was: 'Ade as well as Jide comes early.' Mr. Guta believed the correct verb should be 'come,' while the MD agreed with the parent and used this as evidence of incompetence.",
+    "Mr. Bepo defends Mr. Farore, explaining that when 'as well as,' 'together with,' or similar expressions are used, the verb agrees with the first subject. Therefore 'comes' is grammatically correct.",
+    "The MD asks everyone to verify using their phones. After checking reliable grammar sources, they discover both Mr. Farore and Mr. Bepo were correct — the parent and MD had misunderstood the rule.",
+    "Embarrassed, the MD reverses her decision and re-employs Mr. Farore. Mr. Audu eases tension with a joke. The chapter also shows Mr. Bepo's empathy — he remembers a time he was unemployed and spent ₦2,500 meant for electricity bills, causing humiliation."],
+   keypoints:["Mr. Farore was dismissed over an alleged grammar error","The disputed sentence: 'Ade as well as Jide comes early'","Mr. Bepo correctly defended the grammar rule","Phones were used to verify the grammar rule","Mr. Farore was re-employed after the truth was discovered","Mr. Audu eased the tension with humor"],
+   themes:["Justice & Fairness","Job Insecurity","Education & Knowledge","Respect for Teachers","Verification of Facts","Workplace Pressure"]},
+  {num:7,title:"Ritualists",sub:"Mr. Bepo's troubling experience at Beesway School",audio:"17.mp3",
+   summary:["Mr. Bepo recalls working at Beesway Group of School, where he had disagreements with director Mr. Egi Meko over the grammatically incorrect school name ('Group of School' instead of 'Group of Schools').",
+    "The major incident that made Bepo leave occurred at night: he observed five men, including Mr. Egi Meko, apparently burying a cow in a pit. When Bepo protested, one man struck him on the head. The director later claimed it was a prayer ceremony for his late father.",
+    "Bepo also remembers Fruitful Future School — during its third session, a parent Mr. Ogo suggested using supernatural rites to attract pupils. Bepo refused. Mr. Ogo withdrew his child, and the school later closed due to poor road conditions driving wealthy families away.",
+    "Years later, Mr. Ogo murdered a woman who had paid him millions for spiritual assistance with infertility. When she demanded a refund and threatened legal action, he killed her.",
+    "The experience reinforced Bepo's commitment to honesty and integrity over questionable shortcuts."],
+   keypoints:["Bepo worked at Beesway Group of School before Stardom","Director Mr. Egi Meko refused to correct the school's name","Bepo witnessed men burying a cow at night including the director","He was struck on the head when he confronted them","Parent Mr. Ogo suggested supernatural rites to attract pupils — Bepo refused","Mr. Ogo later murdered a woman over failed spiritual promises"],
+   themes:["Integrity & Morality","Faith & Belief","Education & Leadership","Fear & Suspicion","Greed & Exploitation","Courage"]},
+  {num:8,title:"Missions Unaccomplished",sub:"Unfinished business before relocation",audio:"18.mp3",
+   summary:["As Mr. Bepo prepares to relocate, he worries about unfinished tasks. One major concern is a three-year legal dispute between the families of students Banky and Tosh.",
+    "During Speech Day, Banky (contesting for Social Prefect) attacked Tosh by saying: 'Instead of voting for the son of an ex-convict, cast your vote for me.' Tosh walked out of the hall hurt.",
+    "Tosh's father, Chief Ogba, had spent 36 months in detention on trial for alleged misappropriation of ₦2.5 billion in government contract funds. He was released and ordered to refund the money — technically not an ex-convict.",
+    "Chief Ogba demanded written apologies and publication in the school magazine. Banky's parents refused, escalating the matter to court. Mr. Bepo hopes to reconcile both families before leaving.",
+    "His second concern is the Breath Project — students developing mobile phones using recycled panels and electronic chips. The project attracted media and government attention. He promises to support its launch even from abroad."],
+   keypoints:["Banky called Tosh 'the son of an ex-convict' during Speech Day","Chief Ogba (Tosh's father) was detained for 36 months but was not convicted","Head Boy/Girl nomination forms cost ₦50,000","Chief Ogba demanded written apology and publication in school magazine","Banky's parents refused to apologize — case went to court","The Breath Project involves students building phones from recycled materials"],
+   themes:["Conflict Resolution","Responsible Leadership","Student Leadership","Education & Innovation","Forgiveness & Reconciliation","Migration & Separation"]},
+  {num:9,title:"Laughing Waterfalls",sub:"Educational excursions across Nigeria",audio:"19.mp3",
+   summary:["Mr. Bepo strongly believes students should understand Nigeria's culture, history, and geography before seeking opportunities abroad. Stardom organizes at least one major excursion per year.",
+    "Students have visited waterfalls including Ikogosi Warm Springs, Erin Ijesha, Owu Waterfalls (one of West Africa's highest), and Gurara Falls. Future visits include Kwa Falls and Aesop Falls. Cultural sites include Yankari Game Reserve, National War Museum, Kano Emir's Palace, and festivals like Calabar Carnival and Argungu Fishing Festival.",
+    "When students looked down on communities like Mushin and Ajegunle, Mr. Bepo corrected their attitude, teaching that success depends on determination and education, not birthplace. He noted that many Banana Island residents may have humble origins.",
+    "At Akran's Palace, the Akran of Badagry explained that 'Badagry' originated from 'Agbadarigi.' At the Black Heritage Museum, Mr. Bepo became deeply emotional about the suffering of enslaved Africans.",
+    "He noticed the irony: modern Africans voluntarily leaving their countries mirrors a new form of slavery. This reflection prepares him for his own migration decision."],
+   keypoints:["Owu Waterfalls is one of the highest waterfalls in West Africa","Argungu Fishing Festival is held in Kebbi State","Mr. Bepo taught students success is not determined by birthplace","The Akran of Badagry explained the origin of the name 'Badagry'","Mr. Bepo compared modern migration (Japa) to a new form of slavery","The Black Heritage Museum deeply affected Mr. Bepo emotionally"],
+   themes:["Education Beyond the Classroom","National Pride","Tourism & Cultural Heritage","Hard Work & Determination","Slavery & Freedom","Migration (Japa)"]},
+  {num:10,title:"Passport Pains",sub:"Bureaucracy and the passport renewal struggle",audio:"110.mp3",
+   summary:["Mr. Bepo needs to renew his passport, which expired two years earlier. He had been discouraged by stories of stress and delays. He learns about unofficial agents who can speed up the process for ₦200,000–₦250,000.",
+    "He decides to travel to Ibadan where offices are less crowded. Agent Tai — a business center operator working with some immigration staff — tells him the process will cost ₦100,000 instead of the official ₦70,000.",
+    "The journey to Ibadan takes only about 50 minutes, much faster than a trip 10 years earlier that took almost two hours. Mr. Bepo observes many churches and mosques along the expressway, reflecting on Nigerian religious activity vs actual godliness.",
+    "As they approach Ibadan, the landscape reminds him of J.P. Clark's poem 'Ibadan' describing the city as 'running splash of rust and gold.'",
+    "At the immigration office at 6:40 a.m., Tai prepares documents and directs him to an official. The process is completed quickly. He is told to return in three weeks for data capturing. He gives the officer a ₦2,000 tip and leaves satisfied."],
+   keypoints:["Mr. Bepo's passport had expired two years earlier","He chose Ibadan to avoid Lagos crowds","Official passport renewal fee was ₦70,000; Tai charged ₦100,000","The journey to Ibadan took about 50 minutes","Ibadan reminded him of J.P. Clark's poem 'Ibadan'","He was told to return in three weeks for data capturing"],
+   themes:["Migration (Japa)","Bureaucracy","Corruption","Patience & Determination","Religion & Morality","Development & Change"]},
+  {num:11,title:"Point of No Return",sub:"Stardom's grand farewell for Mr. Bepo",audio:"111.mp3",
+   summary:["Stardom Schools organizes a multi-day farewell. Mr. Bepo postpones his flight, and the school pays his $100 airline cancellation penalty.",
+    "Wednesday: A football match — staff defeated students 3-2 with the help of Mr. Ibe, the Games Master, through questionable but humorous means. Thursday: A debate on 'The Arts have contributed more to development than the Sciences.' Mr. Bepo was impressed by the students' confidence and remembered a Yoruba proverb about Onirese, a master carver whose works outlive him.",
+    "Friday Grand Finale: songs, drama, comedy, teacher impersonations, and a cultural dance inspired by the Badagry excursion. The Badagry-themed dance overwhelmed Mr. Bepo with emotion — he shouted 'Noooo!' but quickly covered it with a compliment.",
+    "The MD's tribute formally referred to him as Adewale Adebepo for the first time, praised his dedication, and presented him with a $10,000 farewell cheque — the largest farewell package in Stardom's history.",
+    "Mr. Bepo struggled to deliver his speech through tears, reflecting his deep love for the school and uncertainty about the future."],
+   keypoints:["School paid Mr. Bepo's $100 flight cancellation penalty","Staff defeated students 3-2 in the farewell football match","Debate topic: Arts vs Sciences contributions to development","Mr. Bepo's full name revealed: Adewale Adebepo","MD gave him a $10,000 farewell cheque — a Stardom record","He cried during his farewell speech"],
+   themes:["Legacy","Appreciation","Separation & Farewell","Leadership","Migration","Reward for Service"]},
+  {num:12,title:"...Dawn",sub:"The unexpected twist — Mr. Bepo returns",audio:"112.mp3",
+   summary:["Mr. Bepo's flight is at 10:00 p.m. on Saturday. His landlord Mr. Ogunwale offers to drive him and prays for his safe journey. He has two large bags and one smaller bag, carrying Nigerian food items — Iru, Egusi, ground crayfish, and dry snail — from Oyingbo Market.",
+    "Before leaving, he sells his car to the school accountant for ₦1.5 million and gives some electronics to his landlady. At the airport, Mrs. Grace Apeh, Mr. Oyelana, and Mr. Audu accompany him through security and check-in.",
+    "While waiting to board, Mr. Bepo falls asleep and dreams. He finds himself at Badagry's Point of No Return, watching enslaved Africans being forced onto ships and counting millions of them. When ordered to board himself, he shouts 'Noooo!'",
+    "An airline official wakes him — it is time to board. However, the following Monday, Mr. Bepo unexpectedly appears at Stardom Schools. The students are overwhelmed with excitement, lifting him up in celebration.",
+    "He announces he is back and will not be leaving — he has decided to remain and complete his mission. His voice is drowned by students singing the school's victory song. The novel ends on this hopeful note."],
+   keypoints:["Mr. Bepo's flight was scheduled for 10:00 p.m. on Saturday","Mr. Ogunwale drove him to the airport and prayed for him","He bought Nigerian food items from Oyingbo Market","He sold his car to the accountant for ₦1.5 million","His dream at the airport was set at Badagry's Point of No Return","He returned to Stardom on Monday and decided to stay"],
+   themes:["Patriotism","Dedication to Education","Migration (Japa)","Slavery & Freedom","Purpose & Mission","Hope"]}
+];
+
+var CAST=[
+  {name:"Adewale Adebepo",role:"Principal of Stardom Schools; the protagonist",emoji:"👨‍💼",ch:1,type:"Main",detail:"The principal of Stardom Schools and the novel's protagonist. Known as 'The Lekki Headmaster' for his humorous imitation of Village Headmaster characters. He struggles with the decision to relocate to the UK but ultimately chooses to remain in Nigeria and complete his mission of educating young people."},
+  {name:"Mrs. Seri Bepo",role:"Mr. Bepo's wife; nurse in the UK",emoji:"👩‍⚕️",ch:1,type:"Main",detail:"Mr. Bepo's wife who lives and works in the United Kingdom as a nurse, earning approximately £10,000 monthly. She strongly encourages her husband to relocate and join the family abroad."},
+  {name:"Nike Bepo",role:"Mr. Bepo's child",emoji:"👧",ch:1,type:"Main",detail:"One of Mr. Bepo's children living in the UK who supports the family's relocation plans. She benefits from free primary and secondary education in the United Kingdom."},
+  {name:"Kike Bepo",role:"Mr. Bepo's second child",emoji:"👦",ch:1,type:"Main",detail:"Mr. Bepo's second child who also wants him to relocate to the UK to join the rest of the family."},
+  {name:"Mrs. Ibidun Gloss",role:"Managing Director of Stardom Schools",emoji:"👩‍💼",ch:1,type:"Staff",detail:"The Managing Director (MD) of Stardom Schools. She values Mr. Bepo greatly and later presents him with a $10,000 farewell cheque — the largest in Stardom's history. She sometimes makes hasty decisions, as seen in the Mr. Farore incident."},
+  {name:"Mrs. Grace Apeh",role:"Vice Principal of Stardom Schools",emoji:"👩‍🏫",ch:1,type:"Staff",detail:"The Vice Principal of Stardom Schools who takes charge when Mr. Bepo breaks down during assembly. She accompanies Mr. Bepo to the airport as a final gesture of support."},
+  {name:"Mr. Audu",role:"Fine Arts teacher; known for humor",emoji:"🎨",ch:1,type:"Staff",detail:"Fine Arts teacher at Stardom Schools, known for his humor and jokes. He originally coined the nickname 'The Lekki Headmaster' by comparing Bepo's conflict-resolution skills to King Oloja in Village Headmaster. He often relieves tension with timely humor."},
+  {name:"Mr. Justus Anabel",role:"Chemistry teacher",emoji:"⚗️",ch:1,type:"Staff",detail:"Chemistry teacher at Stardom Schools who helps dismiss students after Mr. Bepo's emotional breakdown during assembly."},
+  {name:"Mr. Ope Wande",role:"Physics teacher and pastor",emoji:"⛪",ch:1,type:"Staff",detail:"Physics teacher and pastor at Stardom Schools who attempts to counsel Mr. Bepo following his emotional breakdown, though without success."},
+  {name:"Mr. Oyelana",role:"School accountant",emoji:"💼",ch:1,type:"Staff",detail:"The accountant at Stardom Schools who later buys Mr. Bepo's car for ₦1.5 million. He also accompanies Mr. Bepo to the airport during his farewell."},
+  {name:"Mr. Ibe",role:"Sports/Games Master",emoji:"⚽",ch:11,type:"Staff",detail:"The Games Master at Stardom Schools who helps the staff team defeat students 3-2 during the farewell football match through questionable but humorous means."},
+  {name:"Mr. Farore",role:"English teacher wrongly dismissed",emoji:"📚",ch:6,type:"Staff",detail:"English teacher at Stardom Schools who was wrongly dismissed over a misunderstood grammar rule ('Ade as well as Jide comes early'). He was later reinstated after verification proved he was correct."},
+  {name:"Mr. Ayesoro",role:"Government teacher transferred",emoji:"🏛️",ch:4,type:"Staff",detail:"Government teacher nicknamed 'Mr. Owala' by students because of his distinctive tribal marks. He was transferred to Stardom Hub after a parent (Mrs. Ladele) complained that her daughter Bibi was frightened by recurring dreams about him."},
+  {name:"Mr. Nku",role:"Former staff who fled abroad with cooperative loan",emoji:"✈️",ch:3,type:"Staff",detail:"Former staff member at Stardom Schools who collected a ₦2 million cooperative loan and relocated abroad shortly afterward without repaying it — an example of unethical migration practices."},
+  {name:"Ikenna Egbu",role:"SSS1 student who gave the Jos speech",emoji:"🎤",ch:1,type:"Student",detail:"An SSS1 student at Stardom Schools who delivered an inspiring speech at assembly about an excursion to Jos, describing its beautiful scenery and cool weather. His speech impressed everyone and received loud applause."},
+  {name:"Banky",role:"Student who insulted Tosh during election",emoji:"📢",ch:8,type:"Student",detail:"SSS2 student who contested for Social Prefect. During Speech Day, he attacked his opponent Tosh by saying 'Instead of voting for the son of an ex-convict, cast your vote for me,' triggering a long legal dispute between both families."},
+  {name:"Tosh",role:"Banky's rival in the prefect election",emoji:"😔",ch:8,type:"Student",detail:"Banky's rival in the Social Prefect election. He was deeply hurt by Banky's public insult and walked out of the hall. His father, Chief Ogba, subsequently pursued legal action against Banky's family."},
+  {name:"Favour Ignatius",role:"Student whose paternity was revealed",emoji:"🧬",ch:4,type:"Student",detail:"An SSS2 student at Stardom Schools. During the Ignatius family's visa application process, a DNA test revealed that Mr. Ibe Ignatius was not her biological father, destroying the family's relocation plans."},
+  {name:"Bibi",role:"Student frightened by dreams of a teacher",emoji:"😨",ch:4,type:"Student",detail:"A student at Stardom Schools who repeatedly dreamed about Mr. Ayesoro and became increasingly frightened of him in real life. Her mother's complaint led to Mr. Ayesoro being transferred from teaching duties."},
+  {name:"Mrs. Ignatius",role:"Parent whose family crisis began with a DNA test",emoji:"💔",ch:4,type:"Parent",detail:"Mother of Favour and wife of Mr. Ibe Ignatius. Her family's relocation plans collapsed when a DNA test during visa processing revealed Favour was not her husband's biological child. She contacted Mr. Bepo for guidance."},
+  {name:"Mr. Ibe Ignatius",role:"Father who discovered DNA secret",emoji:"😡",ch:4,type:"Parent",detail:"Husband of Mrs. Ignatius who discovered during visa processing that he was not the biological father of Favour. Furious and hurt, he ordered both Mrs. Ignatius and Favour out of the house."},
+  {name:"Chief Ogba",role:"Tosh's father; pursued legal action",emoji:"⚖️",ch:8,type:"Parent",detail:"Tosh's father who spent 36 months in detention while on trial for alleged misappropriation of ₦2.5 billion in government contract funds. He was released and ordered to refund the money — technically not an ex-convict. He demanded written apologies from Banky's family after the public insult."},
+  {name:"Mrs. Ladele",role:"Bibi's mother who complained",emoji:"👩",ch:4,type:"Parent",detail:"Mother of Bibi who reported her daughter's recurring frightening dreams about Mr. Ayesoro to school management, leading to the teacher's transfer to Stardom Hub."},
+  {name:"Mr. Guta",role:"Parent who caused Mr. Farore's dismissal",emoji:"😤",ch:6,type:"Parent",detail:"Parent who went directly to the MD's office to demand Mr. Farore's dismissal after finding what he believed was a grammar error in his son's notebook. He was proven wrong after verification."},
+  {name:"Sola",role:"Former colleague who migrated to UK",emoji:"🌍",ch:3,type:"Migration",detail:"A former Stardom colleague who relocated to the United Kingdom six months before Mr. Bepo. She and her husband sold their belongings and borrowed ₦4 million to finance the move. She reassured Bepo that his transition would be easier because his wife was already established there."},
+  {name:"Jare",role:"Former banker who regretted migrating",emoji:"😞",ch:3,type:"Migration",detail:"A former banker who resigned and relocated to London, expecting a professional career. He became emotionally distressed upon discovering that his job involved caring for an elderly couple."},
+  {name:"Hope",role:"Accountant who relocated for postgraduate studies",emoji:"🎓",ch:3,type:"Migration",detail:"An accountant who moved to the UK for a Master's degree. Initially supported by his wife financially, he later faced serious difficulties when she stopped funding his education."},
+  {name:"Mr. Egi Meko",role:"Director of Beesway School",emoji:"🏫",ch:7,type:"Other",detail:"Director of Beesway Group of School where Mr. Bepo worked before Stardom. He refused to correct the grammatically incorrect school name, claiming it was divinely inspired. He was present during the mysterious nighttime incident involving a cow being buried in a pit."},
+  {name:"Mr. Ogo",role:"Parent who suggested rituals; later a murderer",emoji:"⚠️",ch:7,type:"Other",detail:"A parent at Fruitful Future School who suggested using supernatural rites to attract more pupils. Mr. Bepo refused. Years later, Mr. Ogo murdered a woman who had paid him millions for spiritual assistance with infertility after she demanded a refund."},
+  {name:"Mr. Ogunwale",role:"Mr. Bepo's landlord",emoji:"🏠",ch:12,type:"Other",detail:"Mr. Bepo's landlord who generously offered to drive him to Murtala Muhammed International Airport on the day of his departure. He said a prayer for Mr. Bepo's safe journey before driving off."},
+  {name:"Akran of Badagry",role:"Traditional ruler who taught students history",emoji:"👑",ch:9,type:"Other",detail:"The traditional ruler of Badagry who explained the history of Badagry and its role in the transatlantic slave trade to Stardom students. He confirmed that the name 'Badagry' originated from 'Agbadarigi.'"},
+  {name:"Tai",role:"Passport agent in Ibadan",emoji:"📋",ch:10,type:"Other",detail:"A business center operator in Ibadan who works with some immigration personnel to assist passport applicants through unofficial channels. He helped Mr. Bepo process his passport renewal for ₦100,000 instead of the official fee of ₦70,000."}
+];
+
+var QUIZZES=[
+  {title:"Chapter 1 Quiz",sub:"Questions on Mr. Bepo's breakdown and Stardom Schools",emoji:"📘",diff:"Easy",cls:"d-e",ch:1,questions:[
+    {q:"Why was Mr. Bepo called 'The Lekki Headmaster'?",opts:["He was the oldest teacher in Lekki","Because of his humorous imitation of Village Headmaster characters","He once appeared on Village Headmaster TV show","He was a headmaster in a Lekki primary school"],ans:1},
+    {q:"Who ended the assembly after Mr. Bepo broke down?",opts:["Mrs. Grace Apeh","Mrs. Ibidun Gloss","Mr. Ope Wande","Mr. Justus Anabel"],ans:3},
+    {q:"Who was the Vice Principal of Stardom Schools?",opts:["Mrs. Ibidun Gloss","Mrs. Seri Bepo","Mrs. Grace Apeh","Miss Taye Kareem"],ans:2},
+    {q:"What percentage success rate did the school record in WASSCE?",opts:["85%","95%","90%","100%"],ans:2},
+    {q:"Which student delivered a speech about the excursion to Jos?",opts:["Banky","Tosh","Ikenna Egbu","Favour Ignatius"],ans:2},
+    {q:"What was reduced from ₦250,000 to ₦165,000?",opts:["School fees","Excursion fees","Boarding fees","Cooperative loan limit"],ans:2},
+    {q:"How many years had Mr. Bepo served at Stardom Schools?",opts:["20 years","28 years","24 years","16 years"],ans:2},
+    {q:"Who attempted to counsel Mr. Bepo after his breakdown?",opts:["Mr. Audu","Mr. Justus Anabel","Mr. Ope Wande","Mrs. Grace Apeh"],ans:2},
+    {q:"What does the title 'The Lekki Headmaster' refer to?",opts:["A real headmaster in Lekki","A nickname from Mr. Bepo's acting style","A character in a Nollywood film","A government official in Lekki"],ans:1},
+    {q:"What is the name of the school where Mr. Bepo works?",opts:["Fruitful Future School","Beesway Group of School","Stardom Schools","Golden Gate School"],ans:2},
+    {q:"Who is the Managing Director of Stardom Schools?",opts:["Mrs. Grace Apeh","Mrs. Seri Bepo","Mr. Justus Anabel","Mrs. Ibidun Gloss"],ans:3},
+    {q:"What did Mr. Bepo's breakdown at assembly reveal?",opts:["He was sick","He was resigning and relocating abroad","He had been promoted","He was retiring due to old age"],ans:1},
+    {q:"What is the full name of the school Mr. Bepo works at?",opts:["Stardom International Schools","Stardom Group of Schools","Stardom Schools","Stardom Academy"],ans:2},
+    {q:"Which Nigerian TV show is referenced in Mr. Bepo's nickname?",opts:["Super Story","Village Headmaster","Checkmate","Behind the Clouds"],ans:1},
+    {q:"What event triggered Mr. Bepo's emotional breakdown?",opts:["He received a dismissal letter","He was saying farewell during assembly","He lost a student","He failed an inspection"],ans:1},
+    {q:"What role did Mrs. Grace Apeh play at Stardom Schools?",opts:["Proprietress","Accountant","Vice Principal","Class teacher"],ans:2},
+    {q:"What did Ikenna Egbu's speech at assembly focus on?",opts:["JAMB preparation tips","The Lagos traffic situation","An excursion to Jos","Nigeria's education system"],ans:2},
+    {q:"What did Mr. Bepo's colleagues think of his announcement?",opts:["They were angry","They were shocked and emotional","They ignored him","They celebrated immediately"],ans:1},
+    {q:"What subject did Mr. Bepo teach at Stardom Schools?",opts:["Mathematics","English Language","Physics","Chemistry"],ans:1},
+    {q:"What does Mr. Bepo's character represent in the novel?",opts:["A corrupt administrator","A dedicated Nigerian educator facing migration pressures","A rebellious student","A government inspector"],ans:1}
+  ]},
+  {title:"Chapters 2 & 3 Quiz",sub:"The Enticement and Migration Tales",emoji:"📗",diff:"Medium",cls:"d-m",ch:2,questions:[
+    {q:"Which country was Mr. Bepo relocating to?",opts:["United States","Canada","United Kingdom","Australia"],ans:2},
+    {q:"Who first called Mr. Bepo 'The Lekki Headmaster'?",opts:["Mrs. Grace Apeh","Mr. Ope Wande","Mrs. Ibidun Gloss","Mr. Audu"],ans:3},
+    {q:"What was the name of the school Mr. Bepo once established with a friend?",opts:["Fruitful Future","Stardom Schools","Beesway Group","Golden Future"],ans:0},
+    {q:"What was Mr. Bepo's monthly salary in Nigeria?",opts:["₦200,000","₦600,000","₦400,000","₦150,000"],ans:2},
+    {q:"Which business did Mr. Bepo believe could generate income quickly?",opts:["Farming","Pure water","Commercial transportation","Food production"],ans:2},
+    {q:"Who took a ₦2 million cooperative loan before relocating abroad?",opts:["Sola","Mr. Nku","Hope","Jare"],ans:1},
+    {q:"How much did Sola and her husband borrow to finance their migration?",opts:["₦2 million","₦6 million","₦4 million","₦1 million"],ans:2},
+    {q:"What payment system did Mr. Bepo admire abroad?",opts:["Daily payment","Weekly payment","Monthly payment","Hourly payment"],ans:3},
+    {q:"Why did Fruitful Future School ultimately fail?",opts:["It was destroyed by fire","Wealthy families moved away due to poor road conditions","The government closed it","The building collapsed"],ans:1},
+    {q:"What major benefit did Nike and Kike enjoy in the UK?",opts:["Free healthcare only","Free transport","Free primary and secondary education","Free university education"],ans:2},
+    {q:"Who are Nike and Kike in relation to Mr. Bepo?",opts:["His students","His daughters","His nieces","His sisters"],ans:1},
+    {q:"What is 'Japa' as used in the novel?",opts:["A Yoruba festival","Slang for migrating abroad for better opportunities","A type of food","A government program"],ans:1},
+    {q:"What major attractions drew Nigerians to relocate abroad according to Chapter 3?",opts:["Better entertainment","Free education and healthcare","Better weather","Free housing"],ans:1},
+    {q:"What was Jare's profession before relocating abroad?",opts:["A teacher","A doctor","A banker","An engineer"],ans:2},
+    {q:"Why did Jare become distressed after relocating?",opts:["He could not find a job","His job involved caring for elderly people","He was deported","His family refused to join him"],ans:1},
+    {q:"What was Hope studying for when his wife stopped funding him?",opts:["A Bachelor's degree","A Master's degree","A PhD","A professional certificate"],ans:1},
+    {q:"What Idoma proverb is mentioned in Chapter 3?",opts:["The early bird catches the worm","The same rain nourishes sugarcane and bitter leaf differently","A child who knows his father's path will walk it","A tree does not make a forest"],ans:1},
+    {q:"What did Riike do to assist relatives in migrating?",opts:["Sent money to Nigeria","Sponsored two sisters to the US","Bought tickets for his parents","Got his brother a job"],ans:1},
+    {q:"What school did Mr. Bepo work at before Fruitful Future School?",opts:["Beesway Group of School","Stardom Schools","Golden Gate Academy","Faith Foundation School"],ans:0},
+    {q:"Which of the following best describes Mr. Nku's action before relocating?",opts:["He repaid all his debts","He sold his property","He took a ₦2m loan and left without repaying it","He donated his savings to the school"],ans:2}
+  ]},
+  {title:"Chapters 4–6 Quiz",sub:"Visa, Cooperative Society & Grammar Controversy",emoji:"📙",diff:"Medium",cls:"d-m",ch:4,questions:[
+    {q:"What shocking discovery was made during the Ignatius visa process?",opts:["Their passports were fake","Mrs. Ignatius had a criminal record","A DNA test revealed Favour was not Mr. Ignatius's biological child","Their visa was rejected on security grounds"],ans:2},
+    {q:"Who was Favour Ignatius?",opts:["Mrs. Ignatius's sister","An SSS2 student at Stardom Schools","A teacher at Stardom","The school nurse"],ans:1},
+    {q:"What was Mr. Ayesoro's nickname among students?",opts:["Mr. Lekki","Mr. Owala","Mr. Tribal","Mr. Marks"],ans:1},
+    {q:"How much was in the Stardom Cooperative Society account?",opts:["₦50 million","₦200 million","₦95 million","₦75 million"],ans:2},
+    {q:"What does 'Snake in the Roof' symbolize in the novel?",opts:["A real snake problem in the school","A hidden danger that may cause future problems","A staff member stealing","An illegal activity on school premises"],ans:1},
+    {q:"What loan limit was introduced after the MD's discovery?",opts:["₦100,000","₦500,000","₦250,000","₦150,000"],ans:2},
+    {q:"Which sentence was at the center of Mr. Farore's dismissal?",opts:["Ade and Jide comes early","Ade as well as Jide come early","Ade as well as Jide comes early","Ade together with Jide come early"],ans:2},
+    {q:"Who defended Mr. Farore's grammar?",opts:["Mr. Audu","Mrs. Ibidun Gloss","Mr. Guta","Mr. Bepo"],ans:3},
+    {q:"What happened to Mr. Farore after verification?",opts:["He was fined","He was transferred","He was re-employed","He resigned"],ans:2},
+    {q:"Who must approve future cooperative loan requests?",opts:["The Vice Principal","The Board of Directors","The Managing Director","The Accountant"],ans:2},
+    {q:"Why was Mr. Ayesoro transferred to Stardom Hub?",opts:["He was promoted","He requested a transfer","A parent complained her child had frightening dreams about him","He committed a disciplinary offence"],ans:2},
+    {q:"Who was Bibi's mother?",opts:["Mrs. Ignatius","Mrs. Gloss","Mrs. Ladele","Mrs. Apeh"],ans:2},
+    {q:"Why did Mrs. Ignatius contact Mr. Bepo?",opts:["To report a student's misconduct","To seek guidance after her husband threw her out","To complain about school fees","To request a transfer"],ans:1},
+    {q:"What profession did Mrs. Ignatius learn before the family planned to relocate?",opts:["Nursing and baking","Teaching and driving","Tailoring and hairdressing","Cooking and trading"],ans:2},
+    {q:"What did the MD fear after seeing the ₦95 million cooperative?",opts:["Staff would demand higher salaries","Staff would establish competing schools","The funds would be stolen","The cooperative would go bankrupt"],ans:1},
+    {q:"How much of the cooperative funds had already been loaned out?",opts:["₦20 million","₦95 million","Over ₦50 million","₦10 million"],ans:2},
+    {q:"Who was Mr. Farore?",opts:["A mathematics teacher","An English teacher at Stardom Schools","The Vice Principal","A parent"],ans:1},
+    {q:"Who was Mr. Guta?",opts:["A colleague of Mr. Bepo","A Board member","A parent who caused Mr. Farore's dismissal","The school accountant"],ans:2},
+    {q:"Why was the correct verb in 'Ade as well as Jide ___ early' the word 'comes'?",opts:["Because both subjects are male","Because the verb agrees with the first subject when 'as well as' is used","Because Ade is more important","Because it is irregular"],ans:1},
+    {q:"What did Mr. Audu do after the grammar crisis was resolved?",opts:["He reported the incident to the Board","He apologized on behalf of Mr. Guta","He eased tension with a joke","He asked Mr. Farore to resign voluntarily"],ans:2}
+  ]},
+  {title:"Chapters 7–9 Quiz",sub:"Ritualists, Unfinished Business & Laughing Waterfalls",emoji:"📒",diff:"Medium",cls:"d-m",ch:7,questions:[
+    {q:"What was the name of the school Mr. Bepo worked at before Stardom?",opts:["Golden Gate School","Fruitful Future School","Beesway Group of School","Faith Academy"],ans:2},
+    {q:"What was wrong with the name 'Beesway Group of School'?",opts:["It was a foreign name","The word 'School' should be 'Schools'","It was too long","It was not registered"],ans:1},
+    {q:"What did Mr. Bepo observe the five men doing at night?",opts:["Burning documents","Digging to lay a foundation","Apparently burying a cow in a pit","Conducting a prayer session outdoors"],ans:2},
+    {q:"What did Mr. Egi Meko claim the night ritual was?",opts:["A burial ceremony","A security exercise","A prayer ceremony for his late father","A traditional cleansing ritual"],ans:2},
+    {q:"What did parent Mr. Ogo suggest to attract more pupils to Fruitful Future School?",opts:["Radio advertisements","Better teachers","Supernatural/spiritual rites","Reducing school fees"],ans:2},
+    {q:"What did Mr. Bepo do when Mr. Ogo suggested rituals?",opts:["He agreed reluctantly","He reported Mr. Ogo to the government","He refused","He asked for time to think"],ans:2},
+    {q:"What crime did Mr. Ogo commit later in life?",opts:["He stole from the school","He forged documents","He murdered a woman who demanded a refund for spiritual services","He kidnapped a child"],ans:2},
+    {q:"How much had the woman paid Mr. Ogo for spiritual services?",opts:["₦500,000","₦2 million","Millions of naira","₦5 million"],ans:2},
+    {q:"What was the Breath Project?",opts:["A fitness program for students","Students developing mobile phones from recycled panels","An environmental project","A student drama production"],ans:1},
+    {q:"Who were Banky and Tosh?",opts:["Two teachers in a dispute","Students who competed for Social Prefect","Two parents in a legal battle","A student and a teacher"],ans:1},
+    {q:"What did Banky say about Tosh during Speech Day?",opts:["He called him unintelligent","He said Tosh copied his work","He called him 'the son of an ex-convict'","He accused him of cheating in exams"],ans:2},
+    {q:"Why was Chief Ogba technically NOT an ex-convict?",opts:["He was acquitted by the court","He escaped from prison","He was detained but never convicted — he was released and ordered to refund the money","He bribed the judge"],ans:2},
+    {q:"How much was Chief Ogba alleged to have misappropriated?",opts:["₦500 million","₦1 billion","₦2.5 billion","₦750 million"],ans:2},
+    {q:"How long was Chief Ogba detained?",opts:["12 months","24 months","36 months","48 months"],ans:2},
+    {q:"What did Chief Ogba demand from Banky's family?",opts:["A financial settlement","Written apologies and publication in the school magazine","Banky's expulsion from school","A public press conference apology"],ans:1},
+    {q:"Which waterfall is described as one of the highest in West Africa?",opts:["Gurara Falls","Erin Ijesha","Ikogosi Warm Springs","Owu Waterfalls"],ans:3},
+    {q:"In which state is the Argungu Fishing Festival held?",opts:["Kano State","Lagos State","Kebbi State","Ogun State"],ans:2},
+    {q:"What comparison did Mr. Bepo make about modern Nigerians leaving their country?",opts:["He compared it to tourism","He compared it to a new form of slavery","He said it was progress","He called it a government failure"],ans:1},
+    {q:"What did Mr. Bepo teach students when they looked down on communities like Mushin?",opts:["That poor communities should be avoided","That success depends on determination and education, not birthplace","That the government should relocate those communities","That education solves all poverty"],ans:1},
+    {q:"What did the Akran of Badagry tell the students?",opts:["How Badagry became the capital of Lagos","The history of Badagry and that its name originated from 'Agbadarigi'","That the slave trade never happened in Badagry","How his palace was built"],ans:1}
+  ]},
+  {title:"Chapters 10–12 Quiz",sub:"Passport Pains, Farewell & Departure",emoji:"📕",diff:"Hard",cls:"d-h",ch:10,questions:[
+    {q:"What major challenge did Mr. Bepo face in Chapter 10?",opts:["His visa was rejected","He lost his job","Passport renewal bureaucracy and delays","His wife refused to travel"],ans:2},
+    {q:"What was the official fee for passport renewal?",opts:["₦50,000","₦70,000","₦100,000","₦120,000"],ans:1},
+    {q:"How much did Mr. Bepo pay through the agent Tai?",opts:["₦70,000","₦80,000","₦100,000","₦150,000"],ans:2},
+    {q:"Who was Tai?",opts:["A government official","A business center operator in Ibadan who helped with passport processing","A police officer","Mr. Bepo's friend"],ans:1},
+    {q:"Which poem did Ibadan remind Mr. Bepo of?",opts:["The Lion and the Jewel","Death and the King's Horseman","Ibadan by J.P. Clark","Song of Lawino"],ans:2},
+    {q:"What does the passport experience symbolize in the novel?",opts:["The joy of international travel","The failure of Nigerian citizens abroad","Nigeria's bureaucratic inefficiency and corruption","The importance of traveling early"],ans:2},
+    {q:"What happened at Mr. Bepo's farewell party?",opts:["It was cancelled due to rain","The MD refused to attend","Staff organized a party and gave him a farewell gift","He was given a warning letter"],ans:2},
+    {q:"How much was the farewell cheque given to Mr. Bepo?",opts:["$5,000","$15,000","$10,000","$20,000"],ans:2},
+    {q:"What was the score of the farewell football match between staff and students?",opts:["2-1","4-3","3-2","1-0"],ans:2},
+    {q:"Who was the Games Master at Stardom Schools?",opts:["Mr. Audu","Mr. Farore","Mr. Ibe","Mr. Bepo"],ans:2},
+    {q:"What car did Mr. Bepo sell before departing?",opts:["A Toyota Camry","His personal car sold to the school accountant","A Honda Accord","A Hyundai Sonata"],ans:1},
+    {q:"How much did Mr. Bepo sell his car for?",opts:["₦800,000","₦2 million","₦1.5 million","₦1 million"],ans:2},
+    {q:"Who bought Mr. Bepo's car?",opts:["The MD","Mr. Ope Wande","Mr. Oyelana the accountant","Mr. Audu"],ans:2},
+    {q:"What time was Mr. Bepo's flight scheduled?",opts:["8:00 p.m.","10:00 p.m.","6:00 p.m.","Midnight"],ans:1},
+    {q:"Which market did Mr. Bepo visit to buy Nigerian food items before departing?",opts:["Balogun Market","Tejuosho Market","Oyingbo Market","Mile 12 Market"],ans:2},
+    {q:"Who drove Mr. Bepo to the airport?",opts:["Mr. Oyelana","The MD","His landlord Mr. Ogunwale","Mr. Audu"],ans:2},
+    {q:"What did Mr. Bepo's landlord Mr. Ogunwale do before driving off at the airport?",opts:["He gave Mr. Bepo money","He said a prayer for Mr. Bepo's safe journey","He cried and refused to leave","He took a photo with Mr. Bepo"],ans:1},
+    {q:"What did Mr. Bepo shout during the Badagry cultural dance performance?",opts:["Wonderful!","Stop it!","Noooo!","Amazing!"],ans:2},
+    {q:"What was Mr. Bepo's feelings as he finally boarded his flight?",opts:["Pure joy with no regrets","A mix of excitement and deep sadness at leaving Nigeria","Anger at the government","Relief that school was behind him"],ans:1},
+    {q:"What does Mr. Bepo's departure at the end of the novel represent?",opts:["Failure of the Nigerian education system","The Japa phenomenon — the struggle of skilled Nigerians choosing to leave","A betrayal of his students","A reward for hard work"],ans:1}
+  ]},
+  {title:"Full Novel Quiz",sub:"Comprehensive 30-question test covering all 12 chapters",emoji:"🏆",diff:"Hard",cls:"d-h",ch:1,questions:[
+    {q:"What is Mr. Bepo's full name?",opts:["Adewale Adetolu","Adebayo Adebepo","Adewale Adebepo","Adekunle Bepo"],ans:2},
+    {q:"Why was Mr. Bepo called 'The Lekki Headmaster'?",opts:["He was a real headmaster","He imitated Village Headmaster TV show characters humorously","He lived in Lekki all his life","He appeared on a TV show"],ans:1},
+    {q:"Who is the Managing Director of Stardom Schools?",opts:["Mrs. Grace Apeh","Mrs. Seri Bepo","Mr. Justus Anabel","Mrs. Ibidun Gloss"],ans:3},
+    {q:"What percentage WASSCE success rate did Stardom Schools achieve?",opts:["85%","95%","90%","100%"],ans:2},
+    {q:"Which country was Mr. Bepo relocating to?",opts:["USA","Canada","UK","Australia"],ans:2},
+    {q:"What shocking discovery happened during the Ignatius visa process?",opts:["Their passports were forged","A DNA test revealed Favour was not Mr. Ignatius's biological child","Mrs. Ignatius had a criminal record","Their visa was denied without reason"],ans:1},
+    {q:"What did the title 'Snake in the Roof' symbolize?",opts:["A real snake found in school","Staff empowerment becoming a future threat to the MD","A theft case in school","An illegal cooperative activity"],ans:1},
+    {q:"How much was in the Stardom Cooperative Society?",opts:["₦50 million","₦75 million","₦95 million","₦200 million"],ans:2},
+    {q:"What was the disputed grammatical sentence in Chapter 6?",opts:["Ade and Jide comes early","Ade as well as Jide comes early","Ade as well as Jide come early","Ade together with Jide comes early"],ans:1},
+    {q:"Who defended Mr. Farore's grammar?",opts:["Mr. Audu","Mrs. Ibidun Gloss","Mr. Guta","Mr. Bepo"],ans:3},
+    {q:"What crime did Mr. Ogo eventually commit?",opts:["Armed robbery","Kidnapping","Murder of a woman who demanded a refund","Fraud"],ans:2},
+    {q:"What did Banky say about Tosh during Speech Day?",opts:["He was a bad student","He was 'the son of an ex-convict'","He stole from the school","He cheated in exams"],ans:1},
+    {q:"How long was Chief Ogba detained?",opts:["12 months","24 months","36 months","48 months"],ans:2},
+    {q:"What was the Breath Project?",opts:["A breathing exercise","Students building phones from recycled materials","An environmental project","A drama production"],ans:1},
+    {q:"What was Mr. Bepo's monthly salary in Nigeria?",opts:["₦200,000","₦600,000","₦400,000","₦150,000"],ans:2},
+    {q:"Who took a ₦2 million cooperative loan and relocated without repaying?",opts:["Sola","Hope","Mr. Nku","Jare"],ans:2},
+    {q:"Which waterfall is one of the highest in West Africa?",opts:["Gurara Falls","Erin Ijesha","Ikogosi Warm Springs","Owu Waterfalls"],ans:3},
+    {q:"What did the Akran of Badagry tell the students the name 'Badagry' originated from?",opts:["Badagiri","Badagrigi","Agbadarigi","Badagrini"],ans:2},
+    {q:"What is the official fee for passport renewal mentioned in the novel?",opts:["₦50,000","₦70,000","₦100,000","₦40,000"],ans:1},
+    {q:"How much did Mr. Bepo pay through agent Tai for his passport?",opts:["₦70,000","₦80,000","₦100,000","₦150,000"],ans:2},
+    {q:"What was the score of the farewell football match?",opts:["2-1","4-3","3-2","1-0"],ans:2},
+    {q:"How much was the farewell cheque given to Mr. Bepo?",opts:["$5,000","$15,000","$10,000","$20,000"],ans:2},
+    {q:"Who drove Mr. Bepo to the airport?",opts:["Mr. Oyelana","The MD","His landlord Mr. Ogunwale","Mr. Audu"],ans:2},
+    {q:"What time was Mr. Bepo's flight scheduled?",opts:["8:00 p.m.","10:00 p.m.","6:00 p.m.","Midnight"],ans:1},
+    {q:"How much did Mr. Bepo sell his car for?",opts:["₦800,000","₦2 million","₦1.5 million","₦1 million"],ans:2},
+    {q:"What major waterfall did Stardom students visit that is in West Africa?",opts:["Gurara Falls","Owu Waterfalls","Erin Ijesha","Ikogosi Warm Springs"],ans:1},
+    {q:"What did Mr. Egi Meko refuse to correct about Beesway school?",opts:["The school fees","The wrong school name 'Group of School'","The timetable","The staff handbook"],ans:1},
+    {q:"What payment system abroad impressed Mr. Bepo most?",opts:["Daily payment","Weekly payment","Monthly payment","Hourly payment"],ans:3},
+    {q:"What did Mr. Bepo compare modern Nigerians migrating abroad to?",opts:["Progress and development","A new form of slavery","A government-approved program","Cowardice"],ans:1},
+    {q:"What ultimately does Mr. Bepo's story represent in Nigerian society?",opts:["Failure of education","The Japa phenomenon — brain drain of skilled Nigerians seeking better opportunities abroad","Political corruption","Religious extremism"],ans:1}
+  ]}
+];
+
+// ---- NAVIGATION ----
+var currentPage='home';
+function showPage(name){
+  document.querySelectorAll('.page,.detail-view').forEach(function(p){p.classList.remove('active');});
+  var t=document.getElementById('page-'+name);
+  if(t){t.classList.add('active');}
+  document.querySelectorAll('.nl[data-page]').forEach(function(l){l.classList.remove('active');});
+  var al=document.querySelector('.nl[data-page="'+name+'"]');
+  if(al)al.classList.add('active');
+  document.querySelectorAll('.bn[data-page]').forEach(function(b){b.classList.remove('active');});
+  var ab=document.querySelector('.bn[data-page="'+name+'"]');
+  if(ab)ab.classList.add('active');
+  var titles={home:'ZENOVA',chapters:'Chapters',audio:'Audio Summary',quiz:'Quiz (CBT)',cast:'Cast & Characters',profile:'Profile'};
+  document.getElementById('tbTitle').textContent=titles[name]||'ZENOVA';
+  document.getElementById('tbSub').textContent=name==='home'?'Master Lekki Headmaster':'Welcome back 👋';
+  currentPage=name;
+  document.getElementById('pagesWrap').scrollTop=0;
+  if(window.innerWidth<=900)closeSb();
+}
+
+function showDetail(viewId,titleText){
+  document.querySelectorAll('.page,.detail-view').forEach(function(p){p.classList.remove('active');});
+  document.getElementById(viewId).classList.add('active');
+  document.getElementById('tbTitle').textContent=titleText||'Detail';
+  document.getElementById('pagesWrap').scrollTop=0;
+  if(window.innerWidth<=900)closeSb();
+}
+
+function toggleSb(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOv').classList.toggle('open');}
+function closeSb(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOv').classList.remove('open');}
+
+// ---- AUTH ----
+auth.onAuthStateChanged(function(user){
+  if(!user){window.location.href='login.html';return;}
+  var name=user.displayName||user.email.split('@')[0];
+  var ini=name.split(' ').map(function(n){return n[0];}).join('').toUpperCase().slice(0,2);
+  // Old elements (sidebar, profile)
+  ['sbAv','profAv'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ini;});
+  document.getElementById('sbName').textContent=name;
+  document.getElementById('sbEmail').textContent=user.email;
+  document.getElementById('profName').textContent=name;
+  document.getElementById('profEmail').textContent=user.email;
+  document.getElementById('prName').textContent=name;
+  document.getElementById('prEmail').textContent=user.email;
+  // Hero card
+  document.getElementById('heroAv').textContent=ini;
+  document.getElementById('heroName').textContent=name.split(' ')[0]+'!';
+  var joined=user.metadata&&user.metadata.creationTime?new Date(user.metadata.creationTime).toLocaleDateString('en-NG',{year:'numeric',month:'long',day:'numeric'}):'—';
+  document.getElementById('prJoined').textContent=joined;
+  db.ref('users/'+user.uid).once('value').then(function(snap){
+    var d=snap.val()||{};
+    var plan=d.plan||'free';
+    var expiry=d.planExpiry?new Date(d.planExpiry):null;
+    var now=new Date();
+    // Reset plan if expired
+    if(plan!=='free' && expiry && expiry<now){
+      plan='free';
+      db.ref('users/'+user.uid).update({plan:'free',planExpiry:null});
+      showExpiredToast();
+    }
+    currentPlan=plan;
+    var testsTaken=d.testsTaken||0;
+    var testsPassed=d.testsPassed||0;
+    var streak=d.streak||0;
+    var avgScore=d.avgScore||0;
+    document.getElementById('stCh').textContent=testsTaken;
+    document.getElementById('stQz').textContent=testsPassed;
+    document.getElementById('stSt').textContent=streak;
+    document.getElementById('stSc').textContent=testsTaken>0?(avgScore+'%'):'—';
+    // Progress bar = average score across all tests
+    var progPct=avgScore;
+    document.getElementById('progressPct').textContent=testsTaken>0?(progPct+'%'):'0%';
+    document.getElementById('progressBar').style.width=(testsTaken>0?progPct:0)+'%';
+    var captions=['Take a quiz to start tracking progress!','Getting started — keep going!','Good progress, keep practising!','Strong performance!','Outstanding — keep it up!'];
+    document.getElementById('progressCaption').textContent=captions[Math.min(4,Math.floor(progPct/20))];
+    // Hero plan badge
+    applyPlan(plan,expiry,now);
+    loadActivity();
+    buildChapters();
+    buildAudio();
+    buildQuizList();
+    buildCast();
+    listenForPlanChanges(user.uid);
+  }).catch(function(){
+    currentPlan='free';
+    applyPlan('free',null,new Date());
+    buildStreak();
+    buildChapters();
+    buildAudio();
+    buildQuizList();
+    buildCast();
+    listenForPlanChanges(user.uid);
+  });
+});
+
+// ---- PLAN ----
+function applyPlan(plan,expiry,now){
+  currentPlan=plan;
+  now=now||new Date();
+  var names={free:'Free',scholar:'Scholar ★',master:'PRO ★'};
+  var subs={free:'1 chapter unlocked',scholar:'5 chapters unlocked',master:'All chapters unlocked'};
+  var emojis={free:'🎁',scholar:'👑',master:'🏆'};
+  document.getElementById('sbPlanName').textContent=(plan==='master'?'Master':(plan==='scholar'?'Scholar':'Free'));
+  document.getElementById('sbPlanSub').textContent=subs[plan]||'1 chapter unlocked';
+  document.getElementById('prPlan').textContent=(plan==='master'?'Master':(plan==='scholar'?'Scholar':'Free'));
+  document.getElementById('prStatus').textContent=plan==='free'?'Free tier':'Active';
+  document.getElementById('profBadge').textContent=(emojis[plan]||'🎁')+' '+(plan==='master'?'Master':plan==='scholar'?'Scholar':'Free')+' Plan';
+  // Hero badge
+  var badge=document.getElementById('heroPlanBadge');
+  badge.className='hero-plan-badge '+plan;
+  badge.textContent=names[plan]||'Free';
+  // Expiry display
+  var expiryEl=document.getElementById('heroExpiry');
+  var daysEl=document.getElementById('heroDaysLeft');
+  if(expiry && plan!=='free'){
+    expiryEl.style.display='flex';
+    document.getElementById('heroExpiryDate').textContent=expiry.toLocaleDateString('en-NG',{day:'numeric',month:'long',year:'numeric'});
+    var daysLeft=Math.ceil((expiry-now)/(1000*60*60*24));
+    daysEl.style.display='block';
+    daysEl.textContent=daysLeft+' days left';
+  } else {
+    expiryEl.style.display='none';
+    daysEl.style.display='none';
+  }
+  if(plan!=='free'){
+    document.getElementById('sbUpBtn').style.display='none';
+  } else {
+    document.getElementById('sbUpBtn').style.display='block';
+  }
+}
+
+// Also listen for real-time plan changes (e.g. after payment redirect)
+function listenForPlanChanges(uid){
+  db.ref('users/'+uid).on('value', function(snap){
+    var d=snap.val()||{};
+    var newPlan=d.plan||'free';
+    var expiry=d.planExpiry?new Date(d.planExpiry):null;
+    var now=new Date();
+    // Show expiry info in profile
+    var expiryEl=document.getElementById('prExpiry');
+    if(expiryEl){
+      if(expiry && newPlan!=='free'){
+        expiryEl.textContent=expiry.toLocaleDateString('en-NG',{year:'numeric',month:'long',day:'numeric'});
+      } else {
+        expiryEl.textContent='No expiry';
+      }
+    }
+    if(newPlan !== currentPlan){
+      currentPlan = newPlan;
+      applyPlan(newPlan);
+      buildChapters();
+      buildAudio();
+      buildQuizList();
+      buildCast();
+    }
+  });
+}
+
+// ---- RECENT ACTIVITY ----
+function logActivity(type, title, sub){
+  var user=firebase.auth().currentUser;
+  if(!user) return;
+  var entry={type:type,title:title,sub:sub,ts:Date.now()};
+  // Push to activity log, keep latest 20
+  db.ref('users/'+user.uid+'/activity').push(entry).then(function(){
+    loadActivity();
+  });
+}
+
+function loadActivity(){
+  var user=firebase.auth().currentUser;
+  if(!user) return;
+  db.ref('users/'+user.uid+'/activity').orderByChild('ts').limitToLast(5).once('value').then(function(snap){
+    var items=[];
+    snap.forEach(function(child){items.unshift(child.val());});
+    renderActivity(items);
+  });
+}
+
+function renderActivity(items){
+  var el=document.getElementById('activityList');
+  if(!el) return;
+  if(!items||items.length===0){
+    el.innerHTML='<div class="activity-item" style="justify-content:center;color:var(--muted);font-size:13px;padding:20px;">No activity yet — start reading or take a quiz!</div>';
+    return;
+  }
+  var cfg={
+    quiz:{icon:'✅',cls:'act-ic-green',page:'quiz'},
+    chapter:{icon:'📖',cls:'act-ic-blue',page:'chapters'},
+    audio:{icon:'🎧',cls:'act-ic-purple',page:'audio'}
+  };
+  el.innerHTML=items.map(function(a){
+    var c=cfg[a.type]||cfg.quiz;
+    return '<div class="activity-item" onclick="showPage(\''+c.page+'\')">'+
+      '<div class="act-icon '+c.cls+'">'+c.icon+'</div>'+
+      '<div class="act-body">'+
+        '<div class="act-title">'+a.title+'</div>'+
+        '<div class="act-sub">'+a.sub+'</div>'+
+      '</div>'+
+      '<div class="act-meta">'+
+        '<span class="act-time">'+timeAgo(a.ts)+'</span>'+
+        '<svg class="act-arrow" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function timeAgo(ts){
+  var diff=Math.floor((Date.now()-ts)/1000);
+  if(diff<60) return 'Just now';
+  if(diff<3600) return Math.floor(diff/60)+'m ago';
+  if(diff<86400) return Math.floor(diff/3600)+'h ago';
+  return Math.floor(diff/86400)+'d ago';
+}
+function buildChapters(){
+  var limit=LIMITS[currentPlan]||1;
+  var html='';
+  CHAPTERS.forEach(function(ch,i){
+    var unlocked=i<limit;
+    html+='<div class="ch-item'+(unlocked?'':' locked')+'" '+(unlocked?'onclick="openChapter('+i+')"':'')+'>'+
+      '<div class="ch-num">'+ch.num+'</div>'+
+      '<div class="ch-info"><div class="ch-t">Chapter '+ch.num+': '+ch.title+'</div><div class="ch-s">'+ch.sub+'</div></div>'+
+      '<span class="ch-badge '+(unlocked?'b-ok':'b-lock')+'">'+(unlocked?'✓ Read':'🔒 Locked')+'</span>'+
+      '</div>';
+  });
+  document.getElementById('chList').innerHTML=html;
+}
+
+function openChapter(idx){
+  var ch=CHAPTERS[idx];
+  var html='<div class="ch-detail-header">'+
+    '<div class="ch-detail-num">Chapter '+ch.num+' of 12</div>'+
+    '<div class="ch-detail-title">'+ch.title+'</div>'+
+    '<div class="ch-detail-sub">'+ch.sub+'</div>'+
+    '</div>'+
+    '<div class="summary-card"><h4>📝 Detailed Summary</h4>'+
+    ch.summary.map(function(p){return '<p>'+p+'</p>';}).join('')+
+    '</div>'+
+    '<div class="summary-card"><h4>⭐ Key Points</h4>'+
+    '<ul class="kp-list">'+ch.keypoints.map(function(k){return '<li><span class="kp-dot"></span>'+k+'</li>';}).join('')+'</ul>'+
+    '</div>'+
+    '<div class="summary-card"><h4>📌 Themes</h4><div class="theme-pills">'+
+    ch.themes.map(function(t){return '<span class="theme-pill">'+t+'</span>';}).join('')+
+    '</div></div>';
+  document.getElementById('chapterDetailContent').innerHTML=html;
+  showDetail('view-chapter','Chapter '+ch.num+': '+ch.title);
+  // Log activity
+  logActivity('chapter','Read Summary','Chapter '+ch.num+' — '+ch.title);
+  // Track progress in Firebase
+  var user=firebase.auth().currentUser;
+  if(user){
+    db.ref('users/'+user.uid).once('value').then(function(snap){
+      var d=snap.val()||{};
+      var readSet=d.chaptersReadSet||{};
+      if(!readSet['ch'+idx]){
+        readSet['ch'+idx]=true;
+        var newCount=Object.keys(readSet).length;
+        db.ref('users/'+user.uid).update({chaptersRead:newCount,chaptersReadSet:readSet});
+        // Update progress bar immediately
+        var pct=Math.min(100,Math.round((newCount/12)*100));
+        document.getElementById('progressPct').textContent=pct+'%';
+        document.getElementById('progressBar').style.width=pct+'%';
+        var captions=['Start reading to track your progress!','Great start! Keep going!','You\'re making progress!','Halfway there, keep it up!','You\'re doing great! Finish strong.'];
+        document.getElementById('progressCaption').textContent=captions[Math.min(4,Math.floor(pct/25))];
+        document.getElementById('stCh').textContent=newCount;
+      }
+    });
+  }
+}
+
+function buildAudio(){
+  var limit=LIMITS[currentPlan]||1;
+  var html='';
+  CHAPTERS.forEach(function(ch,i){
+    var unlocked=i<limit;
+    html+='<div class="audio-item'+(unlocked?'':' locked')+'">'+
+      '<button class="audio-play-btn" '+(unlocked?'onclick="toggleAudio(\'aud'+i+'\',\''+ch.audio+'\')"':'disabled')+'>'+
+      '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>'+
+      '</button>'+
+      '<div class="audio-info" style="flex:1;">'+
+      '<div class="audio-title">Chapter '+ch.num+': '+ch.title+'</div>'+
+      '<div class="audio-sub">'+ch.sub+'</div>'+
+      (unlocked?'<div class="audio-player-wrap" id="player'+i+'"></div>':'<div style="font-size:11px;color:var(--muted);margin-top:4px;">🔒 Upgrade to unlock</div>')+
+      '</div>'+
+      '<span class="ch-badge '+(unlocked?'b-play':'b-lock')+'">'+(unlocked?'▶ Play':'🔒')+'</span>'+
+      '</div>';
+  });
+  document.getElementById('audioList').innerHTML=html;
+}
+
+function toggleAudio(id,src){
+  var existing=document.querySelector('audio.active-audio');
+  if(existing&&existing.id!==id){existing.pause();existing.classList.remove('active-audio');}
+  var playerWrap=document.getElementById(id.replace('aud','player'));
+  if(!playerWrap)return;
+  var audio=document.getElementById(id);
+  if(!audio){
+    audio=document.createElement('audio');
+    audio.id=id;
+    audio.controls=true;
+    audio.className='active-audio';
+    audio.src=src;
+    playerWrap.innerHTML='';
+    playerWrap.appendChild(audio);
+    audio.play();
+    // Log activity — find chapter title from index
+    var idx=parseInt(id.replace('aud',''));
+    var ch=CHAPTERS[idx];
+    if(ch) logActivity('audio','Listened to Audio','Chapter '+ch.num+' — '+ch.title);
+  } else {
+    if(audio.paused){audio.play();}else{audio.pause();}
+  }
+}
+
+function buildQuizList(){
+  var html='';
+  QUIZZES.forEach(function(q,i){
+    var unlocked=(currentPlan==='master'?true:currentPlan==='scholar'?i<4:i<2);
+    html+='<div class="qcard'+(unlocked?'':' locked')+'">'+
+      '<div class="qc-em">'+(unlocked?q.emoji:'🔒')+'</div>'+
+      '<div class="qc-title">'+(unlocked?q.title:'Locked Quiz')+'</div>'+
+      '<div class="qc-sub">'+(unlocked?q.sub:(currentPlan==='scholar'?'Upgrade to Master to unlock.':'Upgrade your plan to unlock this quiz.'))+'</div>'+
+      '<div class="qc-foot">'+
+      '<span class="diff '+q.cls+'">'+q.diff+'</span>'+
+      (unlocked?'<button class="btn-quiz" onclick="openQuiz('+i+')">Start →</button>':'<a href="plans.html?from=dashboard" style="font-size:12px;font-weight:600;color:var(--accent);">Upgrade →</a>')+
+      '</div></div>';
+  });
+  document.getElementById('quizList').innerHTML=html;
+}
+
+var quizState={quiz:null,current:0,answers:[],answered:false};
+
+function openQuiz(idx){
+  var q=QUIZZES[idx];
+  quizState={quiz:q,current:0,answers:new Array(q.questions.length).fill(-1),answered:false};
+  renderQuiz();
+  showDetail('view-quiz',q.title);
+}
+
+function renderQuiz(){
+  var qs=quizState.quiz.questions;
+  var ci=quizState.current;
+  var q=qs[ci];
+  var ua=quizState.answers[ci];
+  var html='<div class="quiz-header">'+
+    '<div class="quiz-header-left"><h3>'+quizState.quiz.title+'</h3><p>'+quizState.quiz.sub+'</p></div>'+
+    '<div class="quiz-progress">'+(ci+1)+' / '+qs.length+'</div>'+
+    '</div>'+
+    '<div class="q-block">'+
+    '<div class="q-num">Question '+(ci+1)+' of '+qs.length+'</div>'+
+    '<div class="q-text">'+q.q+'</div>'+
+    '<div class="q-options">';
+  q.opts.forEach(function(opt,i){
+    var cls='';
+    if(ua!==-1){
+      if(i===q.ans)cls=' reveal';
+      else if(i===ua&&ua!==q.ans)cls=' wrong';
+    }
+    html+='<button class="q-opt'+cls+'" onclick="selectAnswer('+i+')" '+(ua!==-1?'disabled':'')+'>'+
+      String.fromCharCode(65+i)+'. '+opt+'</button>';
+  });
+  html+='</div></div>'+
+    '<div class="q-nav">'+
+    (ci>0?'<button class="btn-qnav btn-qnav-prev" onclick="quizNav(-1)">← Previous</button>':'<span></span>')+
+    (ci<qs.length-1?'<button class="btn-qnav btn-qnav-next" onclick="quizNav(1)">Next →</button>':
+     '<button class="btn-qnav btn-qnav-next" onclick="showQuizScore()">See Score →</button>')+
+    '</div>';
+  document.getElementById('quizDetailContent').innerHTML=html;
+}
+
+function selectAnswer(optIdx){
+  if(quizState.answers[quizState.current]!==-1)return;
+  quizState.answers[quizState.current]=optIdx;
+  renderQuiz();
+}
+
+function quizNav(dir){
+  quizState.current+=dir;
+  renderQuiz();
+}
+
+function showQuizScore(){
+  var qs=quizState.quiz.questions;
+  var correct=0;
+  qs.forEach(function(q,i){if(quizState.answers[i]===q.ans)correct++;});
+  var pct=Math.round((correct/qs.length)*100);
+  var emoji=pct>=80?'🎉':pct>=60?'👍':'📚';
+  var msg=pct>=80?'Excellent work!':pct>=60?'Good effort, keep studying!':'Keep reading and try again!';
+  var html='<div class="quiz-score-card">'+
+    '<div class="score-emoji">'+emoji+'</div>'+
+    '<h3>Quiz Complete!</h3>'+
+    '<div class="score-val">'+pct+'%</div>'+
+    '<p>You got <strong>'+correct+' out of '+qs.length+'</strong> correct</p>'+
+    '<p style="margin-top:6px;font-size:13px;">'+msg+'</p>'+
+    '<button class="btn-retake" onclick="openQuiz(QUIZZES.indexOf(quizState.quiz))">Retake Quiz</button>'+
+    '</div>'+
+    '<div style="text-align:center;margin-top:10px;"><button class="back-btn" onclick="showPage(\'quiz\')">← Back to Quizzes</button></div>';
+  document.getElementById('quizDetailContent').innerHTML=html;
+
+  // ---- Save stats to Firebase ----
+  var user=firebase.auth().currentUser;
+  if(!user) return;
+  db.ref('users/'+user.uid).once('value').then(function(snap){
+    var d=snap.val()||{};
+    var testsTaken=(d.testsTaken||0)+1;
+    var testsPassed=(d.testsPassed||0)+(pct>=50?1:0);
+    // Rolling average score
+    var prevAvg=d.avgScore||0;
+    var prevCount=d.testsTaken||0;
+    var newAvg=prevCount>0?Math.round(((prevAvg*prevCount)+pct)/(prevCount+1)):pct;
+    // Day streak
+    var today=new Date().toDateString();
+    var lastDay=d.lastStudyDay||'';
+    var yesterday=new Date(Date.now()-86400000).toDateString();
+    var streak=d.streak||0;
+    if(lastDay===today){
+      streak=streak; // same day, no change
+    } else if(lastDay===yesterday){
+      streak=streak+1; // consecutive day
+    } else {
+      streak=1; // reset
+    }
+    var updates={
+      testsTaken:testsTaken,
+      testsPassed:testsPassed,
+      avgScore:newAvg,
+      streak:streak,
+      lastStudyDay:today
+    };
+    db.ref('users/'+user.uid).update(updates);
+    // Log activity
+    logActivity('quiz','Completed Test — '+pct+'%', quizState.quiz.title);
+    // Update stat chips immediately
+    document.getElementById('stCh').textContent=testsTaken;
+    document.getElementById('stQz').textContent=testsPassed;
+    document.getElementById('stSc').textContent=newAvg+'%';
+    document.getElementById('stSt').textContent=streak;
+    // Update progress bar based on avg score
+    var progPct=newAvg;
+    document.getElementById('progressPct').textContent=progPct+'%';
+    document.getElementById('progressBar').style.width=progPct+'%';
+    var captions=['Keep taking tests to track progress!','Getting started — keep going!','Good progress, keep practising!','Strong performance!','Outstanding — keep it up!'];
+    document.getElementById('progressCaption').textContent=captions[Math.min(4,Math.floor(progPct/20))];
+  });
+}
+
+function buildCast(){
+  var limit=LIMITS[currentPlan]||1;
+  var html='';
+  CAST.forEach(function(c){
+    var unlocked=c.ch<=limit;
+    html+='<div class="cast-card'+(unlocked?'':' locked')+'" '+(unlocked?'onclick="openCast(\''+c.name.replace(/'/g,"\\'")+'\')"':'')+'>'+
+      '<div class="cast-av">'+c.emoji+'</div>'+
+      '<div class="cast-name">'+(unlocked?c.name:'🔒 Locked')+'</div>'+
+      '<div class="cast-role">'+(unlocked?c.role:'Upgrade to unlock')+'</div>'+
+      '<span class="cast-ch">Ch. '+c.ch+'</span>'+
+      '</div>';
+  });
+  document.getElementById('castGrid').innerHTML=html;
+}
+
+function openCast(name){
+  var c=null;
+  for(var i=0;i<CAST.length;i++){if(CAST[i].name===name){c=CAST[i];break;}}
+  if(!c)return;
+  var html='<div class="cast-detail-header">'+
+    '<div class="cast-detail-av">'+c.emoji+'</div>'+
+    '<div class="cast-detail-info">'+
+    '<h3>'+c.name+'</h3>'+
+    '<p>'+c.role+'</p>'+
+    '<span class="cast-detail-badge">'+c.type+' · Chapter '+c.ch+'</span>'+
+    '</div></div>'+
+    '<div class="summary-card"><h4>👤 Character Profile</h4><p>'+c.detail+'</p></div>'+
+    '<div class="summary-card"><h4>📖 First Appears</h4><p>This character first appears in <strong>Chapter '+c.ch+'</strong> of The Lekki Headmaster.</p></div>';
+  document.getElementById('castDetailContent').innerHTML=html;
+  showDetail('view-cast',c.name);
+}
+
+function buildStreak(){
+  var days=['M','T','W','T','F','S','S'];
+  var today=new Date().getDay();
+  var html='';
+  days.forEach(function(d,i){
+    var jsDay=(i===6)?0:i+1;
+    html+='<div class="sd'+(jsDay===today?' today':'')+'">' +d+'</div>';
+  });
+  document.getElementById('streakDays').innerHTML=html;
+}
+
+function doLogout(){auth.signOut().then(function(){window.location.href='login.html';});}
+
+function showExpiredToast(){
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#DC2626;color:#fff;padding:13px 22px;border-radius:11px;font-size:14px;font-weight:600;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.2);';
+  t.textContent='⚠️ Your plan has expired. You have been moved to the Free plan.';
+  document.body.appendChild(t);
+  setTimeout(function(){t.remove();},5000);
+}
+</script>
+</body>
+</html>
