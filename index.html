@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenova — Master Lekki Headmaster for JAMB</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0A1628;
+  --dark:#0D1F3C;
+  --mid:#1B3A6B;
+  --accent:#2756B1;
+  --deep:#060E1C;
+  --white:#ffffff;
+  --off:#F4F6FB;
+  --muted:#5A6A85;
+  --light:#8A99B5;
+  --border:#D4DCF0;
+  --border-dark:rgba(255,255,255,0.09);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--navy);overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#f0f0f0;}
+::-webkit-scrollbar-thumb{background:var(--mid);border-radius:3px;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 5%;height:66px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:box-shadow .3s;
+}
+nav.sc{box-shadow:0 4px 20px rgba(10,22,40,.08);}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.nav-z{width:34px;height:34px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:17px;color:#fff;flex-shrink:0;}
+.nav-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy);}
+.nav-links{display:flex;align-items:center;gap:30px;list-style:none;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--navy);}
+.nav-r{display:flex;align-items:center;gap:10px;}
+.btn-ghost{font-size:13px;font-weight:500;color:var(--navy);background:none;border:none;cursor:pointer;padding:8px 15px;border-radius:7px;text-decoration:none;transition:background .2s;}
+.btn-ghost:hover{background:var(--off);}
+.btn-nav{font-size:13px;font-weight:600;color:#fff;background:var(--navy);border:none;cursor:pointer;padding:9px 20px;border-radius:8px;text-decoration:none;display:inline-block;transition:all .2s;}
+.btn-nav:hover{background:var(--mid);}
+.ham{display:none;background:none;border:none;cursor:pointer;color:var(--navy);padding:4px;}
+.mob{display:none;position:fixed;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);padding:18px 5%;flex-direction:column;gap:14px;z-index:99;}
+.mob.open{display:flex;}
+.mob a{font-size:15px;font-weight:500;color:var(--navy);text-decoration:none;padding:7px 0;border-bottom:1px solid var(--border);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  padding:100px 5% 64px;
+  display:flex;align-items:center;
+  background:#fff;
+  position:relative;overflow:hidden;
+}
+.hero-dots{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(10,22,40,0.055) 1px,transparent 1px);
+  background-size:28px 28px;
+  pointer-events:none;
+  mask-image:radial-gradient(ellipse 75% 65% at 65% 42%,black,transparent 80%);
+}
+.hero-blob{position:absolute;right:-60px;top:8%;width:580px;height:580px;background:radial-gradient(circle,rgba(39,86,177,.06) 0%,transparent 68%);pointer-events:none;}
+.hero-inner{max-width:1160px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;position:relative;z-index:1;}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--off);border:1px solid var(--border);
+  color:var(--muted);font-size:11px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;
+  padding:5px 13px;border-radius:100px;margin-bottom:20px;
+}
+.bp{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:bp 2s ease-in-out infinite;}
+@keyframes bp{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.65);}}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(34px,4.8vw,58px);
+  font-weight:900;line-height:1.09;
+  color:var(--navy);letter-spacing:-1.5px;margin-bottom:18px;
+}
+.hero h1 em{font-style:italic;color:var(--accent);}
+.hero h1 .ul{position:relative;}
+.hero h1 .ul::after{content:'';position:absolute;bottom:2px;left:0;right:0;height:4px;background:var(--off);border-radius:2px;z-index:-1;}
+
+.hero-p{font-size:16px;color:var(--muted);line-height:1.8;max-width:420px;margin-bottom:30px;}
+.hero-p strong{color:var(--navy);font-weight:600;}
+
+.hero-btns{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:28px;}
+.btn-hero{font-size:15px;font-weight:600;color:#fff;background:var(--navy);border:none;cursor:pointer;text-decoration:none;padding:13px 26px;border-radius:9px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 16px rgba(10,22,40,.18);transition:all .22s;}
+.btn-hero:hover{background:var(--mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(10,22,40,.24);}
+.btn-sec{font-size:14px;font-weight:500;color:var(--navy);background:none;border:1.5px solid var(--border);cursor:pointer;text-decoration:none;padding:12px 22px;border-radius:9px;display:inline-flex;align-items:center;gap:7px;transition:all .2s;}
+.btn-sec:hover{border-color:var(--navy);background:var(--off);}
+
+.hero-trust{display:flex;align-items:center;gap:10px;}
+.avs{display:flex;}
+.avs span{width:28px;height:28px;border-radius:50%;border:2px solid #fff;background:var(--off);margin-left:-7px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--navy);}
+.avs span:first-child{margin-left:0;}
+.trust-t{font-size:13px;color:var(--muted);}
+.trust-t strong{color:var(--navy);}
+
+/* ── HERO VISUAL ── */
+.hero-right{position:relative;}
+.mockup-outer{position:relative;padding:16px 18px 32px 18px;}
+
+/* App window */
+.app-win{background:var(--navy);border-radius:16px;overflow:hidden;box-shadow:0 24px 64px rgba(10,22,40,.38),0 0 0 1px rgba(255,255,255,.05);width:100%;max-width:480px;margin:0 auto;}
+.win-bar{background:rgba(0,0,0,.22);padding:11px 15px;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.07);}
+.wd{width:9px;height:9px;border-radius:50%;}
+.w-url{flex:1;background:rgba(255,255,255,.07);border-radius:5px;padding:4px 10px;font-size:10px;color:rgba(255,255,255,.28);margin:0 7px;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.win-body{display:grid;grid-template-columns:168px 1fr;}
+
+/* Sidebar */
+.win-side{background:rgba(0,0,0,.2);border-right:1px solid rgba(255,255,255,.06);padding:16px 10px;}
+.ws-logo{display:flex;align-items:center;gap:6px;margin-bottom:18px;padding:0 3px;}
+.ws-z{width:24px;height:24px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:12px;color:var(--navy);}
+.ws-name{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:#fff;}
+.ws-item{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;font-size:11px;color:rgba(255,255,255,.38);margin-bottom:2px;cursor:pointer;}
+.ws-item.on{background:rgba(255,255,255,.1);color:#fff;font-weight:600;}
+.ws-item svg{width:13px;height:13px;flex-shrink:0;}
+
+/* Content */
+.win-cnt{padding:16px;}
+.wc-hi{font-size:10px;color:rgba(255,255,255,.32);margin-bottom:2px;}
+.wc-nm{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;}
+.wc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
+.wcs{background:rgba(255,255,255,.06);border-radius:7px;padding:8px 6px;border:1px solid rgba(255,255,255,.06);text-align:center;}
+.wcs-v{font-family:'Playfair Display',serif;font-size:14px;font-weight:800;color:#fff;line-height:1;margin-bottom:1px;}
+.wcs-v.hi{color:#60A5FA;}
+.wcs-l{font-size:8px;color:rgba(255,255,255,.3);}
+.wc-rows{display:flex;flex-direction:column;gap:5px;}
+.wc-r{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:7px 9px;}
+.wc-rn{width:19px;height:19px;background:rgba(255,255,255,.1);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:rgba(255,255,255,.7);flex-shrink:0;}
+.wc-ri{flex:1;min-width:0;}
+.wc-rt{font-size:9px;color:rgba(255,255,255,.75);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.wc-rs{font-size:8px;color:rgba(255,255,255,.28);margin-top:1px;}
+.wc-tag{font-size:7px;font-weight:700;padding:2px 6px;border-radius:100px;white-space:nowrap;}
+.t-done{background:rgba(96,165,250,.15);color:#93C5FD;}
+.t-act{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);}
+.t-lock{background:rgba(255,255,255,.07);color:rgba(255,255,255,.3);}
+
+/* Floating cards */
+.fc{position:absolute;background:#fff;border-radius:11px;padding:10px 13px;box-shadow:0 10px 28px rgba(10,22,40,.16),0 0 0 1px rgba(10,22,40,.05);display:flex;align-items:center;gap:9px;}
+.fca{bottom:-12px;left:-20px;animation:fca 3s ease-in-out infinite;}
+.fcb{top:-10px;right:-16px;animation:fcb 3.6s ease-in-out infinite;}
+@keyframes fca{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes fcb{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
+.fc-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--off);}
+.fc-l{font-size:10px;color:var(--light);}
+.fc-v{font-size:13px;font-weight:700;color:var(--navy);}
+
+/* ── STATS BAND ── */
+.stats-band{background:var(--navy);padding:52px 5%;position:relative;overflow:hidden;}
+.stats-band::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 80% at 50% 0%,rgba(255,255,255,.03),transparent 70%);pointer-events:none;}
+.stats-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center;position:relative;z-index:1;}
+.s-num{font-family:'Playfair Display',serif;font-size:44px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1;margin-bottom:6px;}
+.s-lbl{font-size:13px;color:rgba(255,255,255,.38);}
+
+/* ── SECTION BASE ── */
+section{padding:88px 5%;}
+.si{max-width:1160px;margin:0 auto;}
+.ey{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:9px;display:block;}
+.st{font-family:'Playfair Display',serif;font-size:clamp(26px,3.6vw,42px);font-weight:900;color:var(--navy);line-height:1.12;letter-spacing:-1px;margin-bottom:13px;}
+.ss{font-size:15px;color:var(--muted);line-height:1.8;max-width:500px;}
+
+/* ── SCREENSHOTS ── */
+.shots-sec{background:var(--off);}
+.shots-hd{text-align:center;margin-bottom:44px;}
+.shots-hd .ss{margin:0 auto;}
+.shots-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.shot{background:#fff;border-radius:14px;overflow:hidden;border:1.5px solid var(--border);box-shadow:0 2px 12px rgba(10,22,40,.05);transition:transform .25s,box-shadow .25s;}
+.shot:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(10,22,40,.1);}
+.shot-hdr{background:var(--navy);padding:9px 12px;}
+.shot-dots{display:flex;gap:4px;margin-bottom:6px;}
+.shot-dots span{width:7px;height:7px;border-radius:50%;}
+.shot-url{font-size:9px;color:rgba(255,255,255,.22);font-family:monospace;}
+
+/* THE KEY FIX — image container with fixed aspect ratio */
+.shot-img-wrap{
+  position:relative;
+  width:100%;
+  /* 16:10 aspect ratio — looks great for app screenshots */
+  padding-bottom:62.5%;
+  background:var(--dark);
+  overflow:hidden;
+}
+.shot-img-wrap img{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+}
+.shot-fb{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  padding:10px;display:flex;flex-direction:column;gap:4px;
+  background:var(--dark);
+}
+.shot-body{padding:14px 16px;}
+.shot-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.shot-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* mini UI fallback elements */
+.mbar{background:rgba(255,255,255,.08);border-radius:3px;height:3px;overflow:hidden;margin:2px 0;}
+.mbar-f{height:100%;background:rgba(96,165,250,.6);border-radius:3px;}
+.mrow{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border-radius:5px;padding:5px 7px;border:1px solid rgba(255,255,255,.07);}
+.mc{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:rgba(255,255,255,.6);flex-shrink:0;}
+.ml{flex:1;}
+.ml-l{height:3px;background:rgba(255,255,255,.12);border-radius:2px;margin-bottom:2px;}
+.ml-l:last-child{width:55%;margin:0;}
+.mchip{font-size:7px;font-weight:700;padding:2px 5px;border-radius:100px;white-space:nowrap;}
+.mchip-b{background:rgba(96,165,250,.15);color:#93C5FD;}
+.mchip-g{background:rgba(34,197,94,.12);color:#4ADE80;}
+.mchip-d{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);}
+
+/* ── FEATURES ── */
+.feat-sec{background:#fff;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--border);border-radius:16px;overflow:hidden;margin-top:48px;}
+.fi{padding:28px 24px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);background:#fff;transition:background .2s;}
+.fi:hover{background:var(--off);}
+.fi:nth-child(3n){border-right:none;}
+.fi:nth-last-child(-n+3){border-bottom:none;}
+.fi-ico{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;background:var(--off);}
+.fi h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:7px;}
+.fi p{font-size:13px;color:var(--muted);line-height:1.72;}
+.fi-tag{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:100px;margin-top:12px;background:var(--off);color:var(--mid);}
+.fi-tag.hi{background:rgba(39,86,177,.08);color:var(--accent);}
+
+/* ── JAMB PREP CLASS ── */
+.jamb-sec{background:var(--navy);position:relative;overflow:hidden;}
+.jamb-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 90% at 50% 50%,rgba(39,86,177,.35),transparent 70%);pointer-events:none;}
+.jamb-sec::after{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(255,255,255,.04);pointer-events:none;}
+.jamb-inner{max-width:860px;margin:0 auto;text-align:center;position:relative;z-index:1;}
+.jamb-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:22px;}
+.jamb-badge-dot{width:6px;height:6px;background:#60A5FA;border-radius:50%;animation:bp 2s ease-in-out infinite;}
+.jamb-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,46px);font-weight:900;color:#fff;letter-spacing:-1px;line-height:1.1;margin-bottom:16px;}
+.jamb-title em{font-style:italic;color:#93C5FD;}
+.jamb-sub{font-size:16px;color:rgba(255,255,255,.5);line-height:1.8;max-width:540px;margin:0 auto 32px;}
+.jamb-btns{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:40px;}
+.btn-jamb-main{font-size:15px;font-weight:700;color:var(--navy);background:#fff;border:none;cursor:pointer;text-decoration:none;padding:14px 30px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:all .22s;}
+.btn-jamb-main:hover{background:#EEF2FF;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.28);}
+.btn-jamb-sec{font-size:14px;font-weight:600;color:#fff;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.18);cursor:pointer;text-decoration:none;padding:13px 26px;border-radius:10px;display:inline-flex;align-items:center;gap:7px;transition:all .2s;}
+.btn-jamb-sec:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.3);}
+.jamb-features{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);border-radius:14px;overflow:hidden;}
+.jf{background:rgba(255,255,255,.03);padding:22px 20px;text-align:center;}
+.jf-ico{font-size:24px;display:block;margin-bottom:10px;}
+.jf-t{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;}
+.jf-s{font-size:13px;color:rgba(255,255,255,.42);line-height:1.65;}
+
+/* ── HOW ── */
+.how-sec{background:#fff;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;position:relative;}
+.steps-line{position:absolute;top:27px;left:calc(12.5% + 12px);right:calc(12.5% + 12px);height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border),transparent);}
+.step{text-align:center;position:relative;z-index:1;}
+.step-n{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--light);margin:0 auto 14px;background:#fff;transition:all .28s;}
+.step:hover .step-n{background:var(--navy);color:#fff;border-color:var(--navy);}
+.step h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.step p{font-size:13px;color:var(--muted);line-height:1.65;}
+
+/* ── PRICING ── */
+.pricing-sec{background:var(--off);}
+.price-hd{text-align:center;margin-bottom:44px;}
+.price-hd .ss{margin:0 auto;}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start;}
+.plan{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:28px;position:relative;transition:transform .2s,box-shadow .2s;}
+.plan:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(10,22,40,.08);}
+.plan.feat{background:var(--navy);border-color:var(--navy);transform:scale(1.04);}
+.plan.feat:hover{transform:scale(1.04) translateY(-4px);}
+.plan-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 13px;border-radius:100px;white-space:nowrap;}
+.pb-h{background:var(--accent);color:#fff;}
+.pb-v{background:var(--mid);color:#fff;}
+.p-em{font-size:24px;display:block;margin-bottom:8px;}
+.p-nm{font-family:'Playfair Display',serif;font-size:19px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+.plan.feat .p-nm{color:#fff;}
+.p-tg{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.plan.feat .p-tg{color:rgba(255,255,255,.4);}
+.p-price{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--navy);letter-spacing:-1.5px;line-height:1;}
+.plan.feat .p-price{color:#fff;}
+.p-per{font-size:12px;color:var(--muted);margin-bottom:20px;}
+.plan.feat .p-per{color:rgba(255,255,255,.38);}
+.p-div{height:1px;background:var(--border);margin:14px 0;}
+.plan.feat .p-div{background:rgba(255,255,255,.1);}
+.p-feats{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+.p-feats li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--muted);}
+.plan.feat .p-feats li{color:rgba(255,255,255,.6);}
+.p-ck{width:16px;height:16px;border-radius:50%;background:var(--off);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
+.plan.feat .p-ck{background:rgba(255,255,255,.12);color:#93C5FD;}
+.btn-plan{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px;border-radius:9px;border:1.5px solid var(--navy);cursor:pointer;background:none;color:var(--navy);transition:all .2s;text-align:center;display:block;text-decoration:none;}
+.btn-plan:hover{background:var(--navy);color:#fff;}
+.btn-plan-w{background:#fff;border-color:#fff;color:var(--navy);}
+.btn-plan-w:hover{background:#EEF2FF;border-color:#EEF2FF;}
+
+/* ── TESTIMONIALS ── */
+.testi-sec{background:#fff;}
+.testi-hd{text-align:center;margin-bottom:44px;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.tc{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:24px;transition:transform .22s,box-shadow .22s;}
+.tc:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(10,22,40,.08);}
+.tq{font-size:32px;color:rgba(10,22,40,.1);font-family:Georgia,serif;line-height:1;margin-bottom:9px;}
+.ts{color:var(--accent);font-size:12px;letter-spacing:2px;margin-bottom:10px;}
+.tt{font-size:14px;color:var(--muted);line-height:1.78;margin-bottom:16px;font-style:italic;}
+.ta{display:flex;align-items:center;gap:9px;}
+.tav{width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.tn{font-weight:600;font-size:13px;color:var(--navy);}
+.td{font-size:11px;color:var(--light);}
+
+/* ── CTA ── */
+.cta-sec{background:var(--navy);padding:88px 5%;text-align:center;position:relative;overflow:hidden;}
+.cta-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 65% at 50% 50%,rgba(39,86,177,.4),transparent 70%);pointer-events:none;}
+.cta-sec .st{color:#fff;text-align:center;max-width:540px;margin:0 auto 12px;}
+.cta-sec .ss{color:rgba(255,255,255,.45);text-align:center;margin:0 auto 32px;}
+.btn-white{font-size:15px;font-weight:700;color:var(--navy);background:#fff;border:none;cursor:pointer;text-decoration:none;padding:14px 30px;border-radius:10px;display:inline-block;box-shadow:0 4px 16px rgba(0,0,0,.18);transition:all .2s;}
+.btn-white:hover{background:#EEF2FF;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.24);}
+.cta-note{margin-top:12px;font-size:12px;color:rgba(255,255,255,.28);}
+
+/* ── FOOTER ── */
+footer{background:var(--deep);padding:52px 5% 30px;}
+.footer-in{max-width:1160px;margin:0 auto;}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;margin-bottom:36px;}
+.f-brand-row{display:flex;align-items:center;gap:8px;text-decoration:none;margin-bottom:10px;}
+.f-z{width:26px;height:26px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:13px;color:var(--navy);}
+.f-nm{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;}
+.f-tag{font-size:13px;color:rgba(255,255,255,.28);line-height:1.7;max-width:200px;}
+.f-ct{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;}
+.f-ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.f-ul a{font-size:13px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:6px;}
+.f-ul a:hover{color:rgba(255,255,255,.65);}
+.f-sico{width:15px;height:15px;opacity:.4;}
+.footer-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-top:22px;border-top:1px solid rgba(255,255,255,.07);}
+.f-copy{font-size:12px;color:rgba(255,255,255,.18);}
+.f-blinks{display:flex;gap:18px;}
+.f-blinks a{font-size:12px;color:rgba(255,255,255,.2);text-decoration:none;}
+.f-blinks a:hover{color:rgba(255,255,255,.5);}
+
+/* ── SCROLL REVEAL ── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);}
+.rv.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.07s;}.d2{transition-delay:.14s;}.d3{transition-delay:.21s;}.d4{transition-delay:.28s;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:0;}
+  .hero-right{display:none;}
+}
+@media(max-width:900px){
+  .nav-links,.nav-r{display:none;}
+  .ham{display:block;}
+  .feat-grid{grid-template-columns:repeat(2,1fr);}
+  .steps{grid-template-columns:repeat(2,1fr);}
+  .steps-line{display:none;}
+  .price-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;}
+  .plan.feat{transform:none;}
+  .testi-grid{grid-template-columns:1fr;}
+  .stats-in{grid-template-columns:repeat(2,1fr);gap:28px;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px;}
+  .jamb-features{grid-template-columns:1fr;}
+  .shots-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  section{padding:64px 4%;}
+  .hero{padding:88px 4% 48px;}
+  .stats-band{padding:44px 4%;}
+  .feat-grid{grid-template-columns:1fr;}
+  .fi:nth-child(3n){border-right:none;}
+  .fi:nth-child(2n){border-right:none;}
+  .steps{grid-template-columns:1fr;}
+  .shots-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr;gap:24px;}
+  .footer-bot{flex-direction:column;text-align:center;}
+  .hero h1{font-size:32px;}
+  .stats-in{grid-template-columns:repeat(2,1fr);gap:20px;}
+  .s-num{font-size:36px;}
+  .jamb-features{grid-template-columns:1fr;}
+  .price-grid{max-width:100%;}
+}
+@media(max-width:400px){
+  .hero h1{font-size:28px;}
+  .shots-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <div class="nav-z">Z</div>
+    <span class="nav-name">Zenova</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#screenshots">App</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#jamb-class">JAMB Class</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-r">
+    <a href="login.html" class="btn-ghost">Log in</a>
+    <a href="signup.html" class="btn-nav">Get Started Free →</a>
+  </div>
+  <button class="ham" id="ham" onclick="toggleMob()" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+<div class="mob" id="mob">
+  <a href="#screenshots" onclick="closeMob()">App Preview</a>
+  <a href="#features" onclick="closeMob()">Features</a>
+  <a href="#jamb-class" onclick="closeMob()">JAMB Class</a>
+  <a href="#pricing" onclick="closeMob()">Pricing</a>
+  <a href="login.html">Log In</a>
+  <a href="signup.html" class="btn-nav" style="text-align:center;border-radius:9px;padding:12px;">Get Started Free →</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="bp"></span>JAMB 2025 · Lekki Headmaster</div>
+      <h1>The Smarter Way to <span class="ul">Score Higher</span> on <em>JAMB</em></h1>
+      <p class="hero-p">Zenova breaks down every chapter of <strong>The Lekki Headmaster</strong> into sharp summaries, character analysis, audio lessons, and JAMB-focused CBT quizzes — built for Nigerian students.</p>
+      <div class="hero-btns">
+        <a href="signup.html" class="btn-hero">
+          Start for Free
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#screenshots" class="btn-sec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          See the App
+        </a>
+      </div>
+      <div class="hero-trust">
+        <div class="avs">
+          <span>AO</span><span>CB</span><span>IF</span><span>+</span>
+        </div>
+        <p class="trust-t"><strong>2,400+ students</strong> studying with Zenova right now</p>
+      </div>
+    </div>
+
+    <!-- APP WINDOW MOCKUP -->
+    <div class="hero-right">
+      <div class="mockup-outer">
+        <div class="app-win">
+          <div class="win-bar">
+            <span class="wd" style="background:#FF5F57"></span>
+            <span class="wd" style="background:#FFBD2E"></span>
+            <span class="wd" style="background:#28C840"></span>
+            <div class="w-url">app.zenovaedu.com/dashboard</div>
+          </div>
+          <div class="win-body">
+            <div class="win-side">
+              <div class="ws-logo">
+                <div class="ws-z">Z</div>
+                <span class="ws-name">Zenova</span>
+              </div>
+              <div class="ws-item on">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
+              </div>
+              <div class="ws-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Chapters
+              </div>
+              <div class="ws-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Quizzes
+              </div>
+              <div class="ws-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>Audio
+              </div>
+              <div class="ws-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Progress
+              </div>
+            </div>
+            <div class="win-cnt">
+              <div class="wc-hi">Good morning 👋</div>
+              <div class="wc-nm">Welcome back, Adaeze</div>
+              <div class="wc-stats">
+                <div class="wcs"><div class="wcs-v hi">94%</div><div class="wcs-l">Accuracy</div></div>
+                <div class="wcs"><div class="wcs-v">7🔥</div><div class="wcs-l">Streak</div></div>
+                <div class="wcs"><div class="wcs-v">12</div><div class="wcs-l">Done</div></div>
+              </div>
+              <div class="wc-rows">
+                <div class="wc-r"><div class="wc-rn">1</div><div class="wc-ri"><div class="wc-rt">Dusk</div><div class="wc-rs">Completed · 100%</div></div><span class="wc-tag t-done">Done ✓</span></div>
+                <div class="wc-r"><div class="wc-rn">2</div><div class="wc-ri"><div class="wc-rt">The Enticement</div><div class="wc-rs">In Progress · 65%</div></div><span class="wc-tag t-act">Active</span></div>
+                <div class="wc-r"><div class="wc-rn">3</div><div class="wc-ri"><div class="wc-rt">Migration Tales</div><div class="wc-rs">Locked</div></div><span class="wc-tag t-lock">🔒</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fc fca">
+          <div class="fc-ico">🎯</div>
+          <div><div class="fc-l">JAMB Target</div><div class="fc-v">280+ pts</div></div>
+        </div>
+        <div class="fc fcb">
+          <div class="fc-ico">⚡</div>
+          <div><div class="fc-l">Readiness</div><div class="fc-v">87%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-in">
+    <div class="rv"><div class="s-num" data-to="2400">0</div><div class="s-lbl">Active Students</div></div>
+    <div class="rv d1"><div class="s-num" data-to="98" data-sfx="%">0%</div><div class="s-lbl">Exam Coverage</div></div>
+    <div class="rv d2"><div class="s-num" data-to="500">0</div><div class="s-lbl">Practice Questions</div></div>
+    <div class="rv d3"><div class="s-num">4.9★</div><div class="s-lbl">Student Rating</div></div>
+  </div>
+</div>
+
+<!-- APP SCREENSHOTS -->
+<section class="shots-sec" id="screenshots">
+  <div class="si">
+    <div class="shots-hd rv">
+      <span class="ey">App Preview</span>
+      <h2 class="st" style="text-align:center;">Every Screen Built for<br>One Goal — Your JAMB Score</h2>
+      <p class="ss">A clean, powerful platform that makes studying The Lekki Headmaster feel structured, not overwhelming.</p>
+    </div>
+    <div class="shots-grid">
+
+      <div class="shot rv d1">
+        <div class="shot-hdr">
+          <div class="shot-dots"><span style="background:#FF5F57"></span><span style="background:#FFBD2E"></span><span style="background:#28C840"></span></div>
+          <div class="shot-url">dashboard</div>
+        </div>
+        <div class="shot-img-wrap">
+          <img src="100.png" alt="Zenova Dashboard" loading="lazy">
+          <div class="shot-fb" id="fb1" style="display:none;">
+            <div style="background:linear-gradient(135deg,#0A1628,#1B3A6B);border-radius:6px;padding:9px 10px;margin-bottom:4px;">
+              <div style="font-size:8px;color:rgba(255,255,255,.35);margin-bottom:2px;">Good morning 👋</div>
+              <div style="font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:#fff;margin-bottom:7px;">Welcome, Adaeze</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+                <div style="background:rgba(255,255,255,.07);border-radius:4px;padding:5px;text-align:center;"><div style="font-family:'Playfair Display',serif;font-size:12px;font-weight:800;color:#60A5FA;">94%</div><div style="font-size:7px;color:rgba(255,255,255,.28);">Accuracy</div></div>
+                <div style="background:rgba(255,255,255,.07);border-radius:4px;padding:5px;text-align:center;"><div style="font-family:'Playfair Display',serif;font-size:12px;font-weight:800;color:#fff;">7🔥</div><div style="font-size:7px;color:rgba(255,255,255,.28);">Streak</div></div>
+                <div style="background:rgba(255,255,255,.07);border-radius:4px;padding:5px;text-align:center;"><div style="font-family:'Playfair Display',serif;font-size:12px;font-weight:800;color:#fff;">12</div><div style="font-size:7px;color:rgba(255,255,255,.28);">Done</div></div>
+              </div>
+            </div>
+            <div class="mrow"><div class="mc">1</div><div class="ml"><div class="ml-l"></div><div class="ml-l"></div></div><span class="mchip mchip-g">Done ✓</span></div>
+            <div class="mrow"><div class="mc">2</div><div class="ml"><div class="ml-l"></div><div class="ml-l"></div></div><span class="mchip mchip-b">Active</span></div>
+            <div class="mrow"><div class="mc">3</div><div class="ml"><div class="ml-l"></div><div class="ml-l"></div></div><span class="mchip mchip-d">🔒</span></div>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="shot-title">Personal Dashboard</div>
+          <div class="shot-desc">Quiz accuracy, streak, chapters done, and JAMB readiness all in one view.</div>
+        </div>
+      </div>
+
+      <div class="shot rv d2">
+        <div class="shot-hdr">
+          <div class="shot-dots"><span style="background:#FF5F57"></span><span style="background:#FFBD2E"></span><span style="background:#28C840"></span></div>
+          <div class="shot-url">chapters / the-enticement</div>
+        </div>
+        <div class="shot-img-wrap">
+          <img src="110.png" alt="Chapter Study" loading="lazy">
+          <div class="shot-fb" id="fb2" style="display:none;">
+            <div style="background:#0A1628;border-radius:6px;padding:9px 10px;margin-bottom:4px;">
+              <div style="font-size:7px;font-weight:700;color:#93C5FD;letter-spacing:.4px;margin-bottom:3px;">CHAPTER 2</div>
+              <div style="font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:#fff;margin-bottom:5px;">The Enticement</div>
+              <div style="display:flex;gap:3px;flex-wrap:wrap;">
+                <span style="background:rgba(96,165,250,.2);color:#93C5FD;font-size:7px;font-weight:700;padding:2px 6px;border-radius:100px;">Summary</span>
+                <span style="background:rgba(255,255,255,.07);color:rgba(255,255,255,.35);font-size:7px;padding:2px 6px;border-radius:100px;">Audio</span>
+                <span style="background:rgba(255,255,255,.07);color:rgba(255,255,255,.35);font-size:7px;padding:2px 6px;border-radius:100px;">Cast</span>
+                <span style="background:rgba(255,255,255,.07);color:rgba(255,255,255,.35);font-size:7px;padding:2px 6px;border-radius:100px;">JAMB</span>
+              </div>
+            </div>
+            <div style="background:rgba(255,255,255,.05);border-radius:5px;padding:8px;border:1px solid rgba(255,255,255,.07);">
+              <div style="font-size:8px;color:rgba(255,255,255,.5);line-height:1.6;">The second chapter introduces the main conflict as Kolade faces a moral dilemma. The Headmaster's authority is tested when...</div>
+            </div>
+            <div class="mbar"><div class="mbar-f" style="width:65%"></div></div>
+            <div style="font-size:7px;color:rgba(255,255,255,.28);">Progress: 65%</div>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="shot-title">Chapter Study Pages</div>
+          <div class="shot-desc">Summary, audio, cast breakdown, themes, key points and JAMB focus per chapter.</div>
+        </div>
+      </div>
+
+      <div class="shot rv d3">
+        <div class="shot-hdr">
+          <div class="shot-dots"><span style="background:#FF5F57"></span><span style="background:#FFBD2E"></span><span style="background:#28C840"></span></div>
+          <div class="shot-url">quiz / chapter-2</div>
+        </div>
+        <div class="shot-img-wrap">
+          <img src="120.png" alt="CBT Quiz" loading="lazy">
+          <div class="shot-fb" id="fb3" style="display:none;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-size:7px;color:rgba(255,255,255,.35);">Q 7 of 20</span>
+              <span style="background:rgba(96,165,250,.15);color:#93C5FD;font-size:7px;font-weight:700;padding:2px 7px;border-radius:100px;">⏱ 02:34</span>
+            </div>
+            <div class="mbar" style="margin-bottom:7px;"><div class="mbar-f" style="width:35%"></div></div>
+            <div style="font-size:8px;font-weight:500;color:#fff;line-height:1.5;margin-bottom:6px;">What is the primary significance of the title "The Lekki Headmaster"?</div>
+            <div style="display:flex;flex-direction:column;gap:3px;">
+              <div style="background:rgba(96,165,250,.13);border:1px solid rgba(96,165,250,.25);border-radius:4px;padding:5px 7px;font-size:7px;color:#93C5FD;font-weight:500;">A. It refers to the protagonist's role</div>
+              <div style="background:rgba(255,255,255,.04);border-radius:4px;padding:5px 7px;font-size:7px;color:rgba(255,255,255,.35);">B. It is a symbolic metaphor</div>
+              <div style="background:rgba(255,255,255,.04);border-radius:4px;padding:5px 7px;font-size:7px;color:rgba(255,255,255,.35);">C. It describes the setting only</div>
+            </div>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="shot-title">JAMB-Style CBT Quizzes</div>
+          <div class="shot-desc">Timed quizzes with instant feedback, score tracking, and full answer explanations.</div>
+        </div>
+      </div>
+
+      <div class="shot rv d1">
+        <div class="shot-hdr">
+          <div class="shot-dots"><span style="background:#FF5F57"></span><span style="background:#FFBD2E"></span><span style="background:#28C840"></span></div>
+          <div class="shot-url">progress</div>
+        </div>
+        <div class="shot-img-wrap">
+          <img src="130.png" alt="Progress" loading="lazy">
+          <div class="shot-fb" id="fb4" style="display:none;">
+            <div style="font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:#fff;margin-bottom:7px;">JAMB Readiness</div>
+            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:8px;margin-bottom:4px;border:1px solid rgba(255,255,255,.07);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:7px;color:rgba(255,255,255,.35);">Novel Coverage</span><span style="font-size:7px;color:#93C5FD;font-weight:700;">92%</span></div>
+              <div class="mbar"><div class="mbar-f" style="width:92%"></div></div>
+            </div>
+            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:8px;margin-bottom:4px;border:1px solid rgba(255,255,255,.07);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:7px;color:rgba(255,255,255,.35);">Quiz Mastery</span><span style="font-size:7px;color:#93C5FD;font-weight:700;">86%</span></div>
+              <div class="mbar"><div class="mbar-f" style="width:86%"></div></div>
+            </div>
+            <div style="background:rgba(39,86,177,.15);border:1px solid rgba(39,86,177,.25);border-radius:6px;padding:8px;text-align:center;">
+              <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;">78%</div>
+              <div style="font-size:7px;color:rgba(255,255,255,.38);">Overall JAMB Readiness</div>
+            </div>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="shot-title">Progress Analytics</div>
+          <div class="shot-desc">JAMB readiness score, chapter coverage, quiz mastery, and daily study streaks.</div>
+        </div>
+      </div>
+
+      <div class="shot rv d2">
+        <div class="shot-hdr">
+          <div class="shot-dots"><span style="background:#FF5F57"></span><span style="background:#FFBD2E"></span><span style="background:#28C840"></span></div>
+          <div class="shot-url">challenge / leaderboard</div>
+        </div>
+        <div class="shot-img-wrap">
+          <img src="140.png" alt="Leaderboard" loading="lazy">
+          <div class="shot-fb" id="fb5" style="display:none;">
+            <div style="font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:#fff;margin-bottom:7px;">🏆 Leaderboard</div>
+            <div style="display:flex;flex-direction:column;gap:3px;">
+              <div style="display:flex;align-items:center;gap:6px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.18);border-radius:5px;padding:5px 7px;"><span style="font-size:12px;">🥇</span><div style="flex:1;font-size:9px;color:#fff;font-weight:600;">Adaeze O.</div><span style="font-size:8px;color:#93C5FD;font-weight:700;">2,840</span></div>
+              <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border-radius:5px;padding:5px 7px;"><span style="font-size:12px;">🥈</span><div style="flex:1;font-size:9px;color:rgba(255,255,255,.55);">Emeka B.</div><span style="font-size:8px;color:rgba(255,255,255,.4);font-weight:600;">2,710</span></div>
+              <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border-radius:5px;padding:5px 7px;"><span style="font-size:12px;">🥉</span><div style="flex:1;font-size:9px;color:rgba(255,255,255,.55);">Ife F.</div><span style="font-size:8px;color:rgba(255,255,255,.4);font-weight:600;">2,610</span></div>
+              <div style="display:flex;align-items:center;gap:6px;background:rgba(39,86,177,.12);border:1px solid rgba(39,86,177,.2);border-radius:5px;padding:5px 7px;"><span style="font-size:9px;color:rgba(255,255,255,.3);">4</span><div style="flex:1;font-size:9px;color:rgba(255,255,255,.45);">You</div><span style="font-size:8px;color:rgba(255,255,255,.38);font-weight:600;">2,480</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="shot-title">Challenge Leaderboard</div>
+          <div class="shot-desc">Compete nationally — win cash prizes up to ₦20,000 in the General Novel Challenge.</div>
+        </div>
+      </div>
+
+      <div class="shot rv d3">
+        <div class="shot-hdr">
+          <div class="shot-dots"><span style="background:#FF5F57"></span><span style="background:#FFBD2E"></span><span style="background:#28C840"></span></div>
+          <div class="shot-url">quiz / results</div>
+        </div>
+        <div class="shot-img-wrap">
+          <img src="150.png" alt="Results" loading="lazy">
+          <div class="shot-fb" id="fb6" style="display:none;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:8px;">
+              <div style="font-size:32px;margin-bottom:4px;">🎉</div>
+              <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff;margin-bottom:2px;">18/20</div>
+              <div style="font-size:8px;color:rgba(255,255,255,.4);margin-bottom:8px;">Excellent! Top 5% in Lagos</div>
+              <div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.18);border-radius:6px;padding:6px 12px;margin-bottom:6px;"><div style="font-size:9px;color:#4ADE80;font-weight:700;">+120 XP earned</div></div>
+              <div style="background:rgba(39,86,177,.15);border:1px solid rgba(39,86,177,.22);border-radius:6px;padding:6px 12px;"><div style="font-size:7px;color:rgba(255,255,255,.35);">Readiness improved to</div><div style="font-size:12px;font-weight:700;color:#93C5FD;">87% →</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="shot-title">Quiz Results & XP</div>
+          <div class="shot-desc">Score breakdown, XP earned, correct answers with explanations, and state ranking.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="feat-sec" id="features">
+  <div class="si">
+    <div class="rv">
+      <span class="ey">Everything You Need</span>
+      <h2 class="st">One Platform.<br>Complete JAMB Prep.</h2>
+      <p class="ss">From chapter-by-chapter breakdowns to timed CBT quizzes — Zenova covers every angle of The Lekki Headmaster.</p>
+    </div>
+    <div class="feat-grid rv">
+      <div class="fi"><div class="fi-ico">📝</div><h3>Chapter Summaries</h3><p>Clear, concise summaries for every chapter with key events highlighted. Study faster without missing critical details.</p><span class="fi-tag">Free · 1 Chapter</span></div>
+      <div class="fi"><div class="fi-ico">👥</div><h3>Cast & Characters</h3><p>Detailed character profiles, relationships, and analysis of every major and minor character in the novel.</p><span class="fi-tag">All Plans</span></div>
+      <div class="fi"><div class="fi-ico">💡</div><h3>Themes & Lessons</h3><p>In-depth exploration of the novel's themes, moral lessons, and literary devices JAMB frequently tests on.</p><span class="fi-tag hi">Scholar & Master</span></div>
+      <div class="fi"><div class="fi-ico">🎯</div><h3>JAMB Focus</h3><p>Past question patterns, likely exam picks, and targeted tips drawn from JAMB's examination history on this novel.</p><span class="fi-tag hi">Scholar & Master</span></div>
+      <div class="fi"><div class="fi-ico">📊</div><h3>CBT Quizzes</h3><p>Exam-style daily quizzes after each chapter with instant feedback and score tracking to measure your progress.</p><span class="fi-tag">1 Free Daily</span></div>
+      <div class="fi"><div class="fi-ico">🔊</div><h3>Audio Lessons</h3><p>Listen to chapter lessons on the go — perfect for commutes, revision sessions, or studying without reading fatigue.</p><span class="fi-tag">1 Free Daily</span></div>
+      <div class="fi"><div class="fi-ico">⚡</div><h3>Key Points</h3><p>Bullet-point cram sheets for each chapter — the fastest way to revise everything the night before your exam.</p><span class="fi-tag hi">Scholar & Master</span></div>
+      <div class="fi"><div class="fi-ico">🏆</div><h3>Novel Challenge</h3><p>Full mixed JAMB-style exam with timed conditions, national rankings, and cash prizes up to ₦20,000.</p><span class="fi-tag hi">Master Only</span></div>
+      <div class="fi"><div class="fi-ico">📈</div><h3>Progress Tracking</h3><p>Study streaks, performance overviews, and a JAMB readiness score to keep you sharp and on track every day.</p><span class="fi-tag hi">Scholar & Master</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- JAMB PREP CLASS -->
+<section class="jamb-sec" id="jamb-class">
+  <div class="si">
+    <div class="jamb-inner rv">
+      <div class="jamb-badge"><span class="jamb-badge-dot"></span>Now Available · JAMB 2025</div>
+      <h2 class="jamb-title">Join Our <em>JAMB Prep Class</em><br>and Study with the Best</h2>
+      <p class="jamb-sub">Get access to our live and recorded JAMB prep classes — expert tutors, past questions, and a community of thousands of students preparing together.</p>
+      <div class="jamb-btns">
+        <a href="YOUR_LINK_HERE" class="btn-jamb-main">
+          Join Now — It's Free
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="YOUR_LINK_HERE" class="btn-jamb-sec">
+          Get Started
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </a>
+      </div>
+      <div class="jamb-features">
+        <div class="jf">
+          <span class="jf-ico">🎓</span>
+          <div class="jf-t">Expert Tutors</div>
+          <div class="jf-s">Experienced teachers who know exactly what JAMB tests every year.</div>
+        </div>
+        <div class="jf">
+          <span class="jf-ico">📅</span>
+          <div class="jf-t">Live & Recorded</div>
+          <div class="jf-s">Join live sessions or watch recordings at your own pace, anytime.</div>
+        </div>
+        <div class="jf">
+          <span class="jf-ico">👨‍👩‍👧‍👦</span>
+          <div class="jf-t">Student Community</div>
+          <div class="jf-s">Study with thousands of students. Ask questions and share insights.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-sec" id="how">
+  <div class="si">
+    <div class="rv" style="text-align:center;">
+      <span class="ey">Simple Process</span>
+      <h2 class="st" style="text-align:center;">Up and Running in Minutes</h2>
+      <p class="ss" style="margin:0 auto;">No complicated setup. Sign up and start studying The Lekki Headmaster the smart way.</p>
+    </div>
+    <div class="steps">
+      <div class="steps-line"></div>
+      <div class="step rv d1"><div class="step-n">1</div><h3>Create Account</h3><p>Sign up free in seconds. No credit card needed to get started with the Free Starter plan.</p></div>
+      <div class="step rv d2"><div class="step-n">2</div><h3>Choose Your Plan</h3><p>Start free or unlock full access with Scholar or Master — prices built for Nigerian students.</p></div>
+      <div class="step rv d3"><div class="step-n">3</div><h3>Study the Novel</h3><p>Access summaries, cast breakdowns, themes, JAMB focus areas, and audio lessons.</p></div>
+      <div class="step rv d4"><div class="step-n">4</div><h3>Test Yourself</h3><p>Take CBT quizzes and the General Novel Challenge to track your exam readiness.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-sec" id="pricing">
+  <div class="si">
+    <div class="price-hd rv">
+      <span class="ey">Pricing Plans</span>
+      <h2 class="st" style="text-align:center;">Pick Your Path to JAMB Success</h2>
+      <p class="ss">All paid plans are valid for 30 days from date of purchase. Renew anytime.</p>
+    </div>
+    <div class="price-grid">
+      <div class="plan rv d1">
+        <span class="p-em">🎁</span>
+        <div class="p-nm">Free Starter</div>
+        <div class="p-tg">Perfect for exploring Zenova.</div>
+        <div class="p-price">₦0</div>
+        <p class="p-per">Forever — limited access</p>
+        <div class="p-div"></div>
+        <ul class="p-feats">
+          <li><span class="p-ck">✓</span>1 Chapter Summary</li>
+          <li><span class="p-ck">✓</span>1 Audio Lesson</li>
+          <li><span class="p-ck">✓</span>1 CBT Quiz Daily</li>
+          <li><span class="p-ck">✓</span>Basic Dashboard</li>
+        </ul>
+        <a href="signup.html" class="btn-plan">Start Free →</a>
+      </div>
+      <div class="plan feat rv d2">
+        <div class="plan-badge pb-h">Most Popular</div>
+        <span class="p-em">👑</span>
+        <div class="p-nm">Scholar</div>
+        <div class="p-tg">Great for consistent learners.</div>
+        <div class="p-price">₦500</div>
+        <p class="p-per">Per month · 30-day access</p>
+        <div class="p-div"></div>
+        <ul class="p-feats">
+          <li><span class="p-ck">✓</span>5 Chapter Summaries</li>
+          <li><span class="p-ck">✓</span>5 Audio Lessons</li>
+          <li><span class="p-ck">✓</span>5 CBT Quizzes Daily</li>
+          <li><span class="p-ck">✓</span>Progress Tracking</li>
+          <li><span class="p-ck">✓</span>Study Streak System</li>
+          <li><span class="p-ck">✓</span>Performance Overview</li>
+        </ul>
+        <a href="signup.html" class="btn-plan btn-plan-w">Upgrade to Scholar →</a>
+      </div>
+      <div class="plan rv d3" style="position:relative;">
+        <div class="plan-badge pb-v">Best Value</div>
+        <span class="p-em">💎</span>
+        <div class="p-nm">Master</div>
+        <div class="p-tg">For students who want to excel.</div>
+        <div class="p-price">₦1,000</div>
+        <p class="p-per">Per month · 30-day access</p>
+        <div class="p-div"></div>
+        <ul class="p-feats">
+          <li><span class="p-ck">✓</span>Unlimited Summaries</li>
+          <li><span class="p-ck">✓</span>Unlimited Audio Lessons</li>
+          <li><span class="p-ck">✓</span>Unlimited CBT Quizzes</li>
+          <li><span class="p-ck">✓</span>General Novel Challenge</li>
+          <li><span class="p-ck">✓</span>Advanced Analytics</li>
+          <li><span class="p-ck">✓</span>Exam Readiness Score</li>
+          <li><span class="p-ck">✓</span>Priority New Content</li>
+        </ul>
+        <a href="signup.html" class="btn-plan">Become a Master →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-sec">
+  <div class="si">
+    <div class="testi-hd rv">
+      <span class="ey">Student Reviews</span>
+      <h2 class="st" style="text-align:center;">What Students Are Saying</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="tc rv d1">
+        <div class="tq">"</div><div class="ts">★★★★★</div>
+        <p class="tt">The JAMB Focus section is worth every kobo. I could see exactly which parts of the novel to prioritise. Scored 276 in my Literature section!</p>
+        <div class="ta"><div class="tav">AO</div><div><div class="tn">Adaeze Okonkwo</div><div class="td">JAMB 2025 · Lagos</div></div></div>
+      </div>
+      <div class="tc rv d2">
+        <div class="tq">"</div><div class="ts">★★★★★</div>
+        <p class="tt">I used to find it hard keeping track of all the characters. Zenova's cast breakdown made everything so clear. The study streak kept me consistent!</p>
+        <div class="ta"><div class="tav">CB</div><div><div class="tn">Chukwuemeka Bello</div><div class="td">JAMB 2025 · Abuja</div></div></div>
+      </div>
+      <div class="tc rv d3">
+        <div class="tq">"</div><div class="ts">★★★★★</div>
+        <p class="tt">The audio lessons on the Master plan are a game changer. I listened during my commute and retained so much more. A must-have for any jambite.</p>
+        <div class="ta"><div class="tav">IF</div><div><div class="tn">Ife Fasanya</div><div class="td">JAMB 2025 · Ibadan</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div style="position:relative;z-index:1;">
+    <span class="ey" style="display:block;text-align:center;color:rgba(255,255,255,.5);">Ready to Start?</span>
+    <h2 class="st">Your JAMB Score Starts Here</h2>
+    <p class="ss">Join thousands of Nigerian students mastering The Lekki Headmaster with Zenova. Start free today — no credit card required.</p>
+    <a href="signup.html" class="btn-white">Create Free Account →</a>
+    <p class="cta-note">Free plan available · Scholar ₦500/mo · Master ₦1,000/mo · 30-day access</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-in">
+    <div class="footer-top">
+      <div>
+        <a href="#" class="f-brand-row">
+          <div class="f-z">Z</div>
+          <span class="f-nm">Zenova</span>
+        </a>
+        <p class="f-tag">Built for Nigerian students mastering Lekki Headmaster and conquering JAMB.</p>
+      </div>
+      <div>
+        <div class="f-ct">Platform</div>
+        <ul class="f-ul">
+          <li><a href="#">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#jamb-class">JAMB Class</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Community</div>
+        <ul class="f-ul">
+          <li><a href="#"><svg class="f-sico" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a></li>
+          <li><a href="#"><svg class="f-sico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Instagram</a></li>
+          <li><a href="#">TikTok</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Follow</div>
+        <ul class="f-ul">
+          <li><a href="#"><svg class="f-sico" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a></li>
+          <li><a href="#"><svg class="f-sico" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</a></li>
+          <li><a href="#">Linktree</a></li>
+          <li><a href="#">JAMB Class</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <p class="f-copy">© 2025 Zenova. Built for Nigerian students. 🇳🇬</p>
+      <div class="f-blinks">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// NAV scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('sc', scrollY > 40);
+});
+
+// Mobile menu
+function toggleMob(){document.getElementById('mob').classList.toggle('open');}
+function closeMob(){document.getElementById('mob').classList.remove('open');}
+
+// Scroll reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in'); ro.unobserve(e.target);} });
+}, {threshold: 0.08});
+document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+
+// Counters
+function counter(el, to, sfx, dur=1500){
+  let v=0, inc=to/(dur/16);
+  const t = setInterval(()=>{
+    v += inc;
+    if(v >= to){v=to; clearInterval(t);}
+    el.textContent = (to > 100 ? Math.floor(v).toLocaleString() : Math.floor(v)) + (sfx||'');
+  },16);
+}
+const co = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const to = parseInt(e.target.dataset.to);
+      if(to) counter(e.target, to, e.target.dataset.sfx||'');
+      co.unobserve(e.target);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-to]').forEach(el => co.observe(el));
+
+// Image fallback — show built-in UI if image fails to load
+document.querySelectorAll('.shot-img-wrap img').forEach((img, i) => {
+  const fb = img.nextElementSibling;
+  if(!fb) return;
+  function showFb(){
+    img.style.display = 'none';
+    fb.style.display = 'flex';
+  }
+  img.addEventListener('error', showFb);
+  // Also check if already broken
+  if(img.complete && img.naturalWidth === 0) showFb();
+});
+
+// Hero entrance
+const hl = document.querySelector('.hero-inner > div:first-child');
+const hr = document.querySelector('.hero-right');
+if(hl){
+  hl.style.cssText = 'opacity:0;transform:translateY(24px)';
+  setTimeout(()=>{ hl.style.cssText = 'transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);opacity:1;transform:translateY(0)'; }, 80);
+}
+if(hr){
+  hr.style.cssText = 'opacity:0;transform:translateY(24px)';
+  setTimeout(()=>{ hr.style.cssText = 'transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);opacity:1;transform:translateY(0)'; }, 260);
+}
+</script>
+</body>
+</html>
